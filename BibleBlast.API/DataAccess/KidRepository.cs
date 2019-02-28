@@ -20,13 +20,13 @@ namespace BibleBlast.API.DataAccess
         {
             var kids = _context.Kids.AsQueryable();
 
-            return await PagedList<Kid>.CreateAsync(kids, kidParams.PageNumber, kidParams.PageSize);
+            return await PagedList<Kid>
+                .CreateAsync(kids, kidParams.PageNumber, kidParams.PageSize);
         }
 
         public async Task<Kid> GetKid(int id)
         {
-            var kid = await _context.Kids//.Include(x => x.Parents)
-                .FirstOrDefaultAsync(x => x.Id == id);
+            var kid = await _context.Kids.FirstOrDefaultAsync(x => x.Id == id);
             return kid;
         }
     }

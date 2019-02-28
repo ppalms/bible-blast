@@ -35,14 +35,16 @@ namespace BibleBlast.API
                     Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddCors();
+            services.AddTransient<Seeder>();
             services.AddScoped<IKidRepository, KidRepository>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, Seeder seeder)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                seeder.SeedKids();
             }
             else
             {
