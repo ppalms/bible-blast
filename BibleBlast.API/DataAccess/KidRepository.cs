@@ -25,8 +25,8 @@ namespace BibleBlast.API.DataAccess
 
         public async Task<Kid> GetKid(int id)
         {
-            var kid = await _context.Kids.Include(x => x.Family)
-                .FirstOrDefaultAsync(x => x.KidId == id);
+            var kid = await _context.Kids//.Include(x => x.Parents)
+                .FirstOrDefaultAsync(x => x.Id == id);
             return kid;
         }
     }
