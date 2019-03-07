@@ -13,6 +13,12 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
+          name: Build API project
+          command: |
+            dotnet restore ./BibleBlast.API/BibleBlast.API.csproj
+            dotnet build -c Release --no-restore
+            dotnet test ./BibleBlast.API.UnitTests/BibleBlast.API.UnitTests.csproj
+      - run:
           name: Install Docker client
           command: |
             set -x
