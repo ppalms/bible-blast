@@ -39,6 +39,25 @@ namespace BibleBlast.API
             services.AddScoped<IKidRepository, KidRepository>();
         }
 
+        public void ConfigureDevelopmentServices(IServiceCollection services)
+        {
+            Console.WriteLine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
+            Console.WriteLine(Configuration.GetChildren().Count());
+            foreach (var child in Configuration.GetChildren())
+            {
+                Console.WriteLine(child.Key + " " + child.Value);
+            }
+
+            services.AddDbContext<SqlServerAppContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling =
+                    Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            services.AddCors();
+            services.AddTransient<Seeder>();
+            services.AddScoped<IKidRepository, KidRepository>();
+        }
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, Seeder seeder)
         {
             if (env.IsDevelopment())
