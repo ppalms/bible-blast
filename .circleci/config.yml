@@ -27,7 +27,7 @@ jobs:
             # docker login -u $DOCKER_LOGIN -p B_Fe9q_de7.mP7V
             # docker push jittles/$IMAGE_NAME:$TAG
             echo $DOCKER_LOGIN
-            echo ${DOCKER_LOGIN}
+            echo $DOCKER_PWD
       # - run:
       #     name: Deploy app to Digital Ocean Server via Docker
       #     command: |
