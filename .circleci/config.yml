@@ -16,7 +16,7 @@ jobs:
           name: Build API project
           command: |
             dotnet restore ./BibleBlast.API/BibleBlast.API.csproj
-            dotnet build -c Release --no-restore
+            dotnet build ./BibleBlast.API/BibleBlast.API.csproj -c Release --no-restore
             dotnet test ./BibleBlast.API.UnitTests/BibleBlast.API.UnitTests.csproj
       - run:
           name: Install Docker client
