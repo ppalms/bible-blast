@@ -23,9 +23,11 @@ jobs:
       - run:
           name: Build and push Docker image
           command: |
-            docker build -t jittles/$IMAGE_NAME:$TAG .
-            docker login -u $DOCKER_LOGIN -p B_Fe9q_de7.mP7V
-            docker push jittles/$IMAGE_NAME:$TAG
+            # docker build -t jittles/$IMAGE_NAME:$TAG .
+            # docker login -u $DOCKER_LOGIN -p B_Fe9q_de7.mP7V
+            # docker push jittles/$IMAGE_NAME:$TAG
+            echo $DOCKER_LOGIN
+            echo ${DOCKER_LOGIN}
       # - run:
       #     name: Deploy app to Digital Ocean Server via Docker
       #     command: |
