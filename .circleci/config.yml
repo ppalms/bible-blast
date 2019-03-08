@@ -12,7 +12,10 @@ jobs:
           command: |
             dotnet restore ./BibleBlast.API/BibleBlast.API.csproj
             dotnet build ./BibleBlast.API/BibleBlast.API.csproj -c Release --no-restore
-            dotnet test ./BibleBlast.API.UnitTests/BibleBlast.API.UnitTests.csproj
+      - run:
+          name: Run API tests
+          command: dotnet test ./BibleBlast.API.UnitTests/BibleBlast.API.UnitTests.csproj
+
   deploy:
     machine: true
     steps:
@@ -22,14 +25,6 @@ jobs:
           command: |
             echo 'export TAG=0.1.${CIRCLE_BUILD_NUM}' >> $BASH_ENV
             echo 'export IMAGE_NAME=bible-blast' >> $BASH_ENV
-      # - run:
-      #     name: Install Docker client
-      #     command: |
-      #       set -x
-      #       VER="18.09.2"
-      #       curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
-      #       tar -xz -C /tmp -f /tmp/docker-$VER.tgz
-      #       mv /tmp/docker/* /usr/bin
       - run:
           name: Build and push Docker image
           command: |
