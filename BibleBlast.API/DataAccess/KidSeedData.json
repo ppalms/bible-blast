@@ -358,5 +358,23 @@
       "Birthday": "2013-12-16",
       "DateRegistered": "2019-11-23",
       "IsActive": true
+    },
+    {
+      "FirstName": "Jaina",
+      "LastName": "Solo",
+      "Gender": "female",
+      "Grade": 5,
+      "Birthday": "2014-08-08",
+      "DateRegistered": "2019-05-18",
+      "IsActive": true
+    },
+    {
+      "FirstName": "Jacen",
+      "LastName": "Solo",
+      "Gender": "male",
+      "Grade": "pk",
+      "Birthday": "2013-12-16",
+      "DateRegistered": "2019-11-23",
+      "IsActive": true
     }
   ]
