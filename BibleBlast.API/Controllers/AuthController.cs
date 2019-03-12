@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using BibleBlast.API.DataAccess;
 using BibleBlast.API.Dtos;
 using BibleBlast.API.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -24,31 +25,40 @@ namespace BibleBlast.API.Controllers
         private readonly IConfiguration _config;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IUserRepository _userRepo;
         private readonly IMapper _mapper;
 
-        public AuthController(IConfiguration config, UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper)
+        public AuthController(IConfiguration config, UserManager<User> userManager, SignInManager<User> signInManager, 
+            IUserRepository userRepo, IMapper mapper)
         {
             _config = config;
             _userManager = userManager;
             _signInManager = signInManager;
+            _userRepo = userRepo;
             _mapper = mapper;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserRegisterRequest request)
         {
-            var newUser = _mapper.Map<User>(request);
+            var user = _mapper.Map<User>(request);
 
-            var result = await _userManager.CreateAsync(newUser, request.Password);
-
-            var newUserDetail = _mapper.Map<UserDetail>(newUser);
-
-            if (result.Succeeded)
+            var userResult = await _userManager.CreateAsync(user, request.Password);
+            if (!userResult.Succeeded)
             {
-                return CreatedAtRoute("GetUser", new { controller = "Users", id = newUser.Id }, newUserDetail);
+                return BadRequest(userResult.Errors);
             }
 
-            return BadRequest(result.Errors);
+            var roleResult = await _userManager.AddToRoleAsync(user, UserRoles.Member);
+            if (!roleResult.Succeeded)
+            {
+                return BadRequest(roleResult.Errors);
+            }
+
+            var newUser = await _userRepo.GetUser(user.Id);
+            var newUserDetail = _mapper.Map<UserDetail>(newUser);
+
+            return CreatedAtRoute("GetUser", new { controller = "Users", id = newUser.Id }, newUserDetail);
         }
 
         [HttpPost("login")]
@@ -82,7 +92,7 @@ namespace BibleBlast.API.Controllers
             // Who is this person? Claims describe the user
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()), // client -> AuthService.decodedToken.nameid
+                new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
                 new Claim(ClaimTypes.Name,user.UserName),
                 new Claim("Organization", user.Organization?.Id.ToString() ?? "None"),
             };
