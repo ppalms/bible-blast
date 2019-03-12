@@ -8,7 +8,7 @@ namespace BibleBlast.API.DataAccess
     public interface IKidRepository
     {
         Task<PagedList<Kid>> GetKids(KidParams kidParams);
-        Task<Kid> GetKid(int id, int userId);
+        Task<Kid> GetKid(int id);
     }
 
     public class KidParams

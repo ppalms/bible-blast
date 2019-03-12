@@ -5,6 +5,7 @@ using AutoMapper;
 using BibleBlast.API.DataAccess;
 using BibleBlast.API.Dtos;
 using BibleBlast.API.Helpers;
+using BibleBlast.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BibleBlast.API.Controllers
@@ -37,13 +38,13 @@ namespace BibleBlast.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var kid = await _repo.GetKid(id, UserId);
+            var kid = await _repo.GetKid(id);
             if (kid == null)
             {
                 return NotFound();
             }
 
-            if (!kid.Parents.Any(x => x.UserId == UserId))
+            if (!User.IsInRole(UserRoles.Admin) && !User.IsInRole(UserRoles.Coach) && !kid.Parents.Any(x => x.UserId == UserId))
             {
                 return Unauthorized();
             }

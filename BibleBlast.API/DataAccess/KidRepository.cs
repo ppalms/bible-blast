@@ -29,10 +29,12 @@ namespace BibleBlast.API.DataAccess
                 kids = kids.Where(x => x.Parents.Any(p => p.UserId == queryParams.UserId));
             }
 
+            kids = kids.OrderBy(x => x.LastName);
+
             return await PagedList<Kid>.CreateAsync(kids, queryParams.PageNumber, queryParams.PageSize);
         }
 
-        public async Task<Kid> GetKid(int id, int userId)
+        public async Task<Kid> GetKid(int id)
         {
             var kid = await _context.Kids
                 .Include(k => k.Parents).ThenInclude(p => p.User).ThenInclude(p => p.Organization)
