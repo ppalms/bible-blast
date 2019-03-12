@@ -48,7 +48,7 @@ namespace BibleBlast.API.UnitTests
                 }
             };
 
-            _kidRepoMock.Setup(x => x.GetKid(1, 19)).Returns(Task.FromResult(kid));
+            _kidRepoMock.Setup(x => x.GetKid(1)).Returns(Task.FromResult(kid));
 
             var kidDetail = new KidDetail
             {
@@ -86,7 +86,7 @@ namespace BibleBlast.API.UnitTests
                 }
             };
 
-            _kidRepoMock.Setup(x => x.GetKid(1, 19)).Returns(Task.FromResult(kid));
+            _kidRepoMock.Setup(x => x.GetKid(1)).Returns(Task.FromResult(kid));
 
             var kidDetail = new KidDetail
             {
