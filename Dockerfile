@@ -19,8 +19,8 @@ RUN npm install
 RUN npm install -g @angular/cli@7.3.1
 COPY ./BibleBlast.SPA .
 RUN ng build --prod
-COPY ./BibleBlast.API/wwwroot ../dist/wwwroot
 
+# Copy everything to /app and run
 FROM microsoft/dotnet:2.2-aspnetcore-runtime
 WORKDIR /app
 
