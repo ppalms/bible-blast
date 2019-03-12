@@ -29,7 +29,7 @@ namespace BibleBlast.API.DataAccess
 
         private void SeedKids()
         {
-            if (_context.Kids.Any())
+            if (_context.Kids.IgnoreQueryFilters().Any())
             {
                 return;
             }
@@ -43,16 +43,16 @@ namespace BibleBlast.API.DataAccess
 
         private void SeedUsers()
         {
-            if (_userManager.Users.Any())
+            if (_userManager.Users.IgnoreQueryFilters().Any())
             {
                 return;
             }
 
             var roles = new List<Role>
             {
-                new Role { Name = "Member" },
-                new Role { Name = "Coach" },
-                new Role { Name = "Admin" },
+                new Role { Name = UserRoles.Member },
+                new Role { Name = UserRoles.Coach },
+                new Role { Name = UserRoles.Admin },
             };
 
             foreach (var role in roles)
@@ -68,10 +68,11 @@ namespace BibleBlast.API.DataAccess
 
             foreach (var user in users)
             {
+                user.OrganizationId = organization.Id;
                 user.Organization = organization;
 
                 _userManager.CreateAsync(user, "password").Wait();
-                _userManager.AddToRoleAsync(user, "Member").Wait();
+                _userManager.AddToRoleAsync(user, UserRoles.Member).Wait();
 
                 var userKids = _context.Kids.IgnoreQueryFilters()
                     .Where(kid => user.LastName == kid.LastName)
@@ -86,10 +87,10 @@ namespace BibleBlast.API.DataAccess
             _userManager.CreateAsync(adminUser, "password").Wait();
 
             var admin = _userManager.FindByNameAsync("admin").Result;
-            _userManager.AddToRoleAsync(admin, "Admin").Wait();
+            _userManager.AddToRoleAsync(admin, UserRoles.Admin).Wait();
 
             var coachMcGuirk = _userManager.FindByNameAsync("jmcguirk").Result;
-            _userManager.AddToRoleAsync(coachMcGuirk, "Coach").Wait();
+            _userManager.AddToRoleAsync(coachMcGuirk, UserRoles.Coach).Wait();
         }
     }
 }

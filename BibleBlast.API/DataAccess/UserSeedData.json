@@ -3,35 +3,30 @@
     "Username": "lorgana",
     "FirstName": "Leia",
     "LastName": "Solo",
-    "Password": "password",
     "IsActive": true
   },
   {
     "Username": "hsolo",
     "FirstName": "Han",
     "LastName": "Solo",
-    "Password": "password",
     "IsActive": true
   },
   {
     "Username": "jmcgee",
     "FirstName": "Jane",
     "LastName": "McGee",
-    "Password": "password",
     "IsActive": true
   },
   {
     "Username": "dwatson",
     "FirstName": "Doc",
     "LastName": "Watson",
-    "Password": "password",
     "IsActive": true
   },
   {
     "Username": "jmcguirk",
     "FirstName": "John",
     "LastName": "McGuirk",
-    "Password": "password",
     "IsActive": true
   }
 ]
