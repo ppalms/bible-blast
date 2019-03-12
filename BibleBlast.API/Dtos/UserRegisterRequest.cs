@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using BibleBlast.API.Models;
 
 namespace BibleBlast.API.Dtos
 {
@@ -11,5 +12,8 @@ namespace BibleBlast.API.Dtos
         [Required]
         [StringLength(100, MinimumLength = 10, ErrorMessage = "Your password must be at least 10 characters long")]
         public string Password { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public int OrganizationId { get; set; }
     }
 }

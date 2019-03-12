@@ -8,6 +8,7 @@ namespace BibleBlast.API.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public int? OrganizationId { get; set; }
         public Organization Organization { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
         public ICollection<UserKid> Kids { get; set; }
