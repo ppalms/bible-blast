@@ -1,3 +1,20 @@
-<p>
-  kid-list works!
-</p>
+<h1>Kids</h1>
+<table class="table">
+  <tr>
+    <th scope="col">First</th>
+    <th scope="col">Last</th>
+    <th scope="col">Grade</th>
+  </tr>
+  <tr *ngFor="let kid of kids">
+    <td>{{kid.firstName}}</td>
+    <td>{{kid.lastName}}</td>
+    <td>{{kid.grade}}</td>
+  </tr>
+</table>
+
+<div class="d-flex justify-content-center">
+  <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage"
+    [maxSize]="5" [(ngModel)]="pagination.currentPage" (pageChanged)="pageChanged($event)" previousText="&lsaquo;"
+    nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+  </pagination>
+</div>
