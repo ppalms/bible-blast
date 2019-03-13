@@ -10,13 +10,17 @@ RUN dotnet build -c Release --no-restore
 RUN dotnet publish -c Release -o "../dist" --no-restore
 
 # Build Angular app
-FROM node:10.15.3
-RUN mkdir ../BibleBlast.SPA
+COPY ./BibleBlast.SPA/package.json ./package.json
 WORKDIR /sln/BibleBlast.SPA
 
-COPY ./BibleBlast.SPA/package.json ./package.json
-RUN npm install
-RUN npm install -g @angular/cli@7.3.1
+RUN apt-get update && \
+    apt-get install -y wget && \
+    apt-get install -y gnupg2 && \
+    wget -qO- https://deb.nodesource.com/setup_11.x | bash - && \
+    apt-get install -y build-essential nodejs && \
+    npm install && \
+    npm install -g @angular/cli@7.3.1
+    
 COPY ./BibleBlast.SPA .
 RUN ng build --prod
 
@@ -26,5 +30,6 @@ WORKDIR /app
 
 ENV ASPNETCORE_ENVIRONMENT Production
 ENV ASPNETCORE_URLS http://0.0.0.0:8080
+EXPOSE 8080
 ENTRYPOINT ["dotnet", "BibleBlast.API.dll"]
 COPY --from=builder /sln/dist .
