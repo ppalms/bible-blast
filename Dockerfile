@@ -23,15 +23,14 @@ RUN apt-get update && \
     
 COPY ./BibleBlast.SPA .
 RUN ng build --prod
-RUN cd ../BibleBlast.API/wwwroot && ls
-# COPY ../BibleBlast.API/wwwroot /sln/dist/wwwroot
+COPY ../BibleBlast.API/wwwroot ../dist/wwwroot
 
-# # Copy everything to /app and set entrypoint
-# FROM microsoft/dotnet:2.2-aspnetcore-runtime
-# WORKDIR /app
+# Copy everything to /app and set entrypoint
+FROM microsoft/dotnet:2.2-aspnetcore-runtime
+WORKDIR /app
 
-# ENV ASPNETCORE_ENVIRONMENT Production
-# ENV ASPNETCORE_URLS http://0.0.0.0:8080
-# EXPOSE 8080
-# ENTRYPOINT ["dotnet", "BibleBlast.API.dll"]
-# COPY --from=builder /sln/dist .
+ENV ASPNETCORE_ENVIRONMENT Production
+ENV ASPNETCORE_URLS http://0.0.0.0:8080
+EXPOSE 8080
+ENTRYPOINT ["dotnet", "BibleBlast.API.dll"]
+COPY --from=builder /sln/dist .
