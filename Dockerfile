@@ -23,6 +23,7 @@ RUN apt-get update && \
     
 COPY ./BibleBlast.SPA .
 RUN ng build --prod
+COPY ./BibleBlast.API/wwwroot /sln/dist/wwwroot
 
 # Copy everything to /app and run
 FROM microsoft/dotnet:2.2-aspnetcore-runtime
