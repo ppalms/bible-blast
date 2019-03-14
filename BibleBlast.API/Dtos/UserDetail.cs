@@ -10,5 +10,7 @@ namespace BibleBlast.API.Dtos
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Organization Organization { get; set; }
+        public IEnumerable<string> UserRoles { get; set; }
+        public ICollection<UserKid> Kids { get; set; }
     }
 }

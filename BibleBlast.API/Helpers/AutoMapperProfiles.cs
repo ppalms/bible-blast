@@ -9,7 +9,11 @@ namespace BibleBlast.API.Helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<User, UserDetail>();
+            CreateMap<User, UserDetail>()
+                .ForMember(dest => dest.UserRoles, opt =>
+                {
+                    opt.MapFrom(src => src.UserRoles.Select(ur => ur.Role.NormalizedName));
+                });
             CreateMap<UserRegisterRequest, User>();
 
             CreateMap<Kid, KidDetail>()
@@ -20,7 +24,6 @@ namespace BibleBlast.API.Helpers
                         Id = p.UserId,
                         FirstName = p.User.FirstName,
                         LastName = p.User.LastName,
-                        Organization = p.User.Organization,
                     }));
                 });
         }
