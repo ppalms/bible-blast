@@ -23,8 +23,25 @@ namespace BibleBlast.API.DataAccess
 
         public void Seed()
         {
+            SeedOrganizations();
             SeedKids();
             SeedUsers();
+        }
+
+        private void SeedOrganizations()
+        {
+            if (_context.Organizations.Any())
+            {
+                return;
+            }
+
+            _context.Organizations.AddRange(new[]
+            {
+                new Organization { Name = "First United Methodist Church Tulsa" },
+                new Organization { Name = "All Souls Church Tulsa" },
+            });
+
+            _context.SaveChanges();
         }
 
         private void SeedKids()
@@ -60,17 +77,11 @@ namespace BibleBlast.API.DataAccess
                 _roleManager.CreateAsync(role).Wait();
             }
 
-            var organization = _context.Organizations.Add(new Organization { Name = "First United Methodist Church Tulsa" }).Entity;
-            _context.SaveChanges();
-
             var userData = System.IO.File.ReadAllText("DataAccess/UserSeedData.json");
             var users = JsonConvert.DeserializeObject<List<User>>(userData);
 
             foreach (var user in users)
             {
-                user.OrganizationId = organization.Id;
-                user.Organization = organization;
-
                 _userManager.CreateAsync(user, "password").Wait();
                 _userManager.AddToRoleAsync(user, UserRoles.Member).Wait();
 

@@ -58,9 +58,8 @@ namespace BibleBlast.API.DataAccess
                     .IsRequired();
             });
 
-            modelBuilder.Entity<Kid>().HasQueryFilter(x => x.IsActive).HasQueryFilter(x =>
-                x.Parents.Any(p => p.User.Organization.Id == _organizationProvider.OrganizationId)
-            );
+            modelBuilder.Entity<Kid>().HasQueryFilter(x => x.IsActive)
+                .HasQueryFilter(x => x.OrganizationId == _organizationProvider.OrganizationId);
 
             modelBuilder.ApplySingularTableNameConvention();
         }
