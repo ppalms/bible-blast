@@ -54,7 +54,7 @@ namespace BibleBlast.API.DataAccess
                 return;
             }
 
-            var kidData = System.IO.File.ReadAllText("DataAccess/KidSeedData.json");
+            var kidData = System.IO.File.ReadAllText("DataAccess/SeedData/KidSeedData.json");
             var kids = JsonConvert.DeserializeObject<List<Kid>>(kidData);
 
             _context.Kids.AddRange(kids);
@@ -80,7 +80,7 @@ namespace BibleBlast.API.DataAccess
                 _roleManager.CreateAsync(role).Wait();
             }
 
-            var userData = System.IO.File.ReadAllText("DataAccess/UserSeedData.json");
+            var userData = System.IO.File.ReadAllText("DataAccess/SeedData/UserSeedData.json");
             var users = JsonConvert.DeserializeObject<List<User>>(userData);
 
             foreach (var user in users)
@@ -114,7 +114,7 @@ namespace BibleBlast.API.DataAccess
                 return;
             }
 
-            var categoryData = System.IO.File.ReadAllText("DataAccess/MemoryCategorySeedData.json");
+            var categoryData = System.IO.File.ReadAllText("DataAccess/SeedData/MemoryCategorySeedData.json");
             var categories = JsonConvert.DeserializeObject<List<MemoryCategory>>(categoryData);
 
             _context.MemoryCategories.AddRange(categories);
@@ -128,7 +128,7 @@ namespace BibleBlast.API.DataAccess
                 return;
             }
 
-            var memoryData = System.IO.File.ReadAllText("DataAccess/MemorySeedData.json");
+            var memoryData = System.IO.File.ReadAllText("DataAccess/SeedData/MemorySeedData.json");
             var memories = JsonConvert.DeserializeObject<List<Memory>>(memoryData);
 
             _context.Memories.AddRange(memories);
@@ -137,12 +137,12 @@ namespace BibleBlast.API.DataAccess
 
         private void SeedKidMemories()
         {
-            if (_context.KidMemories.Any())
+            if (_context.KidMemories.IgnoreQueryFilters().Any())
             {
                 return;
             }
 
-            var kidMemoryData = System.IO.File.ReadAllText("DataAccess/KidMemorySeedData.json");
+            var kidMemoryData = System.IO.File.ReadAllText("DataAccess/SeedData/KidMemorySeedData.json");
             var kidMemories = JsonConvert.DeserializeObject<List<KidMemory>>(kidMemoryData);
 
             _context.KidMemories.AddRange(kidMemories);
