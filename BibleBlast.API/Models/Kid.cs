@@ -16,6 +16,7 @@ namespace BibleBlast.API.Models
         public DateTime DateRegistered { get; set; }
         public ICollection<UserKid> Parents { get; set; }
         public Organization Organization { get; set; }
+        public ICollection<KidMemory> CompletedMemories { get; set; }
         public bool IsActive { get; set; } = true;
     }
 }

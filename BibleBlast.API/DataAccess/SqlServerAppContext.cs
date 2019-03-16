@@ -23,6 +23,9 @@ namespace BibleBlast.API.DataAccess
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Kid> Kids { get; set; }
         public DbSet<UserKid> UserKids { get; set; }
+        public DbSet<Memory> Memories { get; set; }
+        public DbSet<MemoryCategory> MemoryCategories { get; set; }
+        public DbSet<KidMemory> KidMemories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -60,6 +63,14 @@ namespace BibleBlast.API.DataAccess
 
             modelBuilder.Entity<Kid>().HasQueryFilter(x => x.IsActive)
                 .HasQueryFilter(x => x.OrganizationId == _organizationProvider.OrganizationId);
+
+            modelBuilder.Entity<KidMemory>(x =>
+            {
+                x.HasKey(uk => new { uk.KidId, uk.MemoryId });
+            });
+
+            modelBuilder.Entity<Memory>().Property(x => x.Name).IsRequired();
+            modelBuilder.Entity<MemoryCategory>().Property(x => x.Name).IsRequired();
 
             modelBuilder.ApplySingularTableNameConvention();
         }

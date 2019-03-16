@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -38,13 +39,13 @@ namespace BibleBlast.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var kid = await _repo.GetKid(id);
+            var kid = await _repo.GetKid(id, UserId);
             if (kid == null)
             {
                 return NotFound();
             }
 
-            if (!User.IsInRole(UserRoles.Admin) && !User.IsInRole(UserRoles.Coach) && !kid.Parents.Any(x => x.UserId == UserId))
+            if (!User.IsInRole(UserRoles.Admin) && !User.IsInRole(UserRoles.Coach) && !kid.Parents.Any(p => p.UserId == UserId))
             {
                 return Unauthorized();
             }
@@ -52,6 +53,21 @@ namespace BibleBlast.API.Controllers
             var kidDetail = _mapper.Map<KidDetail>(kid);
 
             return Ok(kidDetail);
+        }
+
+        [HttpGet("{id}/memories")]
+        public async Task<IActionResult> GetCompletedMemeories(int id)
+        {
+            var memories = await _repo.GetCompletedMemories(id, UserId);
+
+            if (!User.IsInRole(UserRoles.Admin) && !User.IsInRole(UserRoles.Coach) && !memories.Any(x => x.Kid.Parents.Any(p => p.UserId == UserId)))
+            {
+                return Unauthorized();
+            }
+
+            var completedMemeories = _mapper.Map<IEnumerable<CompletedMemory>>(memories);
+
+            return Ok(completedMemeories);
         }
 
         private int UserId => int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));

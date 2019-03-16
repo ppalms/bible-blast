@@ -26,6 +26,12 @@ namespace BibleBlast.API.Helpers
                         LastName = p.User.LastName,
                     }));
                 });
+
+            CreateMap<KidMemory, CompletedMemory>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Memory.Name))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Memory.Description))
+                .ForMember(dest => dest.Points, opt => opt.MapFrom(src => src.Memory.Points))
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Memory.Category));
         }
     }
 }

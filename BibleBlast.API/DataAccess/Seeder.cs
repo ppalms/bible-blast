@@ -26,6 +26,9 @@ namespace BibleBlast.API.DataAccess
             SeedOrganizations();
             SeedKids();
             SeedUsers();
+            SeedMemoryCategories();
+            SeedMemories();
+            SeedKidMemories();
         }
 
         private void SeedOrganizations()
@@ -102,6 +105,48 @@ namespace BibleBlast.API.DataAccess
 
             var coachMcGuirk = _userManager.FindByNameAsync("jmcguirk").Result;
             _userManager.AddToRoleAsync(coachMcGuirk, UserRoles.Coach).Wait();
+        }
+
+        private void SeedMemoryCategories()
+        {
+            if (_context.MemoryCategories.Any())
+            {
+                return;
+            }
+
+            var categoryData = System.IO.File.ReadAllText("DataAccess/MemoryCategorySeedData.json");
+            var categories = JsonConvert.DeserializeObject<List<MemoryCategory>>(categoryData);
+
+            _context.MemoryCategories.AddRange(categories);
+            _context.SaveChanges();
+        }
+
+        private void SeedMemories()
+        {
+            if (_context.Memories.Any())
+            {
+                return;
+            }
+
+            var memoryData = System.IO.File.ReadAllText("DataAccess/MemorySeedData.json");
+            var memories = JsonConvert.DeserializeObject<List<Memory>>(memoryData);
+
+            _context.Memories.AddRange(memories);
+            _context.SaveChanges();
+        }
+
+        private void SeedKidMemories()
+        {
+            if (_context.KidMemories.Any())
+            {
+                return;
+            }
+
+            var kidMemoryData = System.IO.File.ReadAllText("DataAccess/KidMemorySeedData.json");
+            var kidMemories = JsonConvert.DeserializeObject<List<KidMemory>>(kidMemoryData);
+
+            _context.KidMemories.AddRange(kidMemories);
+            _context.SaveChanges();
         }
     }
 }

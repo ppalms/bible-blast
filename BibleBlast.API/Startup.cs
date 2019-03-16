@@ -87,6 +87,7 @@ namespace BibleBlast.API
             services.AddTransient<IOrganizationProvider, OrganizationProvider>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IKidRepository, KidRepository>();
+            services.AddScoped<IMemoryRepository, MemoryRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, Seeder seeder)

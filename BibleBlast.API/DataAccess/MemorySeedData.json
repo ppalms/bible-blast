@@ -1,0 +1,1028 @@
+[
+  {
+    "CategoryId": 1,
+    "Name": "A",
+    "Description": "Romans 3:23",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "B",
+    "Description": "Acts 16:31",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "C",
+    "Description": "I Cor. 15:3",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "D",
+    "Description": "Psalms 34:14",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "E",
+    "Description": "Psalms 100:4",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "F",
+    "Description": "Ephesians 4:32",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "G",
+    "Description": "I John 4:16",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "H",
+    "Description": "Proverbs 16:20",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "I",
+    "Description": "Psalms 56:11",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "J",
+    "Description": "Acts 8:37",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "K",
+    "Description": "Jude 1:21",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "L",
+    "Description": "Mark 12:30",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "M",
+    "Description": "Judges 5:3",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "N",
+    "Description": "Matthew 17:20",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "O",
+    "Description": "I John 5:2",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "P",
+    "Description": "I Thess. 5:17",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "Q",
+    "Description": "Proverb 18:19",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "R",
+    "Description": "James 4:7",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "S",
+    "Description": "Matthew 6:33",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "T",
+    "Description": "Proverbs 22:6",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "U",
+    "Description": "Titus 2:12",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "V",
+    "Description": "I Cor. 15:57",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "W",
+    "Description": "Genesis 17:1",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "X",
+    "Description": "I Timothy 4:7",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "Y",
+    "Description": "Matthew 5:14",
+    "Points": 1
+  },
+  {
+    "CategoryId": 1,
+    "Name": "Z",
+    "Description": "Psalms 132:13",
+    "Points": 1
+  },
+  {
+    "CategoryId": 2,
+    "Name": "1",
+    "Description": "Luke 2:52",
+    "Points": 1
+  },
+  {
+    "CategoryId": 2,
+    "Name": "2",
+    "Description": "Acts 16:31",
+    "Points": 1
+  },
+  {
+    "CategoryId": 2,
+    "Name": "3",
+    "Description": "Ephesians 6:1",
+    "Points": 1
+  },
+  {
+    "CategoryId": 2,
+    "Name": "4",
+    "Description": "Matthew 7:12",
+    "Points": 1
+  },
+  {
+    "CategoryId": 2,
+    "Name": "5",
+    "Description": "Proverbs 20:11",
+    "Points": 1
+  },
+  {
+    "CategoryId": 2,
+    "Name": "6",
+    "Description": "Romans 3:23",
+    "Points": 1
+  },
+  {
+    "CategoryId": 2,
+    "Name": "7",
+    "Description": "John 3:16",
+    "Points": 1
+  },
+  {
+    "CategoryId": 2,
+    "Name": "8",
+    "Description": "Matthew 21:9,11",
+    "Points": 2
+  },
+  {
+    "CategoryId": 2,
+    "Name": "9",
+    "Description": "Philippians 4:13",
+    "Points": 1
+  },
+  {
+    "CategoryId": 2,
+    "Name": "10",
+    "Description": "Psalms 34:13",
+    "Points": 1
+  },
+  {
+    "CategoryId": 2,
+    "Name": "11",
+    "Description": "Matthew 19:14",
+    "Points": 1
+  },
+  {
+    "CategoryId": 2,
+    "Name": "12",
+    "Description": "Matthew 6:9-13",
+    "Points": 5
+  },
+  {
+    "CategoryId": 2,
+    "Name": "13",
+    "Description": "Romans 12:21",
+    "Points": 1
+  },
+  {
+    "CategoryId": 2,
+    "Name": "14",
+    "Description": "I John 3:16",
+    "Points": 1
+  },
+  {
+    "CategoryId": 2,
+    "Name": "15",
+    "Description": "Proverbs 3:5-6",
+    "Points": 2
+  },
+  {
+    "CategoryId": 2,
+    "Name": "16",
+    "Description": "Psalms 56:3-4",
+    "Points": 2
+  },
+  {
+    "CategoryId": 2,
+    "Name": "17",
+    "Description": "Matthew 18:20",
+    "Points": 1
+  },
+  {
+    "CategoryId": 2,
+    "Name": "18",
+    "Description": "Phil. 2:14",
+    "Points": 1
+  },
+  {
+    "CategoryId": 2,
+    "Name": "19",
+    "Description": "Matthew 5:14,16",
+    "Points": 2
+  },
+  {
+    "CategoryId": 2,
+    "Name": "20",
+    "Description": "Matthew 22:37",
+    "Points": 1
+  },
+  {
+    "CategoryId": 2,
+    "Name": "21",
+    "Description": "Psalms 119:105",
+    "Points": 1
+  },
+  {
+    "CategoryId": 3,
+    "Name": "The Lords Prayer",
+    "Description": "Matthew 6:9-13",
+    "Points": 5
+  },
+  {
+    "CategoryId": 3,
+    "Name": "The 12 Apostles",
+    "Description": "Matthew 10:2-4",
+    "Points": 3
+  },
+  {
+    "CategoryId": 3,
+    "Name": "The 4 Brothers of Jesus",
+    "Description": "Matthew 13:55",
+    "Points": 1
+  },
+  {
+    "CategoryId": 3,
+    "Name": "The 9 Fruits of the Spirit",
+    "Description": "Galatians 5:22-23",
+    "Points": 2
+  },
+  {
+    "CategoryId": 3,
+    "Name": "Old Testament Books",
+    "Description": "",
+    "Points": 15
+  },
+  {
+    "CategoryId": 3,
+    "Name": "New Testament Books",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 3,
+    "Name": "The 10 Commandments",
+    "Description": "Exodus 20:3-17",
+    "Points": 14
+  },
+  {
+    "CategoryId": 3,
+    "Name": "The Apostle's Creed",
+    "Description": "\"What I Believe\"",
+    "Points": 10
+  },
+  {
+    "CategoryId": 3,
+    "Name": "Psalms 100",
+    "Description": "",
+    "Points": 5
+  },
+  {
+    "CategoryId": 3,
+    "Name": "Psalms 23",
+    "Description": "",
+    "Points": 6
+  },
+  {
+    "CategoryId": 3,
+    "Name": "Psalms 1",
+    "Description": "",
+    "Points": 6
+  },
+  {
+    "CategoryId": 3,
+    "Name": "Psalms 121",
+    "Description": "",
+    "Points": 8
+  },
+  {
+    "CategoryId": 3,
+    "Name": "The Love Chapter",
+    "Description": "I Cor. 13:1-8",
+    "Points": 8
+  },
+  {
+    "CategoryId": 3,
+    "Name": "The Beatitudes",
+    "Description": "Matthew 5:3-12",
+    "Points": 10
+  },
+  {
+    "CategoryId": 3,
+    "Name": "Christian Behavior",
+    "Description": "Romans 12:1-8",
+    "Points": 8
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Song of Faith",
+    "Description": "Habakkuk 3:17-19",
+    "Points": 3
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Sixteen Sins",
+    "Description": "Galatians 5:19-21",
+    "Points": 4
+  },
+  {
+    "CategoryId": 4,
+    "Name": "The Tewlve Tribes",
+    "Description": "Numbers 1:5-15",
+    "Points": 2
+  },
+  {
+    "CategoryId": 4,
+    "Name": "A New Creation",
+    "Description": "II Cor. 5:17-19",
+    "Points": 3
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Seeking the Lord",
+    "Description": "Isaiah 55:6-9",
+    "Points": 4
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Bible Picture of Jesus",
+    "Description": "Isaiah 53:2-5",
+    "Points": 5
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Call on the Lord",
+    "Description": "Acts 2:17-21",
+    "Points": 5
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Time for Everything",
+    "Description": "Ecclesiastes 3:1-8",
+    "Points": 8
+  },
+  {
+    "CategoryId": 4,
+    "Name": "The Armour of God",
+    "Description": "Eph. 6:10-17",
+    "Points": 8
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Submit to Authority",
+    "Description": "Romans 13:1-8",
+    "Points": 8
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Special Verse 1",
+    "Description": "Hebrews 4:12",
+    "Points": 8
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Special Verse 2",
+    "Description": "II Timothy 3:16",
+    "Points": 8
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Special Verse 3",
+    "Description": "Psalms 119:2-3",
+    "Points": 8
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Special Verse 4",
+    "Description": "Psalms 119:11",
+    "Points": 8
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Special Verse 5",
+    "Description": "Psalms 119:35",
+    "Points": 8
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Special Verse 6",
+    "Description": "Psalms 119:101",
+    "Points": 8
+  },
+  {
+    "CategoryId": 4,
+    "Name": "Special Verse 7",
+    "Description": "Psalms 119:105",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Aleph",
+    "Description": "Psalms 119:1-8",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Beth",
+    "Description": "Psalms 119:9-16",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Gimel",
+    "Description": "Psalms 119:17-24",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Daleth",
+    "Description": "Psalms 119:25-32",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "He",
+    "Description": "Psalms 119:33-40",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Waw",
+    "Description": "Psalms 119:41-48",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Zayin",
+    "Description": "Psalms 119:48-56",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Heth",
+    "Description": "Psalms 119:57-64",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Teth",
+    "Description": "Psalms 119:65-72",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Yodh",
+    "Description": "Psalms 119:73-80",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Kaph",
+    "Description": "Psalms 119:81-88",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Lamedh",
+    "Description": "Psalms 119:89-96",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Mem",
+    "Description": "Psalms 119:97-104",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Nun",
+    "Description": "Psalms 119:105-112",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Samekh",
+    "Description": "Psalms 119:113-120",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Ayin",
+    "Description": "Psalms 119:121-128",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Pe",
+    "Description": "Psalms 119:129-136",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Tsadhe",
+    "Description": "Psalms 119:137-144",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Qoph",
+    "Description": "Psalms 119:145-152",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Resh",
+    "Description": "Psalms 119:153-160",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Sin and Shin",
+    "Description": "Psalms 119:161-168",
+    "Points": 8
+  },
+  {
+    "CategoryId": 6,
+    "Name": "Taw",
+    "Description": "Psalms 119:169-176",
+    "Points": 8
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Matthew 5",
+    "Description": " Matthew 5,",
+    "Points": 48
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Matthew 6",
+    "Description": "Matthew 6,",
+    "Points": 34
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Matthew 5 & 6",
+    "Description": " Matthew 5-6",
+    "Points": 82
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Matthew 7",
+    "Description": " Matthew 7,",
+    "Points": 29
+  },
+  {
+    "CategoryId": 8,
+    "Name": "Matthew 5, 6, & 7",
+    "Description": " Matthew 5-7",
+    "Points": 111
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Ephesians 1",
+    "Description": " Ephesians 1,",
+    "Points": 23
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Ephesians 2",
+    "Description": " Ephesians 2,",
+    "Points": 22
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Ephesians 3",
+    "Description": " Ephesians 3,",
+    "Points": 21
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Ephesians 1 - 3",
+    "Description": " Ephesians 1-3",
+    "Points": 57
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Ephesians 4",
+    "Description": " Ephesians 4,",
+    "Points": 32
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Ephesians 5",
+    "Description": " Ephesians 5,",
+    "Points": 33
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Ephesians 6",
+    "Description": " Ephesians 6,",
+    "Points": 24
+  },
+  {
+    "CategoryId": 9,
+    "Name": "Ephesians 1 - 6",
+    "Description": " Ephesians 1-6",
+    "Points": 146
+  },
+  {
+    "CategoryId": 5,
+    "Name": "The Lords Prayer",
+    "Description": "Matthew 6:9-13",
+    "Points": 5
+  },
+  {
+    "CategoryId": 5,
+    "Name": "The 12 Apostles",
+    "Description": "Matthew 10:2-4",
+    "Points": 3
+  },
+  {
+    "CategoryId": 5,
+    "Name": "The 4 Brothers of Jesus",
+    "Description": "Matthew 13:55",
+    "Points": 1
+  },
+  {
+    "CategoryId": 5,
+    "Name": "The 9 Fruits of the Spirit",
+    "Description": "Galatians 5:22-23",
+    "Points": 2
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Old Testament Books",
+    "Description": "",
+    "Points": 15
+  },
+  {
+    "CategoryId": 5,
+    "Name": "New Testament Books",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 5,
+    "Name": "The 10 Commandments",
+    "Description": "Exodus 20:3-17",
+    "Points": 14
+  },
+  {
+    "CategoryId": 5,
+    "Name": "The Apostle's Creed",
+    "Description": "\"What I Believe\"",
+    "Points": 10
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Psalms 100",
+    "Description": "",
+    "Points": 5
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Psalms 23",
+    "Description": "",
+    "Points": 6
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Psalms 1",
+    "Description": "",
+    "Points": 6
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Psalms 121",
+    "Description": "",
+    "Points": 8
+  },
+  {
+    "CategoryId": 5,
+    "Name": "The Love Chapter",
+    "Description": "I Cor. 13:1-8",
+    "Points": 8
+  },
+  {
+    "CategoryId": 5,
+    "Name": "The Beatitudes",
+    "Description": "Matthew 5:3-12",
+    "Points": 10
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Christian Behavior",
+    "Description": "Romans 12:1-8",
+    "Points": 8
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Song of Faith",
+    "Description": "Habakkuk 3:17-19",
+    "Points": 3
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Sixteen Sins",
+    "Description": "Galatians 5:19-21",
+    "Points": 4
+  },
+  {
+    "CategoryId": 5,
+    "Name": "The Tewlve Tribes",
+    "Description": "Numbers 1:5-15",
+    "Points": 2
+  },
+  {
+    "CategoryId": 5,
+    "Name": "A New Creation",
+    "Description": "II Cor. 5:17-19",
+    "Points": 3
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Seeking the Lord",
+    "Description": "Isaiah 55:6-9",
+    "Points": 4
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Bible Picture of Jesus",
+    "Description": "Isaiah 53:2-5",
+    "Points": 5
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Call on the Lord",
+    "Description": "Acts 2:17-21",
+    "Points": 5
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Time for Everything",
+    "Description": "Ecclesiastes 3:1-8",
+    "Points": 8
+  },
+  {
+    "CategoryId": 5,
+    "Name": "The Armour of God",
+    "Description": "Eph. 6:10-17",
+    "Points": 8
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Submit to Authority",
+    "Description": "Romans 13:1-8",
+    "Points": 8
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Special Verse 1",
+    "Description": "Hebrews 4:12",
+    "Points": 8
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Special Verse 2",
+    "Description": "II Timothy 3:16",
+    "Points": 8
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Special Verse 3",
+    "Description": "Psalms 119:2-3",
+    "Points": 8
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Special Verse 4",
+    "Description": "Psalms 119:11",
+    "Points": 8
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Special Verse 5",
+    "Description": "Psalms 119:35",
+    "Points": 8
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Special Verse 6",
+    "Description": "Psalms 119:101",
+    "Points": 8
+  },
+  {
+    "CategoryId": 5,
+    "Name": "Special Verse 7",
+    "Description": "Psalms 119:105",
+    "Points": 8
+  },
+  {
+    "CategoryId": 5,
+    "Name": "ABCs",
+    "Description": "All 26 in one sitting",
+    "Points": 26
+  },
+  {
+    "CategoryId": 7,
+    "Name": "1",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "2",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "3",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "4",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "5",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "6",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "7",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "8",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "9",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "10",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "11",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "12",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "13",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "14",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "15",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "16",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "17",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "18",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "19",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "20",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "21",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "22",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "23",
+    "Description": "",
+    "Points": 10
+  },
+  {
+    "CategoryId": 7,
+    "Name": "24",
+    "Description": "",
+    "Points": 10
+  }
+]

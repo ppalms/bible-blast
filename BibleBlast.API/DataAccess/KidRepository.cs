@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BibleBlast.API.Helpers;
@@ -34,13 +35,40 @@ namespace BibleBlast.API.DataAccess
             return await PagedList<Kid>.CreateAsync(kids, queryParams.PageNumber, queryParams.PageSize);
         }
 
-        public async Task<Kid> GetKid(int id)
+        public async Task<Kid> GetKid(int id, int userId)
         {
-            var kid = await _context.Kids
-                .Include(k => k.Parents).ThenInclude(p => p.User).ThenInclude(p => p.Organization)
+            var kids = _context.Kids.AsQueryable();
+            var userRoles = _context.UserRoles.Where(x => x.UserId == userId).Select(x => x.Role.NormalizedName);
+
+            if (userRoles.Contains(UserRoles.Admin))
+            {
+                kids = kids.IgnoreQueryFilters();
+            }
+
+            var kid = await kids.Include(k => k.Parents)
+                .ThenInclude(p => p.User)
+                .ThenInclude(p => p.Organization)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             return kid;
+        }
+
+        public async Task<IEnumerable<KidMemory>> GetCompletedMemories(int id, int userId)
+        {
+            var kidMemories = _context.KidMemories.AsQueryable();
+            var userRoles = _context.UserRoles.Where(x => x.UserId == userId).Select(x => x.Role.NormalizedName);
+
+            if (userRoles.Contains(UserRoles.Admin))
+            {
+                kidMemories = kidMemories.IgnoreQueryFilters();
+            }
+
+            var memories = await kidMemories
+                .Include(x => x.Memory).ThenInclude(x => x.Category)
+                .Where(x => x.KidId == id)
+                .ToListAsync();
+
+            return memories;
         }
     }
 }
