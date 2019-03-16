@@ -67,6 +67,8 @@ namespace BibleBlast.API.DataAccess
             modelBuilder.Entity<KidMemory>(x =>
             {
                 x.HasKey(uk => new { uk.KidId, uk.MemoryId });
+                x.HasQueryFilter(uk => uk.Kid.IsActive)
+                    .HasQueryFilter(uk => uk.Kid.OrganizationId == _organizationProvider.OrganizationId);
             });
 
             modelBuilder.Entity<Memory>().Property(x => x.Name).IsRequired();

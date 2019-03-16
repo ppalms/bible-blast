@@ -59,6 +59,10 @@ namespace BibleBlast.API.Controllers
         public async Task<IActionResult> GetCompletedMemeories(int id)
         {
             var memories = await _repo.GetCompletedMemories(id, UserId);
+            if (!memories.Any())
+            {
+                return NotFound();
+            }
 
             if (!User.IsInRole(UserRoles.Admin) && !User.IsInRole(UserRoles.Coach) && !memories.Any(x => x.Kid.Parents.Any(p => p.UserId == UserId)))
             {
