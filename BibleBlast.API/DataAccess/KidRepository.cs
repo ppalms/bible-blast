@@ -19,7 +19,7 @@ namespace BibleBlast.API.DataAccess
         public async Task<PagedList<Kid>> GetKids(KidParams queryParams)
         {
             var kids = _context.Kids.AsQueryable();
-            var userRoles = _context.UserRoles.Where(x => x.UserId == queryParams.UserId).Select(x => x.Role.NormalizedName);
+            var userRoles = _context.UserRoles.Where(x => x.UserId == queryParams.UserId).Select(x => x.Role.Name);
 
             if (userRoles.Contains(UserRoles.Admin))
             {
@@ -38,7 +38,7 @@ namespace BibleBlast.API.DataAccess
         public async Task<Kid> GetKid(int id, int userId)
         {
             var kids = _context.Kids.AsQueryable();
-            var userRoles = _context.UserRoles.Where(x => x.UserId == userId).Select(x => x.Role.NormalizedName);
+            var userRoles = _context.UserRoles.Where(x => x.UserId == userId).Select(x => x.Role.Name);
 
             if (userRoles.Contains(UserRoles.Admin))
             {
@@ -56,7 +56,7 @@ namespace BibleBlast.API.DataAccess
         public async Task<IEnumerable<KidMemory>> GetCompletedMemories(int id, int userId)
         {
             var kidMemories = _context.KidMemories.AsQueryable();
-            var userRoles = _context.UserRoles.Where(x => x.UserId == userId).Select(x => x.Role.NormalizedName);
+            var userRoles = _context.UserRoles.Where(x => x.UserId == userId).Select(x => x.Role.Name);
 
             if (userRoles.Contains(UserRoles.Admin))
             {

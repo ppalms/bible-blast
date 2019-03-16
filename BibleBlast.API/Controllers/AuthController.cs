@@ -28,7 +28,7 @@ namespace BibleBlast.API.Controllers
         private readonly IUserRepository _userRepo;
         private readonly IMapper _mapper;
 
-        public AuthController(IConfiguration config, UserManager<User> userManager, SignInManager<User> signInManager, 
+        public AuthController(IConfiguration config, UserManager<User> userManager, SignInManager<User> signInManager,
             IUserRepository userRepo, IMapper mapper)
         {
             _config = config;

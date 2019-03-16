@@ -12,7 +12,7 @@ namespace BibleBlast.API.Helpers
             CreateMap<User, UserDetail>()
                 .ForMember(dest => dest.UserRoles, opt =>
                 {
-                    opt.MapFrom(src => src.UserRoles.Select(ur => ur.Role.NormalizedName));
+                    opt.MapFrom(src => src.UserRoles.Select(ur => ur.Role.Name));
                 });
             CreateMap<UserRegisterRequest, User>();
 

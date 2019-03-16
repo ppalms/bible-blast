@@ -10,8 +10,8 @@ namespace BibleBlast.API.Models
 
     public static class UserRoles
     {
-        public const string Admin = "ADMIN";
-        public const string Coach = "COACH";
-        public const string Member = "MEMBER";
+        public const string Admin = "Admin";
+        public const string Coach = "Coach";
+        public const string Member = "Member";
     }
 }
