@@ -29,7 +29,7 @@ export class KidService {
     return this.http.get<Kid>(`${environment.apiUrl}/kids/${id}`);
   }
 
-  getKids(page?: number, itemsPerPage?: number): Observable<PaginatedResult<Kid[]>> {
+  getKids(page?: number, itemsPerPage?: number, kidParams?: any): Observable<PaginatedResult<Kid[]>> {
     const paginatedResult: PaginatedResult<Kid[]> = new PaginatedResult<Kid[]>();
 
     let params = new HttpParams();
@@ -37,6 +37,10 @@ export class KidService {
     if (page != null && itemsPerPage != null) {
       params = params.append('pageNumber', page.toString());
       params = params.append('pageSize', itemsPerPage.toString());
+    }
+
+    if (kidParams && kidParams.name) {
+      params = params.append('kidName', kidParams.name);
     }
 
     return this.http.get<Kid[]>(`${environment.apiUrl}/kids`, { observe: 'response', params })

@@ -11,6 +11,7 @@ import { Pagination, PaginatedResult } from '../../_models/pagination';
 })
 export class KidListComponent implements OnInit {
   kids: any[];
+  kidParams: any = {};
   pagination: Pagination;
 
   constructor(private kidService: KidService, private route: ActivatedRoute) { }
@@ -29,7 +30,7 @@ export class KidListComponent implements OnInit {
 
   loadKids() {
     this.kidService
-      .getKids(this.pagination.currentPage, this.pagination.itemsPerPage)
+      .getKids(this.pagination.currentPage, this.pagination.itemsPerPage, this.kidParams)
       .subscribe((res: PaginatedResult<Kid[]>) => {
         this.kids = res.result;
         this.pagination = res.pagination;
