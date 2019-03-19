@@ -15,8 +15,9 @@ namespace BibleBlast.API.DataAccess
     public class KidParams
     {
         private const int MaxPageSize = 50;
-        private int pageSize = 10;
+        private int pageSize = 6;
 
+        public string KidName { get; set; }
         public int PageNumber { get; set; } = 1;
         public int PageSize
         {

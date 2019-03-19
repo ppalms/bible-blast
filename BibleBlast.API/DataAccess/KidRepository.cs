@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,6 +34,12 @@ namespace BibleBlast.API.DataAccess
             else if (!userRoles.Contains(UserRoles.Coach))
             {
                 kids = kids.Where(x => x.Parents.Any(p => p.UserId == queryParams.UserId));
+            }
+
+            if (!string.IsNullOrWhiteSpace(queryParams.KidName))
+            {
+                kids = kids.Where(x => x.FirstName.Contains(queryParams.KidName, StringComparison.CurrentCultureIgnoreCase)
+                     || x.LastName.Contains(queryParams.KidName, StringComparison.CurrentCultureIgnoreCase));
             }
 
             kids = kids.OrderBy(x => x.LastName);

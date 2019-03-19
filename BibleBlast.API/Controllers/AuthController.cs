@@ -76,7 +76,7 @@ namespace BibleBlast.API.Controllers
             {
                 var appUser = await _userManager.Users
                     .Include(x => x.Organization)
-                    .Include(x => x.Kids)
+                    .Include(x => x.Kids).ThenInclude(x => x.Kid)
                     .FirstOrDefaultAsync(x => x.NormalizedUserName == request.Username.ToUpperInvariant());
 
                 var userInfo = _mapper.Map<UserDetail>(appUser);

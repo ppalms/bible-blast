@@ -13,6 +13,19 @@ namespace BibleBlast.API.Helpers
                 .ForMember(dest => dest.UserRoles, opt =>
                 {
                     opt.MapFrom(src => src.UserRoles.Select(ur => ur.Role.Name));
+                })
+                .ForMember(dest => dest.Kids, opt =>
+                {
+                    opt.MapFrom(src => src.Kids.Select(kid => new KidDetail
+                    {
+                        Id = kid.KidId,
+                        FirstName = kid.Kid.FirstName,
+                        LastName = kid.Kid.LastName,
+                        Grade = kid.Kid.Grade,
+                        Gender = kid.Kid.Gender,
+                        Birthday = kid.Kid.Birthday,
+                        DateRegistered = kid.Kid.DateRegistered,
+                    }));
                 });
             CreateMap<UserRegisterRequest, User>();
 
