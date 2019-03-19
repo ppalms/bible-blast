@@ -27,7 +27,7 @@ export class KidDetailComponent implements OnInit {
     });
   }
 
-  heading = (cat: MemoryCategory) => `${cat.name} (${this.kid.completedMemories
+  getHeading = (cat: MemoryCategory) => `${cat.name} (${this.kid.completedMemories
     .filter(x => x.categoryId === cat.id).length} / ${cat.memories.length})`
 
   isOpen = (cat: MemoryCategory) => cat.id === 1;

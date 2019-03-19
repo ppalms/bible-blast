@@ -1,6 +1,6 @@
 <h1>{{kid.firstName}} {{kid.lastName}}</h1>
 <accordion [closeOthers]="true">
-  <accordion-group class="mb-1" *ngFor="let cat of memoriesByCategory" [heading]="heading(cat)" [isOpen]="isOpen(cat)">
+  <accordion-group class="mb-1" *ngFor="let cat of memoriesByCategory" [heading]="getHeading(cat)" [isOpen]="isOpen(cat)">
     <table class="table table-sm shadow">
       <thead class="thead-dark">
         <tr>
