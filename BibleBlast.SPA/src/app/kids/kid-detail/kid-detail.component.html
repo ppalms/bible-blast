@@ -6,19 +6,24 @@
         <tr>
           <th scope="col"></th>
           <th scope="col">Memory Item</th>
+          <th scope="col"></th>
+          <th scope="col">Points</th>
           <th scope="col">Date Completed</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let memory of cat.memories">
-          <td class="text-center"><i class="fa fa-check text-success" *ngIf=isComplete(memory.id)></i></td>
-          <td>{{memory.name}} {{memory.description}}</td>
+          <td class="text-center"><i class="fa fa-check text-success" *ngIf=getCompletedMemory(memory.id)></i></td>
+          <td>{{memory.name}}</td>
+          <td>{{memory.description}}</td>
+          <td>{{memory.points}}</td>
           <td>{{getCompletedDate(memory.id) | date}}</td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="4" class="text-right">{{getCompletedCountByCategory(cat.id)}}/{{cat.memories.length}}</td>
+          <td colspan="3"></td>
+          <td colspan="2"><strong>{{getTotalPoints(cat.id)}}</strong></td>
         </tr>
       </tfoot>
     </table>
