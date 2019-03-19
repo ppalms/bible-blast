@@ -31,7 +31,7 @@ namespace BibleBlast.API.Helpers
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Memory.Name))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Memory.Description))
                 .ForMember(dest => dest.Points, opt => opt.MapFrom(src => src.Memory.Points))
-                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Memory.Category));
+                .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Memory.Category.Id));
         }
     }
 }

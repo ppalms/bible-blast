@@ -25,7 +25,13 @@ namespace BibleBlast.API.Controllers
         public async Task<IActionResult> Get()
         {
             var memories = await _repo.GetMemories();
+            return Ok(memories);
+        }
 
+        [HttpGet("byCategory")]
+        public async Task<IActionResult> GetByCategory()
+        {
+            var memories = await _repo.GetMemoriesByCategory();
             return Ok(memories);
         }
     }

@@ -18,7 +18,12 @@ namespace BibleBlast.API.DataAccess
 
         public async Task<PagedList<Kid>> GetKids(KidParams queryParams)
         {
-            var kids = _context.Kids.AsQueryable();
+            var kids = _context.Kids
+                .Include(x => x.Organization)
+                .Include(x => x.Parents).ThenInclude(x => x.User)
+                .Include(x => x.CompletedMemories).ThenInclude(x => x.Memory).ThenInclude(x => x.Category)
+                .AsQueryable();
+
             var userRoles = _context.UserRoles.Where(x => x.UserId == queryParams.UserId).Select(x => x.Role.Name);
 
             if (userRoles.Contains(UserRoles.Admin))
@@ -45,7 +50,9 @@ namespace BibleBlast.API.DataAccess
                 kids = kids.IgnoreQueryFilters();
             }
 
-            var kid = await kids.Include(k => k.Parents)
+            var kid = await kids
+                .Include(x => x.CompletedMemories).ThenInclude(x => x.Memory).ThenInclude(x => x.Category)
+                .Include(k => k.Parents)
                 .ThenInclude(p => p.User)
                 .ThenInclude(p => p.Organization)
                 .FirstOrDefaultAsync(x => x.Id == id);

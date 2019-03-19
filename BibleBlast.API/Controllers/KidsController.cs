@@ -31,9 +31,11 @@ namespace BibleBlast.API.Controllers
 
             var kids = await _repo.GetKids(queryParams);
 
+            var dto = _mapper.Map<IEnumerable<KidList>>(kids);
+
             Response.AddPagination(kids.CurrentPage, kids.PageSize, kids.TotalCount, kids.TotalPages);
 
-            return Ok(kids);
+            return Ok(dto);
         }
 
         [HttpGet("{id}")]

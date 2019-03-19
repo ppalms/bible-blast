@@ -4,17 +4,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
-import { BsDropdownModule, PaginationModule } from 'ngx-bootstrap';
+import { BsDropdownModule, PaginationModule, ProgressbarModule, AccordionModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
 import { KidListComponent } from './kids/kid-list/kid-list.component';
+import { KidCardComponent } from './kids/kid-card/kid-card.component';
+import { KidDetailComponent } from './kids/kid-detail/kid-detail.component';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 
 import { AuthService } from './_services/auth.service';
 import { KidService } from './_services/kid.service';
+import { MemoryService } from './_services/memory.service';
 import { KidListResolver } from './_resolvers/kid-list-resolver';
+import { KidDetailResolver } from './_resolvers/kid-detail-resolver';
 
 import { HasRoleDirective } from './_directives/has-role.directive';
 
@@ -28,6 +32,8 @@ export function tokenGetter() {
     NavComponent,
     HomeComponent,
     KidListComponent,
+    KidCardComponent,
+    KidDetailComponent,
     AdminPanelComponent,
     HasRoleDirective
   ],
@@ -39,6 +45,8 @@ export function tokenGetter() {
     ReactiveFormsModule,
     BsDropdownModule.forRoot(),
     PaginationModule.forRoot(),
+    ProgressbarModule.forRoot(),
+    AccordionModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter,
@@ -50,7 +58,9 @@ export function tokenGetter() {
   providers: [
     AuthService,
     KidService,
+    MemoryService,
     KidListResolver,
+    KidDetailResolver,
   ],
   bootstrap: [
     AppComponent

@@ -10,7 +10,7 @@ import { Pagination, PaginatedResult } from '../../_models/pagination';
   styleUrls: ['./kid-list.component.scss']
 })
 export class KidListComponent implements OnInit {
-  kids: Kid[];
+  kids: any[];
   pagination: Pagination;
 
   constructor(private kidService: KidService, private route: ActivatedRoute) { }

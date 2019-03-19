@@ -154,7 +154,7 @@ namespace BibleBlast.API.UnitTests
         }
 
         [TestMethod]
-        public void GetCompletedMemories_NoMemories_ReturnsEmpty()
+        public void GetCompletedMemories_NoMemories_ReturnsNotFound()
         {
             const int kidId = 324;
 
@@ -166,9 +166,7 @@ namespace BibleBlast.API.UnitTests
 
             var actual = _kidsController.GetCompletedMemeories(kidId).Result;
 
-            Assert.IsInstanceOfType(actual, typeof(OkObjectResult));
-            Assert.IsInstanceOfType(((OkObjectResult)actual).Value, typeof(ICollection<CompletedMemory>));
-            Assert.AreEqual(0, (((OkObjectResult)actual).Value as ICollection<CompletedMemory>).Count);
+            Assert.IsInstanceOfType(actual, typeof(NotFoundResult));
         }
 
         [TestMethod]

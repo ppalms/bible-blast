@@ -17,8 +17,13 @@ namespace BibleBlast.API.DataAccess
 
         public async Task<IEnumerable<Memory>> GetMemories()
         {
-            var memories = await _context.Memories.Include(x => x.Category).ToListAsync();
+            var memories = await _context.Memories.ToListAsync();
+            return memories;
+        }
 
+        public async Task<IEnumerable<MemoryCategory>> GetMemoriesByCategory()
+        {
+            var memories = await _context.MemoryCategories.Include(x => x.Memories).ToListAsync();
             return memories;
         }
     }

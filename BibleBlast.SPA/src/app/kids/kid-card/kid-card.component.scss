@@ -1,0 +1,12 @@
+.kid-detail {
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+}
+
+.kid-detail:hover {
+    background-color: ghostwhite;
+}
+
+.progress {
+    height: 2em;
+}

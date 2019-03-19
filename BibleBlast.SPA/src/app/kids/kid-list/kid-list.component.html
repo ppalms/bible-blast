@@ -1,16 +1,11 @@
 <h1>Kids</h1>
-<table class="table">
-  <tr>
-    <th scope="col">First</th>
-    <th scope="col">Last</th>
-    <th scope="col">Grade</th>
-  </tr>
-  <tr *ngFor="let kid of kids">
-    <td>{{kid.firstName}}</td>
-    <td>{{kid.lastName}}</td>
-    <td>{{kid.grade}}</td>
-  </tr>
-</table>
+<div class="container mt-3">
+  <div class="row">
+    <div *ngFor="let kid of kids" class="col-12 col-md-6 col-lg-4">
+      <app-kid-card [kid]="kid"></app-kid-card>
+    </div>
+  </div>
+</div>
 
 <div class="d-flex justify-content-center">
   <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage"

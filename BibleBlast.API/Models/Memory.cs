@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace BibleBlast.API.Models
 {
     public class Memory
@@ -14,5 +16,6 @@ namespace BibleBlast.API.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public ICollection<Memory> Memories { get; set; }
     }
 }

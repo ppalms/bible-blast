@@ -8,7 +8,7 @@ import { KidService } from '../_services/kid.service';
 @Injectable()
 export class KidListResolver implements Resolve<Kid[]> {
     pageNumber = 1;
-    pageSize = 10;
+    pageSize = 6;
 
     constructor(private kidService: KidService, private router: Router) { }
 
