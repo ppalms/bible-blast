@@ -11,7 +11,9 @@ import { KidService } from 'src/app/_services/kid.service';
 export class KidCardComponent implements OnInit {
   @Input() kid: Kid;
   totalPoints = 0;
-  max = 1593;
+  totalCompleteMemories = 0;
+  // todo
+  max = 171;
 
   constructor(public kidService: KidService, private router: Router) { }
 
@@ -20,6 +22,7 @@ export class KidCardComponent implements OnInit {
       return;
     }
 
+    this.totalCompleteMemories = this.kid.completedMemories.length;
     this.totalPoints = this.kid.completedMemories.map(m => m.points).reduce((total, current) => total += current);
   }
 

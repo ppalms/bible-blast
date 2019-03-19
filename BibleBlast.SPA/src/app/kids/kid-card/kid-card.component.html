@@ -6,8 +6,8 @@
     <p class="card-text text-muted text-center">Grade: {{kid.grade | uppercase}}<br />Total points:
       {{this.totalPoints}}</p>
     <div class="mb-2 text-dark">
-      <progressbar max="max" [value]="totalPoints" type="success"><span class="text-nowrap p-1">{{this.totalPoints}} /
-          {{this.max}}</span></progressbar>
+      <progressbar max="max" [value]="totalCompleteMemories" type="success"><span
+          class="text-nowrap p-1">{{this.totalCompleteMemories}} / {{this.max}}</span></progressbar>
     </div>
     <div class="card-text row" *ngFor="let category of this.kidService.memoryCategories">
       <div class="col">{{category.name}}</div>
