@@ -398,5 +398,25 @@
     "Birthday": "2012-11-27",
     "DateRegistered": "2019-11-20",
     "IsActive": true
+  },
+  {
+    "OrganizationId": 1,
+    "FirstName": "Jacen",
+    "LastName": "Solo",
+    "Gender": "male",
+    "Grade": 2,
+    "Birthday": "2012-11-27",
+    "DateRegistered": "2019-11-20",
+    "IsActive": true
+  },
+  {
+    "OrganizationId": 1,
+    "FirstName": "Jaina",
+    "LastName": "Solo",
+    "Gender": "female",
+    "Grade": 3,
+    "Birthday": "2013-12-1",
+    "DateRegistered": "2019-11-20",
+    "IsActive": true
   }
 ]
