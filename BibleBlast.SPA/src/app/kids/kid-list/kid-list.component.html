@@ -1,12 +1,12 @@
 <div class="container mt-3">
   <form #form="ngForm" (ngSubmit)="loadKids()" novalidate>
     <div class="form-row">
-      <div class="col">
+      <div class="col-8 col-sm-10">
         <input type="text" class="form-control ml-1" id="name" [(ngModel)]="kidParams.name" name="name"
           placeholder="Name">
       </div>
-      <div class="col-2 text-center">
-        <button type="submit" class="btn btn-primary" style="margin-left:10px">Search</button>
+      <div class="col-4 col-sm-2 text-center text-sm-center">
+        <button type="submit" class="btn btn-primary">Search</button>
       </div>
     </div>
   </form>
