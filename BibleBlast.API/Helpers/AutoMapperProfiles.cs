@@ -45,6 +45,8 @@ namespace BibleBlast.API.Helpers
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Memory.Description))
                 .ForMember(dest => dest.Points, opt => opt.MapFrom(src => src.Memory.Points))
                 .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Memory.Category.Id));
+
+            CreateMap<KidMemoryParams, KidMemory>();
         }
     }
 }

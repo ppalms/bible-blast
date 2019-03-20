@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace BibleBlast.API.UnitTests
 {
@@ -35,6 +36,13 @@ namespace BibleBlast.API.UnitTests
             {
                 HttpContext = new DefaultHttpContext() { User = user }
             };
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _kidRepoMock.VerifyAll();
+            _mapperMock.VerifyAll();
         }
 
         [TestMethod]
@@ -76,39 +84,13 @@ namespace BibleBlast.API.UnitTests
         }
 
         [TestMethod]
-        public void GetById_MemberUser_IsNotParent_ReturnsUnauthorized()
+        public void GetById_MemberUser_IsNotParent_ReturnsNotFound()
         {
-            var kid = new Kid
-            {
-                Id = 1,
-                FirstName = "John",
-                LastName = "Doe",
-                Parents = new[]
-                {
-                    new UserKid { UserId = 34 },
-                    new UserKid { UserId = 35 }
-                }
-            };
-
-            _kidRepoMock.Setup(x => x.GetKid(1, _userId)).Returns(Task.FromResult(kid));
-
-            var kidDetail = new KidDetail
-            {
-                Id = kid.Id,
-                FirstName = kid.FirstName,
-                LastName = kid.LastName,
-                Parents = new[]
-                {
-                    new UserDetail { Id = 34, FirstName = "Fred" },
-                    new UserDetail { Id = 35, FirstName = "Ethel" }
-                }
-            };
-
-            _mapperMock.Setup(x => x.Map<KidDetail>(kid)).Returns(kidDetail);
+            _kidRepoMock.Setup(x => x.GetKid(1, _userId)).ReturnsAsync((Kid)null);
 
             var result = _kidsController.Get(1).Result;
 
-            Assert.IsInstanceOfType(result, typeof(UnauthorizedResult));
+            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
         }
 
         [TestMethod]
@@ -161,8 +143,6 @@ namespace BibleBlast.API.UnitTests
             _kidsController.HttpContext.User.AddIdentity(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Role, UserRoles.Admin) }));
 
             _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId, _userId)).ReturnsAsync(Enumerable.Empty<KidMemory>());
-
-            _mapperMock.Setup(x => x.Map<IEnumerable<CompletedMemory>>(It.IsAny<IEnumerable<KidMemory>>())).Returns(new List<CompletedMemory>());
 
             var actual = _kidsController.GetCompletedMemeories(kidId).Result;
 
@@ -231,6 +211,106 @@ namespace BibleBlast.API.UnitTests
             Assert.IsInstanceOfType(actual, typeof(OkObjectResult));
             Assert.IsInstanceOfType(((OkObjectResult)actual).Value, typeof(ICollection<CompletedMemory>));
             CollectionAssert.AreEquivalent(expected, ((OkObjectResult)actual).Value as Collection<CompletedMemory>);
+        }
+
+        [TestMethod]
+        public void AddCompletedMemories_ReturnNoContent()
+        {
+            const int kidId = 29;
+
+            var requestParams = new[] {
+                new KidMemoryParams
+                {
+                    MemoryId= 23,
+                    DateCompleted = new DateTime(2019, 3, 18)
+                },
+                new KidMemoryParams
+                {
+                    MemoryId= 24,
+                    DateCompleted = new DateTime(2019, 3, 19)
+                },
+            };
+
+            var kidMemories = new[]
+            {
+                new KidMemory { KidId = kidId, MemoryId = 23, DateCompleted = new DateTime(2019, 3, 18)},
+                new KidMemory { KidId = kidId, MemoryId = 24, DateCompleted = new DateTime(2019, 3, 19)},
+            };
+
+            _mapperMock.Setup(x => x.Map<IEnumerable<KidMemory>>(requestParams)).Returns(kidMemories);
+
+            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId, _userId)).ReturnsAsync((Enumerable.Empty<KidMemory>()));
+            _kidRepoMock.Setup(x => x.AddCompletedMemories(kidMemories)).ReturnsAsync(true);
+
+            var actual = _kidsController.AddCompletedMemories(kidId, requestParams).Result;
+
+            Assert.IsInstanceOfType(actual, typeof(NoContentResult));
+        }
+
+        [TestMethod]
+        public void AddCompletedMemories_KidMemoryExists_ReturnNoContent()
+        {
+            const int kidId = 29;
+
+            var requestParams = new[] {
+                new KidMemoryParams
+                {
+                    MemoryId= 23,
+                    DateCompleted = new DateTime(2019, 3, 18)
+                },
+                new KidMemoryParams
+                {
+                    MemoryId= 24,
+                    DateCompleted = new DateTime(2019, 3, 19)
+                },
+            };
+
+            var kidMemories = new[]
+            {
+                new KidMemory { KidId = kidId, MemoryId = 23, DateCompleted = new DateTime(2019, 3, 18) },
+                new KidMemory { KidId = kidId, MemoryId = 24, DateCompleted = new DateTime(2019, 3, 19) },
+            };
+
+            _mapperMock.Setup(x => x.Map<IEnumerable<KidMemory>>(requestParams)).Returns(kidMemories);
+
+            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId, _userId))
+                .ReturnsAsync(new[] { new KidMemory { KidId = kidId, MemoryId = 23, DateCompleted = new DateTime(2019, 3, 18) } });
+
+            _kidRepoMock.Setup(x => x
+                .AddCompletedMemories(new[] { new KidMemory { KidId = kidId, MemoryId = 24, DateCompleted = new DateTime(2019, 3, 19) } }))
+                .ReturnsAsync(true);
+
+            var actual = _kidsController.AddCompletedMemories(kidId, requestParams).Result;
+
+            Assert.IsInstanceOfType(actual, typeof(NoContentResult));
+
+            _kidRepoMock.Verify(x => x.GetCompletedMemories(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
+            _kidRepoMock.Verify(x => x.AddCompletedMemories(It.IsAny<IEnumerable<KidMemory>>()), Times.Once);
+        }
+
+        [TestMethod]
+        public void DeleteCompletedMemories_ReturnNoContent()
+        {
+            const int kidId = 29;
+
+            var requestParams = new[] {
+                new KidMemoryParams
+                {
+                    MemoryId= 23,
+                    DateCompleted = new DateTime(2019, 3, 18)
+                },
+                new KidMemoryParams
+                {
+                    MemoryId= 24,
+                    DateCompleted = new DateTime(2019, 3, 19)
+                },
+            };
+
+            _kidRepoMock.Setup(x => x.DeleteCompletedMemories(kidId, new[] { 23, 24 })).ReturnsAsync(true);
+
+            var actual = _kidsController.DeleteCompletedMemories(kidId, requestParams).Result;
+
+            Assert.IsInstanceOfType(actual, typeof(NoContentResult));
         }
     }
 }

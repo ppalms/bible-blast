@@ -25,6 +25,7 @@ namespace BibleBlast.API.DataAccess
                 .Include(x => x.CompletedMemories).ThenInclude(x => x.Memory).ThenInclude(x => x.Category)
                 .AsQueryable();
 
+            // todo add roles to queryParams
             var userRoles = _context.UserRoles.Where(x => x.UserId == queryParams.UserId).Select(x => x.Role.Name);
 
             if (userRoles.Contains(UserRoles.Admin))
@@ -83,6 +84,21 @@ namespace BibleBlast.API.DataAccess
                 .ToListAsync();
 
             return memories;
+        }
+
+        public async Task<bool> AddCompletedMemories(IEnumerable<KidMemory> kidMemories)
+        {
+            await _context.KidMemories.AddRangeAsync(kidMemories);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> DeleteCompletedMemories(int id, IEnumerable<int> memoryIds)
+        {
+            var memories = _context.KidMemories.Where(x => x.KidId == id && memoryIds.Contains(x.MemoryId));
+
+            _context.KidMemories.RemoveRange(memories);
+
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }
