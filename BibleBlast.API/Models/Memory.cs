@@ -10,12 +10,6 @@ namespace BibleBlast.API.Models
         public string Description { get; set; }
         public int? Points { get; set; }
         public MemoryCategory Category { get; set; }
-    }
-
-    public class MemoryCategory
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public ICollection<Memory> Memories { get; set; }
+        public ICollection<KidMemory> KidMemories { get; set; }
     }
 }
