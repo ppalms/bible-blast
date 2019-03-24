@@ -11,7 +11,7 @@
 <form [formGroup]="memoryForm" (ngSubmit)="updateKidMemories()">
   <accordion [closeOthers]="true">
     <div formGroupName="memoriesByCategory">
-      <accordion-group class="mb-1" *ngFor="let cat of memoryForm['controls'].memoriesByCategory.controls; let i=index;"
+      <accordion-group class="mb-1" *ngFor="let cat of memoryForm['controls'].memoriesByCategory['controls']; let i=index;"
         [isOpen]="isOpen(cat.value)">
 
         <div accordion-heading class="memory-category">
