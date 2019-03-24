@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
-import { BsDropdownModule, PaginationModule, ProgressbarModule, AccordionModule } from 'ngx-bootstrap';
+import { BsDropdownModule, PaginationModule, ProgressbarModule, AccordionModule, BsDatepickerModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -15,6 +15,7 @@ import { KidDetailComponent } from './kids/kid-detail/kid-detail.component';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 
 import { AuthService } from './_services/auth.service';
+import { AlertifyService } from './_services/alertify.service';
 import { KidService } from './_services/kid.service';
 import { MemoryService } from './_services/memory.service';
 import { KidListResolver } from './_resolvers/kid-list-resolver';
@@ -47,6 +48,7 @@ export function tokenGetter() {
     PaginationModule.forRoot(),
     ProgressbarModule.forRoot(),
     AccordionModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter,
@@ -57,6 +59,7 @@ export function tokenGetter() {
   ],
   providers: [
     AuthService,
+    AlertifyService,
     KidService,
     MemoryService,
     KidListResolver,
