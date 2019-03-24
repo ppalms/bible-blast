@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using AutoMapper;
 using BibleBlast.API.Dtos;
@@ -27,6 +28,7 @@ namespace BibleBlast.API.Helpers
                         DateRegistered = kid.Kid.DateRegistered,
                     }));
                 });
+
             CreateMap<UserRegisterRequest, User>();
 
             CreateMap<Kid, KidDetail>()
@@ -41,11 +43,24 @@ namespace BibleBlast.API.Helpers
                 });
 
             CreateMap<KidMemory, CompletedMemory>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Memory.Name))
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Memory.Description))
                 .ForMember(dest => dest.Points, opt => opt.MapFrom(src => src.Memory.Points))
                 .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Memory.Category.Id));
 
+            CreateMap<MemoryCategory, KidMemoryCategory>()
+                .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Memories, opt =>
+                {
+                    opt.MapFrom(src => src.Memories.Select(memory => new KidMemoryListItem
+                    {
+                        MemoryId = memory.Id,
+                        MemoryName = memory.Name,
+                        MemoryDescription = memory.Description,
+                        Points = memory.Points ?? 0,
+                    }));
+                });
+
+            CreateMap<KidMemory, KidMemoryListItem>();
             CreateMap<KidMemoryParams, KidMemory>();
         }
     }

@@ -18,11 +18,13 @@ namespace BibleBlast.API.Controllers
     public class KidsController : ControllerBase
     {
         private readonly IKidRepository _repo;
+        private readonly IMemoryRepository _memoryRepo;
         private readonly IMapper _mapper;
 
-        public KidsController(IKidRepository repo, IMapper mapper)
+        public KidsController(IKidRepository repo, IMemoryRepository memoryRepo, IMapper mapper)
         {
             _repo = repo;
+            _memoryRepo = memoryRepo;
             _mapper = mapper;
         }
 
@@ -42,7 +44,7 @@ namespace BibleBlast.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(int id, bool includeMemories = false)
         {
             var kid = await _repo.GetKid(id, UserId);
             if (kid == null)
@@ -56,6 +58,21 @@ namespace BibleBlast.API.Controllers
             }
 
             var kidDetail = _mapper.Map<KidDetail>(kid);
+
+            if (includeMemories)
+            {
+                var memoryCategories = await _memoryRepo.GetMemoryCategories();
+
+                var dto = _mapper.Map<IEnumerable<KidMemoryCategory>>(memoryCategories);
+
+                foreach (var completedMemory in kid.CompletedMemories)
+                {
+                    var memoryListItem = dto.SelectMany(x => x.Memories).First(x => x.MemoryId == completedMemory.MemoryId);
+                    _mapper.Map(completedMemory, memoryListItem);
+                }
+
+                kidDetail.MemoriesByCategory = dto;
+            }
 
             return Ok(kidDetail);
         }
@@ -81,7 +98,7 @@ namespace BibleBlast.API.Controllers
 
         [HttpPost("{id}/memories")]
         [Authorize(Roles = "Coach,Admin")]
-        public async Task<IActionResult> AddCompletedMemories(int id, [FromBody]KidMemoryParams[] kidMemoryParams)
+        public async Task<IActionResult> UpsertCompletedMemories(int id, [FromBody]KidMemoryParams[] kidMemoryParams)
         {
             var kidMemories = _mapper.Map<IEnumerable<KidMemory>>(kidMemoryParams);
             foreach (var kidMemory in kidMemories)
@@ -89,10 +106,7 @@ namespace BibleBlast.API.Controllers
                 kidMemory.KidId = id;
             }
 
-            var memories = await _repo.GetCompletedMemories(id, UserId);
-            var filteredMemories = kidMemories.Except(memories);
-
-            await _repo.AddCompletedMemories(filteredMemories);
+            await _repo.UpsertCompletedMemories(kidMemories);
 
             return NoContent();
         }

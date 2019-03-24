@@ -11,6 +11,7 @@ namespace BibleBlast.API.DataAccess
         Task<Kid> GetKid(int id, int userId);
         Task<IEnumerable<KidMemory>> GetCompletedMemories(int id, int userId);
         Task<bool> AddCompletedMemories(IEnumerable<KidMemory> kidMemories);
+        Task<bool> UpsertCompletedMemories(IEnumerable<KidMemory> kidMemories);
         Task<bool> DeleteCompletedMemories(int id, IEnumerable<int> memoryIds);
     }
 

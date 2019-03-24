@@ -21,6 +21,7 @@ namespace BibleBlast.API.UnitTests
     {
         private const int _userId = 19;
         private Mock<IKidRepository> _kidRepoMock;
+        private Mock<IMemoryRepository> _memoryRepoMock;
         private Mock<IMapper> _mapperMock;
         private KidsController _kidsController;
 
@@ -28,10 +29,11 @@ namespace BibleBlast.API.UnitTests
         public void Init()
         {
             _kidRepoMock = new Mock<IKidRepository>(MockBehavior.Strict);
+            _memoryRepoMock = new Mock<IMemoryRepository>(MockBehavior.Strict);
             _mapperMock = new Mock<IMapper>(MockBehavior.Strict);
 
             var user = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.NameIdentifier, _userId.ToString()) }));
-            _kidsController = new KidsController(_kidRepoMock.Object, _mapperMock.Object);
+            _kidsController = new KidsController(_kidRepoMock.Object, _memoryRepoMock.Object, _mapperMock.Object);
             _kidsController.ControllerContext = new ControllerContext()
             {
                 HttpContext = new DefaultHttpContext() { User = user }
@@ -121,9 +123,9 @@ namespace BibleBlast.API.UnitTests
 
             var expected = new Collection<CompletedMemory>
             {
-                new CompletedMemory { Name = "The Lords Prayer", Description = "Matthew 6:9-13" },
-                new CompletedMemory { Name = "The 12 Apostles", Description = "Matthew 10:2-4" },
-                new CompletedMemory { Name = "The 4 Brothers of Jesus", Description = "Matthew 13:55" },
+                new CompletedMemory { KidId = kidId, MemoryId = 1 },
+                new CompletedMemory { KidId = kidId, MemoryId = 2 },
+                new CompletedMemory { KidId = kidId, MemoryId = 3 },
             };
 
             _mapperMock.Setup(x => x.Map<IEnumerable<CompletedMemory>>(kidMemories)).Returns(expected);
@@ -200,8 +202,8 @@ namespace BibleBlast.API.UnitTests
 
             var expected = new Collection<CompletedMemory>
             {
-                new CompletedMemory { Name = "The Lords Prayer", Description = "Matthew 6:9-13" },
-                new CompletedMemory { Name = "The 12 Apostles", Description = "Matthew 10:2-4" },
+                new CompletedMemory { KidId = kidId, MemoryId = 1 },
+                new CompletedMemory { KidId = kidId, MemoryId = 2 },
             };
 
             _mapperMock.Setup(x => x.Map<IEnumerable<CompletedMemory>>(kidMemories)).Returns(expected);
@@ -214,7 +216,7 @@ namespace BibleBlast.API.UnitTests
         }
 
         [TestMethod]
-        public void AddCompletedMemories_ReturnNoContent()
+        public void UpsertCompletedMemories_ReturnNoContent()
         {
             const int kidId = 29;
 
@@ -239,53 +241,11 @@ namespace BibleBlast.API.UnitTests
 
             _mapperMock.Setup(x => x.Map<IEnumerable<KidMemory>>(requestParams)).Returns(kidMemories);
 
-            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId, _userId)).ReturnsAsync((Enumerable.Empty<KidMemory>()));
-            _kidRepoMock.Setup(x => x.AddCompletedMemories(kidMemories)).ReturnsAsync(true);
+            _kidRepoMock.Setup(x => x.UpsertCompletedMemories(kidMemories)).ReturnsAsync(true);
 
-            var actual = _kidsController.AddCompletedMemories(kidId, requestParams).Result;
-
-            Assert.IsInstanceOfType(actual, typeof(NoContentResult));
-        }
-
-        [TestMethod]
-        public void AddCompletedMemories_KidMemoryExists_ReturnNoContent()
-        {
-            const int kidId = 29;
-
-            var requestParams = new[] {
-                new KidMemoryParams
-                {
-                    MemoryId= 23,
-                    DateCompleted = new DateTime(2019, 3, 18)
-                },
-                new KidMemoryParams
-                {
-                    MemoryId= 24,
-                    DateCompleted = new DateTime(2019, 3, 19)
-                },
-            };
-
-            var kidMemories = new[]
-            {
-                new KidMemory { KidId = kidId, MemoryId = 23, DateCompleted = new DateTime(2019, 3, 18) },
-                new KidMemory { KidId = kidId, MemoryId = 24, DateCompleted = new DateTime(2019, 3, 19) },
-            };
-
-            _mapperMock.Setup(x => x.Map<IEnumerable<KidMemory>>(requestParams)).Returns(kidMemories);
-
-            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId, _userId))
-                .ReturnsAsync(new[] { new KidMemory { KidId = kidId, MemoryId = 23, DateCompleted = new DateTime(2019, 3, 18) } });
-
-            _kidRepoMock.Setup(x => x
-                .AddCompletedMemories(new[] { new KidMemory { KidId = kidId, MemoryId = 24, DateCompleted = new DateTime(2019, 3, 19) } }))
-                .ReturnsAsync(true);
-
-            var actual = _kidsController.AddCompletedMemories(kidId, requestParams).Result;
+            var actual = _kidsController.UpsertCompletedMemories(kidId, requestParams).Result;
 
             Assert.IsInstanceOfType(actual, typeof(NoContentResult));
-
-            _kidRepoMock.Verify(x => x.GetCompletedMemories(It.IsAny<int>(), It.IsAny<int>()), Times.Once);
-            _kidRepoMock.Verify(x => x.AddCompletedMemories(It.IsAny<IEnumerable<KidMemory>>()), Times.Once);
         }
 
         [TestMethod]

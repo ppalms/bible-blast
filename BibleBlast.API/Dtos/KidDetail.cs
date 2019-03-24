@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using BibleBlast.API.Models;
 
 namespace BibleBlast.API.Dtos
 {
@@ -14,5 +15,6 @@ namespace BibleBlast.API.Dtos
         public ICollection<UserDetail> Parents { get; set; }
         public DateTime DateRegistered { get; set; }
         public ICollection<CompletedMemory> CompletedMemories { get; set; }
+        public IEnumerable<KidMemoryCategory> MemoriesByCategory { get; set; }
     }
 }

@@ -7,6 +7,6 @@ namespace BibleBlast.API.DataAccess
     public interface IMemoryRepository
     {
         Task<IEnumerable<Memory>> GetMemories();
-        Task<IEnumerable<MemoryCategory>> GetMemoriesByCategory();
+        Task<IEnumerable<MemoryCategory>> GetMemoryCategories();
     }
 }
