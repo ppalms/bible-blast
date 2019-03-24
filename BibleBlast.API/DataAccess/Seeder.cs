@@ -105,6 +105,7 @@ namespace BibleBlast.API.DataAccess
 
             var coachMcGuirk = _userManager.FindByNameAsync("jmcguirk").Result;
             _userManager.AddToRoleAsync(coachMcGuirk, UserRoles.Coach).Wait();
+            _userManager.RemoveFromRoleAsync(coachMcGuirk, UserRoles.Member).Wait();
         }
 
         private void SeedMemoryCategories()
