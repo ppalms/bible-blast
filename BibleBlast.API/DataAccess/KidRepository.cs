@@ -86,12 +86,6 @@ namespace BibleBlast.API.DataAccess
             return memories;
         }
 
-        public async Task<bool> AddCompletedMemories(IEnumerable<KidMemory> kidMemories)
-        {
-            await _context.KidMemories.AddRangeAsync(kidMemories);
-            return await _context.SaveChangesAsync() > 0;
-        }
-
         public async Task<bool> UpsertCompletedMemories(IEnumerable<KidMemory> kidMemories)
         {
             var memoriesToUpdate = kidMemories.Where(memory => _context.KidMemories.Contains(memory));
