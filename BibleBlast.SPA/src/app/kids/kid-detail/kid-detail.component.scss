@@ -1,0 +1,7 @@
+.memory-category {
+    cursor: pointer;
+}
+
+.memory-category:hover .category-name {
+    font-weight: bold;
+}

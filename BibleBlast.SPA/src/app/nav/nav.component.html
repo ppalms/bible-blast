@@ -6,7 +6,12 @@
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/kids']"><i class="fa fa-child" aria-hidden="true"></i> Kids</a>
       </li>
-      <li *appHasRole="['Admin', 'Coach']" class="nav-item" routerLinkActive="active">
+      <!-- <li *appHasRole="['Coach','Admin']" class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/families']">
+          <i class="fa fa-group" aria-hidden="true"></i> Families
+        </a>
+      </li> -->
+      <li *appHasRole="['Admin']" class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/admin']"><i class="fa fa-cog" aria-hidden="true"></i> Admin</a>
       </li>
     </ul>

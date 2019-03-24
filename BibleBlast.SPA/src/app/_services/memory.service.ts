@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { CompletedMemory } from '../_models/kid';
 import { Observable } from 'rxjs';
-import { MemoryCategory } from '../_models/memory';
+import { KidMemoryCategory } from '../_models/memory';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ import { MemoryCategory } from '../_models/memory';
 export class MemoryService {
   constructor(private http: HttpClient) { }
 
-  getMemoriesByCategory(): Observable<MemoryCategory[]> {
-    return this.http.get<MemoryCategory[]>(`${environment.apiUrl}/memories/byCategory`);
+  getMemoriesByCategory(): Observable<KidMemoryCategory[]> {
+    return this.http.get<KidMemoryCategory[]>(`${environment.apiUrl}/memories/byCategory`);
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpParams, HttpClient } from '@angular/common/http';
+import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Kid } from '../_models/kid';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
@@ -26,7 +26,7 @@ export class KidService {
   constructor(private http: HttpClient) { }
 
   getKid(id: number): any {
-    return this.http.get<Kid>(`${environment.apiUrl}/kids/${id}`);
+    return this.http.get<Kid>(`${environment.apiUrl}/kids/${id}?includeMemories=true`);
   }
 
   getKids(page?: number, itemsPerPage?: number, kidParams?: any): Observable<PaginatedResult<Kid[]>> {
@@ -51,5 +51,18 @@ export class KidService {
         }
         return paginatedResult;
       }));
+  }
+
+  upsertKidMemories(id: number, kidMemories: any[]) {
+    return this.http.post(`${environment.apiUrl}/kids/${id}/memories`, kidMemories);
+  }
+
+  deleteKidMemories(id: number, kidMemories: any[]) {
+    const options = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      body: kidMemories,
+    };
+
+    return this.http.delete(`${environment.apiUrl}/kids/${id}/memories`, options);
   }
 }
