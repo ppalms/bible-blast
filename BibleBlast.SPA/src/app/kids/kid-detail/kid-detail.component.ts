@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { KidService } from 'src/app/_services/kid.service';
 import { ActivatedRoute } from '@angular/router';
 import { KidMemoryListItem as KidMemoryListItem, KidMemoryCategory } from 'src/app/_models/memory';
-import { NgForm, FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
-import { Kid, CompletedMemory } from 'src/app/_models/kid';
+import { Kid } from 'src/app/_models/kid';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 
 @Component({
