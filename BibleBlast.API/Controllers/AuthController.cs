@@ -64,7 +64,11 @@ namespace BibleBlast.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginRequest request)
         {
-            var user = await _userManager.FindByNameAsync(request.Username);
+            var user = await _userManager.Users.IgnoreQueryFilters()
+                .Include(x => x.Organization)
+                .Include(x => x.UserRoles).ThenInclude(x => x.Role)
+                .FirstOrDefaultAsync(x => x.UserName == request.Username);
+
             if (user == null)
             {
                 return Unauthorized();
@@ -74,14 +78,9 @@ namespace BibleBlast.API.Controllers
 
             if (result.Succeeded)
             {
-                var appUser = await _userManager.Users
-                    .Include(x => x.Organization)
-                    .Include(x => x.Kids).ThenInclude(x => x.Kid)
-                    .FirstOrDefaultAsync(x => x.NormalizedUserName == request.Username.ToUpperInvariant());
+                var userInfo = _mapper.Map<UserDetail>(user);
 
-                var userInfo = _mapper.Map<UserDetail>(appUser);
-
-                return Ok(new { token = GenerateJwtToken(appUser).Result, user = userInfo });
+                return Ok(new { token = GenerateJwtToken(user).Result, user = userInfo });
             }
 
             return Unauthorized();

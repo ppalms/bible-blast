@@ -74,6 +74,9 @@ namespace BibleBlast.API.DataAccess
             modelBuilder.Entity<Memory>().Property(x => x.Name).IsRequired();
             modelBuilder.Entity<MemoryCategory>().Property(x => x.Name).IsRequired();
 
+            modelBuilder.Entity<User>().HasQueryFilter(x => x.IsActive)
+                .HasQueryFilter(x => x.OrganizationId == _organizationProvider.OrganizationId);
+
             modelBuilder.ApplySingularTableNameConvention();
         }
     }

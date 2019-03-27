@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using BibleBlast.API.Helpers;
 using BibleBlast.API.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,23 @@ namespace BibleBlast.API.DataAccess
             _context = context;
         }
 
+        public async Task<PagedList<User>> GetUsers(PagedListParams queryParams)
+        {
+            var users = _context.Users
+                .Include(x => x.UserRoles).ThenInclude(x => x.Role)
+                .Where(x => !x.UserRoles.Any(r => r.Role.Name == UserRoles.Admin))
+                .AsQueryable();
+
+            if (queryParams.UserRoles.Contains(UserRoles.Admin))
+            {
+                users = users.IgnoreQueryFilters();
+            }
+
+            users = users.OrderBy(x => x.LastName);
+
+            return await PagedList<User>.CreateAsync(users, queryParams.PageNumber, queryParams.PageSize);
+        }
+
         public async Task<User> GetUser(int id)
         {
             var user = await _context.Users
@@ -23,6 +41,11 @@ namespace BibleBlast.API.DataAccess
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             return user;
+        }
+
+        public async Task<bool> SaveAll()
+        {
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }
