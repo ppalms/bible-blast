@@ -14,18 +14,9 @@ namespace BibleBlast.API.DataAccess
         Task<bool> DeleteCompletedMemories(int id, IEnumerable<int> memoryIds);
     }
 
-    public class KidParams
+    public class KidParams : PagedListParams
     {
-        private const int MaxPageSize = 50;
-        private int pageSize = 6;
-
         public string KidName { get; set; }
-        public int PageNumber { get; set; } = 1;
-        public int PageSize
-        {
-            get => pageSize;
-            set => pageSize = value > MaxPageSize ? MaxPageSize : value;
-        }
         public int UserId { get; set; }
     }
 }

@@ -25,14 +25,11 @@ namespace BibleBlast.API.DataAccess
                 .Include(x => x.CompletedMemories).ThenInclude(x => x.Memory).ThenInclude(x => x.Category)
                 .AsQueryable();
 
-            // todo add roles to queryParams
-            var userRoles = _context.UserRoles.Where(x => x.UserId == queryParams.UserId).Select(x => x.Role.Name);
-
-            if (userRoles.Contains(UserRoles.Admin))
+            if (queryParams.UserRoles.Contains(UserRoles.Admin))
             {
                 kids = kids.IgnoreQueryFilters();
             }
-            else if (!userRoles.Contains(UserRoles.Coach))
+            else if (!queryParams.UserRoles.Contains(UserRoles.Coach))
             {
                 kids = kids.Where(x => x.Parents.Any(p => p.UserId == queryParams.UserId));
             }

@@ -32,7 +32,7 @@ namespace BibleBlast.API.Controllers
         public async Task<IActionResult> Get([FromQuery]KidParams queryParams)
         {
             queryParams.UserId = UserId;
-            // todo add roles to queryParams
+            queryParams.UserRoles = User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value);
 
             var kids = await _repo.GetKids(queryParams);
 
