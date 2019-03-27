@@ -1,0 +1,19 @@
+<div class="container">
+  <table class="table table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Role</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users" data-toggle="collapse" data-target="#accordion" class="clickable"
+        (click)="editUser(user)">
+        <td>{{user.firstName}}</td>
+        <td>{{user.lastName}}</td>
+        <td>{{user.userRoles}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
