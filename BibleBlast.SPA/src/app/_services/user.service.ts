@@ -19,12 +19,10 @@ export class UserService {
   }
 
   updateUser(user: User) {
-    const dto = {
+    return this.http.patch(`${environment.apiUrl}/users/${user.id}`, {
       firstName: user.firstName,
       lastName: user.lastName,
       organizationId: user.organization.id
-    };
-
-    return this.http.patch(`${environment.apiUrl}/users/${user.id}`, dto);
+    });
   }
 }

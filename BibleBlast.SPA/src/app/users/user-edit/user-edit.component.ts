@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { UserService } from 'src/app/_services/user.service';
 import { User } from 'src/app/_models/user';
 import { AlertifyService } from 'src/app/_services/alertify.service';
+import { Organization } from 'src/app/_models/organization';
 
 @Component({
   selector: 'app-user-edit',
@@ -13,6 +14,7 @@ import { AlertifyService } from 'src/app/_services/alertify.service';
 export class UserEditComponent implements OnInit {
   @ViewChild('editForm') editForm: NgForm;
   user: User;
+  orgSelectList: Organization[] = [];
 
   constructor(
     private userService: UserService, private route: ActivatedRoute,
@@ -21,8 +23,11 @@ export class UserEditComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.user = data.user;
+      this.orgSelectList = data.organizations;
     });
   }
+
+  sameId = (a, b) => a && b && a.id === b.id;
 
   goBack() {
     this.router.navigate(['/users']);

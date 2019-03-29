@@ -18,6 +18,14 @@
           placeholder="Last name">
       </div>
 
+      <div class="form-group" *appHasRole="['Admin']">
+        <label for="organization">Organization</label>
+        <select class="form-control" id="organization" name="organization" [(ngModel)]="user.organization"
+          [compareWith]="sameId">
+          <option *ngFor="let org of orgSelectList" [ngValue]="org">{{org.name}}</option>
+        </select>
+      </div>
+
       <button class="btn btn-primary" type="submit" [disabled]="!editForm.dirty">Save</button>
     </form>
   </div>
