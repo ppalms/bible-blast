@@ -44,7 +44,7 @@ namespace BibleBlast.API.Controllers
         [HttpGet("{id}", Name = "GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
-            var user = await _repo.GetUser(id);
+            var user = await _repo.GetUser(id, true);
 
             var userDetail = _mapper.Map<UserDetail>(user);
 
@@ -54,7 +54,7 @@ namespace BibleBlast.API.Controllers
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UserUpdateRequest updatedUser)
         {
-            var user = await _repo.GetUser(id);
+            var user = await _repo.GetUser(id, true);
 
             _mapper.Map(updatedUser, user);
 

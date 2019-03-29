@@ -48,7 +48,7 @@ namespace BibleBlast.API.UnitTests
 
             var user = new User { Id = userId, FirstName = "Robert", LastName = "Belcher", OrganizationId = 2 };
 
-            _userRepoMock.Setup(x => x.GetUser(userId)).ReturnsAsync(user);
+            _userRepoMock.Setup(x => x.GetUser(userId, true)).ReturnsAsync(user);
             _mapperMock.Setup(x => x.Map(updatedUser, user));
             _userRepoMock.Setup(x => x.SaveAll()).ReturnsAsync(true);
 
@@ -70,7 +70,7 @@ namespace BibleBlast.API.UnitTests
 
             var user = new User { Id = userId, FirstName = "Robert", LastName = "Belcher", OrganizationId = 2 };
 
-            _userRepoMock.Setup(x => x.GetUser(userId)).ReturnsAsync(user);
+            _userRepoMock.Setup(x => x.GetUser(userId, true)).ReturnsAsync(user);
             _mapperMock.Setup(x => x.Map(updatedUser, user));
             _userRepoMock.Setup(x => x.SaveAll()).ReturnsAsync(false);
 

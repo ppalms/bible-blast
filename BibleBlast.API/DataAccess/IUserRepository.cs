@@ -7,7 +7,7 @@ namespace BibleBlast.API.DataAccess
     public interface IUserRepository
     {
         Task<PagedList<User>> GetUsers(PagedListParams queryParams);
-        Task<User> GetUser(int id);
+        Task<User> GetUser(int id, bool ignoreQueryFilters = false);
         Task<bool> SaveAll();
     }
 }

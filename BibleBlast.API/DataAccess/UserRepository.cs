@@ -32,9 +32,16 @@ namespace BibleBlast.API.DataAccess
             return await PagedList<User>.CreateAsync(users, queryParams.PageNumber, queryParams.PageSize);
         }
 
-        public async Task<User> GetUser(int id)
+        public async Task<User> GetUser(int id, bool ignoreQueryFilters)
         {
-            var user = await _context.Users
+            var users = _context.Users.AsQueryable();
+
+            if (ignoreQueryFilters)
+            {
+                users = users.IgnoreQueryFilters();
+            }
+
+            var user = await users
                 .Include(x => x.Kids).ThenInclude(x => x.Kid)
                 .Include(x => x.Organization)
                 .Include(x => x.UserRoles).ThenInclude(x => x.Role)
