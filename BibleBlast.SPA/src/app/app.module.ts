@@ -21,11 +21,13 @@ import { AlertifyService } from './_services/alertify.service';
 import { KidService } from './_services/kid.service';
 import { MemoryService } from './_services/memory.service';
 import { UserService } from './_services/user.service';
+import { OrganizationService } from './_services/organization.service';
 
 import { KidListResolver } from './_resolvers/kid-list.resolver';
 import { KidDetailResolver } from './_resolvers/kid-detail.resolver';
 import { UserListResolver } from './_resolvers/user-list.resolver';
 import { UserEditResolver } from './_resolvers/user-edit.resolver';
+import { OrganizationListResolver } from './_resolvers/organization-list.resolver';
 
 import { HasRoleDirective } from './_directives/has-role.directive';
 
@@ -71,10 +73,12 @@ export function tokenGetter() {
     KidService,
     MemoryService,
     UserService,
+    OrganizationService,
     KidListResolver,
     KidDetailResolver,
     UserListResolver,
     UserEditResolver,
+    OrganizationListResolver,
   ],
   bootstrap: [
     AppComponent,
