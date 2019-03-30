@@ -24,10 +24,14 @@ const routes: Routes = [
       { path: 'kids/:id', component: KidDetailComponent, resolve: { kid: KidDetailResolver } },
       { path: 'users', component: UserListComponent, resolve: { users: UserListResolver }, data: { roles: ['Admin', 'Coach'] } },
       {
-        path: 'users/:id', component: UserEditComponent, resolve: {
-          user: UserEditResolver,
-          organizations: OrganizationListResolver
-        }, data: { roles: ['Admin', 'Coach'] }
+        path: 'users/new', component: UserEditComponent,
+        resolve: { organizations: OrganizationListResolver },
+        data: { roles: ['Admin', 'Coach'] }
+      },
+      {
+        path: 'users/:id', component: UserEditComponent,
+        resolve: { user: UserEditResolver, organizations: OrganizationListResolver },
+        data: { roles: ['Admin', 'Coach'] }
       },
       { path: 'admin', component: AdminPanelComponent, data: { roles: ['Admin'] } },
     ]

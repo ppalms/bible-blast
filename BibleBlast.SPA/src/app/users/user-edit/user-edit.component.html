@@ -1,29 +1,43 @@
 <div class="container">
   <div class="row justify-content-center">
-    <form class="col-sm-6" #editForm="ngForm" id="editForm" (ngSubmit)="updateUser()">
+    <form class="col-sm-6" [formGroup]="editForm" (ngSubmit)="saveUser()">
       <div class="form-group">
         <button class="btn btn-light" type="button" (click)="goBack()"><i class="fa fa-chevron-circle-left"
             aria-hidden="true"></i> Back</button>
       </div>
 
       <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" formControlName="username" placeholder="Username">
+      </div>
+
+      <div class="form-group">
         <label for="firstName">First name</label>
-        <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="user.firstName"
-          placeholder="First name">
+        <input type="text" class="form-control" formControlName="firstName" placeholder="First name">
       </div>
 
       <div class="form-group">
         <label for="lastName">Last name</label>
-        <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="user.lastName"
-          placeholder="Last name">
+        <input type="text" class="form-control" formControlName="lastName" placeholder="Last name">
       </div>
 
       <div class="form-group" *appHasRole="['Admin']">
         <label for="organization">Organization</label>
-        <select class="form-control" id="organization" name="organization" [(ngModel)]="user.organization"
-          [compareWith]="sameId">
+        <select class="form-control" formControlName="organization" [compareWith]="sameId">
           <option *ngFor="let org of orgSelectList" [ngValue]="org">{{org.name}}</option>
         </select>
+      </div>
+
+      <div *ngIf="!user.id">
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" formControlName="password" placeholder="Password">
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
+        </div>
       </div>
 
       <button class="btn btn-primary" type="submit" [disabled]="!editForm.dirty">Save</button>
