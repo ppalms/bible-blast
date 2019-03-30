@@ -8,17 +8,23 @@
 
       <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" class="form-control" formControlName="username" placeholder="Username">
+        <input type="text" class="form-control" formControlName="username" [ngClass]="{'is-invalid': editForm.get('username').errors 
+          && editForm.get('username').touched}" placeholder="Username">
+        <div class="invalid-feedback">Please choose a username</div>
       </div>
 
       <div class="form-group">
         <label for="firstName">First name</label>
-        <input type="text" class="form-control" formControlName="firstName" placeholder="First name">
+        <input type="text" class="form-control" formControlName="firstName" [ngClass]="{'is-invalid': editForm.get('firstName').errors 
+          && editForm.get('firstName').touched}" placeholder="First name">
+        <div class="invalid-feedback">First name is required</div>
       </div>
 
-      <div class="form-group">
+      <div class=" form-group">
         <label for="lastName">Last name</label>
-        <input type="text" class="form-control" formControlName="lastName" placeholder="Last name">
+        <input type="text" class="form-control" formControlName="lastName" [ngClass]="{'is-invalid': editForm.get('lastName').errors 
+          && editForm.get('lastName').touched}" placeholder="Last name">
+        <div class="invalid-feedback">Last name is required</div>
       </div>
 
       <div class="form-group" *appHasRole="['Admin']">
@@ -31,17 +37,33 @@
       <div *ngIf="!user.id">
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" class="form-control" formControlName="password" placeholder="Password">
+          <input type="password" class="form-control" formControlName="password" [ngClass]="{'is-invalid': editForm.get('password').errors 
+            && editForm.get('password').touched}" placeholder="Password">
+          <div class="invalid-feedback" *ngIf="editForm.get('password').hasError('required')">
+            Password is required
+          </div>
+          <div class="invalid-feedback">
+            Password must be at least 8 characters
+          </div>
         </div>
 
         <div class="form-group">
           <label for="confirmPassword">Confirm Password</label>
-          <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
+          <input type="password" class="form-control" formControlName="confirmPassword" [ngClass]="{'is-invalid': editForm.get('confirmPassword').errors 
+            && editForm.get('confirmPassword').touched
+            || editForm.get('confirmPassword').touched
+            && editForm.hasError('mismatch')}" placeholder="Confirm Password">
+          <div class="invalid-feedback" *ngIf="editForm.get('confirmPassword').hasError('required')">
+            Password is required
+          </div>
+          <div class="invalid-feedback">
+            Passwords must match
+          </div>
         </div>
       </div>
 
-      <button class="btn btn-primary mr-2" type="submit" [disabled]="!editForm.dirty">Save</button>
-      <button class="btn btn-danger" (click)="deleteUser()">Delete</button>
+      <button class="btn btn-primary mr-2" type="submit" [disabled]="!editForm.valid || !editForm.dirty">Save</button>
+      <button class="btn btn-danger" type="button" (click)="deleteUser()" *ngIf="user.id">Delete</button>
     </form>
   </div>
 </div>
