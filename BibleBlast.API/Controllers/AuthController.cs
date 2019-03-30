@@ -55,7 +55,7 @@ namespace BibleBlast.API.Controllers
                 return BadRequest(roleResult.Errors);
             }
 
-            var newUser = await _userRepo.GetUser(user.Id);
+            var newUser = await _userRepo.GetUser(user.Id, true);
             var newUserDetail = _mapper.Map<UserDetail>(newUser);
 
             return CreatedAtRoute("GetUser", new { controller = "Users", id = newUser.Id }, newUserDetail);
