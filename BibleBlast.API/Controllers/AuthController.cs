@@ -93,7 +93,7 @@ namespace BibleBlast.API.Controllers
             {
                 new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
                 new Claim(ClaimTypes.Name,user.UserName),
-                new Claim("Organization", user.Organization?.Id.ToString() ?? "None"),
+                new Claim("organizationId", user.Organization?.Id.ToString() ?? string.Empty),
             };
 
             var roles = await _userManager.GetRolesAsync(user);

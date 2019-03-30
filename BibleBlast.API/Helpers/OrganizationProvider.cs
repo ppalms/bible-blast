@@ -16,7 +16,7 @@ namespace BibleBlast.API.Helpers
 
         public OrganizationProvider(IHttpContextAccessor accessor)
         {
-            if (int.TryParse(accessor.HttpContext?.User.FindFirst("Organization")?.Value, out int organizationId))
+            if (int.TryParse(accessor.HttpContext?.User.FindFirst("organizationId")?.Value, out int organizationId))
             {
                 OrganizationId = organizationId;
             }
