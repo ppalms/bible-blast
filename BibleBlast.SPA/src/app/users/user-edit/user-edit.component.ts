@@ -67,4 +67,12 @@ export class UserEditComponent implements OnInit {
       });
     }
   }
+
+  deleteUser() {
+    this.alertify.confirm('Delete user', `Are you sure you want to delete ${this.user.firstName} ${this.user.lastName}?`, () => {
+      this.userService.deleteUser(this.user.id).subscribe(() => {
+        this.router.navigate(['/users']);
+      }, this.alertify.error);
+    });
+  }
 }

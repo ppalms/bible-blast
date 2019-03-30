@@ -65,5 +65,24 @@ namespace BibleBlast.API.Controllers
 
             throw new Exception($"Updating user failed on save");
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            // todo check role
+            var user = await _repo.GetUser(id, true);
+            if (user == null)
+            {
+                return BadRequest("User does not exist");
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return NoContent();
+        }
     }
 }

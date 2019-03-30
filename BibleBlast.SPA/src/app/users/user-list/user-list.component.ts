@@ -17,7 +17,6 @@ export class UserListComponent implements OnInit {
 
   ngOnInit() {
     this.route.data.subscribe(data => {
-      console.log(data);
       this.users = data.users.result;
       this.pagination = data.users.pagination;
     });
@@ -33,7 +32,6 @@ export class UserListComponent implements OnInit {
       .getUsers(this.pagination.currentPage, this.pagination.itemsPerPage)
       .subscribe((res: PaginatedResult<User[]>) => {
         this.users = res.result;
-        console.log(this.users);
         this.pagination = res.pagination;
       }, console.error);
   }

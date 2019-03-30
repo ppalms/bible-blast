@@ -40,7 +40,8 @@
         </div>
       </div>
 
-      <button class="btn btn-primary" type="submit" [disabled]="!editForm.dirty">Save</button>
+      <button class="btn btn-primary mr-2" type="submit" [disabled]="!editForm.dirty">Save</button>
+      <button class="btn btn-danger" (click)="deleteUser()">Delete</button>
     </form>
   </div>
 </div>
