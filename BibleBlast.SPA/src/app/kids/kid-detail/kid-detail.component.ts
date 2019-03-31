@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { KidService } from 'src/app/_services/kid.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { KidMemoryListItem as KidMemoryListItem, KidMemoryCategory } from 'src/app/_models/memory';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
@@ -18,8 +18,8 @@ export class KidDetailComponent implements OnInit {
   bsConfig: Partial<BsDatepickerConfig> = { dateInputFormat: 'YYYY-MM-DD' };
 
   constructor(
-    public kidService: KidService, private route: ActivatedRoute,
-    private formBuilder: FormBuilder, private alertify: AlertifyService
+    public kidService: KidService, private route: ActivatedRoute, private formBuilder: FormBuilder,
+    private router: Router, private alertify: AlertifyService
   ) { }
 
   ngOnInit() {
@@ -97,6 +97,8 @@ export class KidDetailComponent implements OnInit {
       console.log(error);
     });
   }
+
+  goBack = () => this.router.navigate(['/kids']);
 
   sortMemories = (a: KidMemoryListItem, b: KidMemoryListItem) => {
     const nameA = a.memoryName.toUpperCase();

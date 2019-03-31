@@ -3,6 +3,8 @@
     <h1>{{kid.firstName}} {{kid.lastName}}</h1>
   </div>
   <div class="col text-right">
+    <button class="btn btn-light mr-2" type="button" (click)="goBack()"><i class="fa fa-chevron-circle-left"
+        aria-hidden="true"></i> Back</button>
     <button *appHasRole="['Coach','Admin']" class="btn btn-success" [disabled]="!memoryForm.dirty"
       (click)="updateKidMemories()">Save All</button>
   </div>
@@ -11,7 +13,8 @@
 <form [formGroup]="memoryForm" (ngSubmit)="updateKidMemories()">
   <accordion [closeOthers]="true">
     <div formGroupName="memoriesByCategory">
-      <accordion-group class="mb-1" *ngFor="let cat of memoryForm['controls'].memoriesByCategory['controls']; let i=index;"
+      <accordion-group class="mb-1"
+        *ngFor="let cat of memoryForm['controls'].memoriesByCategory['controls']; let i=index;"
         [isOpen]="isOpen(cat.value)">
 
         <div accordion-heading class="memory-category">
