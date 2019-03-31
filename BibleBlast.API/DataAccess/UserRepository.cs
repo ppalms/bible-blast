@@ -18,6 +18,7 @@ namespace BibleBlast.API.DataAccess
         public async Task<PagedList<User>> GetUsers(PagedListParams queryParams)
         {
             var users = _context.Users
+                .Include(x => x.Organization)
                 .Include(x => x.UserRoles).ThenInclude(x => x.Role)
                 .Where(x => !x.UserRoles.Any(r => r.Role.Name == UserRoles.Admin))
                 .AsQueryable();

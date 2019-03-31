@@ -15,6 +15,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 export class UserEditComponent implements OnInit {
   editForm: FormGroup;
   user: User;
+  roleSelectList = ['Coach', 'Member'];
   orgSelectList: Organization[] = [];
 
   constructor(
@@ -30,6 +31,7 @@ export class UserEditComponent implements OnInit {
         username: [{ value: this.user.username, disabled: this.user.id }, Validators.required],
         firstName: [this.user.firstName, Validators.required],
         lastName: [this.user.lastName, Validators.required],
+        userRoles: [this.user.userRoles[0], Validators.required],
         organization: [this.user.organization || { id: this.authService.decodedToken.organizationId }, Validators.required],
         password: [{ value: '', disabled: this.user.id }, [Validators.required, Validators.minLength(8)]],
         confirmPassword: [{ value: '', disabled: this.user.id }, Validators.required],
@@ -41,7 +43,7 @@ export class UserEditComponent implements OnInit {
     return g.get('password').value === g.get('confirmPassword').value ? null : { mismatch: true };
   }
 
-  sameId = (a: Organization, b: Organization) => a && b && a.id === b.id;
+  sameId = (a: any, b: any) => a && b && a.id === b.id;
 
   goBack() {
     this.router.navigate(['/users']);

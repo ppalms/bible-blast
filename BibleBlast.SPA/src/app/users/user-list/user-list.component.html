@@ -5,6 +5,7 @@
       <tr>
         <th>First Name</th>
         <th>Last Name</th>
+        <th *appHasRole="['Admin']">Organization</th>
         <th>Role</th>
       </tr>
     </thead>
@@ -12,6 +13,7 @@
       <tr *ngFor="let user of users" data-toggle="collapse" class="clickable" (click)="editUser(user)">
         <td>{{user.firstName}}</td>
         <td>{{user.lastName}}</td>
+        <td *appHasRole="['Admin']">{{user.organization.name}}</td>
         <td>{{user.userRoles}}</td>
       </tr>
     </tbody>

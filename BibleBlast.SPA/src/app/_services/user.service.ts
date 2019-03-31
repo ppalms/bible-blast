@@ -40,6 +40,7 @@ export class UserService {
     return this.http.patch(`${environment.apiUrl}/users/${user.id}`, {
       firstName: user.firstName,
       lastName: user.lastName,
+      userRole: user.userRoles,
       organizationId: user.organization.id
     });
   }

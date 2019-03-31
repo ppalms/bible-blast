@@ -32,7 +32,8 @@ namespace BibleBlast.API.Helpers
             CreateMap<UserRegisterRequest, User>()
                 .ForMember(dest => dest.Organization, opt => opt.Ignore());
 
-            CreateMap<UserUpdateRequest, User>();
+            CreateMap<UserUpdateRequest, User>()
+                .ForMember(dest => dest.UserRoles, opt => opt.Ignore());
 
             CreateMap<Kid, KidDetail>()
                 .ForMember(dest => dest.Parents, opt =>
