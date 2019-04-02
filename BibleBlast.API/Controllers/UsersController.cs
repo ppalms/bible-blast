@@ -59,17 +59,21 @@ namespace BibleBlast.API.Controllers
             _mapper.Map(updatedUser, user);
 
             var currentRoles = await _userManager.GetRolesAsync(user);
+            var current = currentRoles.FirstOrDefault();
 
-            var result = await _userManager.AddToRoleAsync(user, updatedUser.UserRole);
-            if (!result.Succeeded)
+            if (updatedUser.UserRole != current)
             {
-                return BadRequest("Failed to add to roles");
-            }
+                var result = await _userManager.AddToRoleAsync(user, updatedUser.UserRole);
+                if (!result.Succeeded)
+                {
+                    return BadRequest("Failed to add to roles");
+                }
 
-            result = await _userManager.RemoveFromRolesAsync(user, currentRoles);
-            if (!result.Succeeded)
-            {
-                return BadRequest("Failed to remove roles");
+                result = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+                if (!result.Succeeded)
+                {
+                    return BadRequest("Failed to remove roles");
+                }
             }
 
             if (await _repo.SaveAll() || currentRoles.FirstOrDefault() != updatedUser.UserRole)

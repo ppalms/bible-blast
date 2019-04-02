@@ -44,12 +44,14 @@ namespace BibleBlast.API.UnitTests
                 FirstName = "Bob",
                 LastName = "Belcher",
                 OrganizationId = 2,
+                UserRole = "Coach",
             };
 
             var user = new User { Id = userId, FirstName = "Robert", LastName = "Belcher", OrganizationId = 2 };
 
             _userRepoMock.Setup(x => x.GetUser(userId, true)).ReturnsAsync(user);
             _mapperMock.Setup(x => x.Map(updatedUser, user));
+            _userManagerMock.Setup(x => x.GetRolesAsync(user)).ReturnsAsync(new[] { "Coach" });
             _userRepoMock.Setup(x => x.SaveAll()).ReturnsAsync(true);
 
             var actual = _controller.UpdateUser(userId, updatedUser);
@@ -66,12 +68,14 @@ namespace BibleBlast.API.UnitTests
                 FirstName = "Bob",
                 LastName = "Belcher",
                 OrganizationId = 2,
+                UserRole = "Coach",
             };
 
             var user = new User { Id = userId, FirstName = "Robert", LastName = "Belcher", OrganizationId = 2 };
 
             _userRepoMock.Setup(x => x.GetUser(userId, true)).ReturnsAsync(user);
             _mapperMock.Setup(x => x.Map(updatedUser, user));
+            _userManagerMock.Setup(x => x.GetRolesAsync(user)).ReturnsAsync(new[] { "Coach" });
             _userRepoMock.Setup(x => x.SaveAll()).ReturnsAsync(false);
 
             Assert.ThrowsExceptionAsync<System.Exception>(() => _controller.UpdateUser(userId, updatedUser));
