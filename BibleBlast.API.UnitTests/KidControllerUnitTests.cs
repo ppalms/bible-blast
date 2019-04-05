@@ -32,7 +32,13 @@ namespace BibleBlast.API.UnitTests
             _memoryRepoMock = new Mock<IMemoryRepository>(MockBehavior.Strict);
             _mapperMock = new Mock<IMapper>(MockBehavior.Strict);
 
-            var user = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.NameIdentifier, _userId.ToString()) }));
+            var user = new ClaimsPrincipal(
+                new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, _userId.ToString()),
+                    new Claim(ClaimTypes.Role, "Coach")
+                })
+            );
             _kidsController = new KidsController(_kidRepoMock.Object, _memoryRepoMock.Object, _mapperMock.Object);
             _kidsController.ControllerContext = new ControllerContext()
             {
@@ -62,7 +68,7 @@ namespace BibleBlast.API.UnitTests
                 }
             };
 
-            _kidRepoMock.Setup(x => x.GetKid(1, _userId)).Returns(Task.FromResult(kid));
+            _kidRepoMock.Setup(x => x.GetKid(1, false)).Returns(Task.FromResult(kid));
 
             var kidDetail = new KidDetail
             {
@@ -88,7 +94,7 @@ namespace BibleBlast.API.UnitTests
         [TestMethod]
         public void GetById_MemberUser_IsNotParent_ReturnsNotFound()
         {
-            _kidRepoMock.Setup(x => x.GetKid(1, _userId)).ReturnsAsync((Kid)null);
+            _kidRepoMock.Setup(x => x.GetKid(1, false)).ReturnsAsync((Kid)null);
 
             var result = _kidsController.Get(1).Result;
 
@@ -154,6 +160,17 @@ namespace BibleBlast.API.UnitTests
         [TestMethod]
         public void GetCompletedMemories_MemberUser_IsNotParent_ReturnsUnauthorized()
         {
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, _userId.ToString()),
+                new Claim(ClaimTypes.Role, "Member")
+            }));
+
+            _kidsController.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = user }
+            };
+
             const int kidId = 324;
 
             var kidMemories = new Collection<KidMemory>

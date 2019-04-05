@@ -43,10 +43,10 @@ namespace BibleBlast.API.Controllers
             return Ok(dto);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetKid")]
         public async Task<IActionResult> Get(int id, bool includeMemories = false)
         {
-            var kid = await _repo.GetKid(id, UserId);
+            var kid = await _repo.GetKid(id, User.IsInRole(UserRoles.Admin));
             if (kid == null)
             {
                 return NotFound();
@@ -75,6 +75,56 @@ namespace BibleBlast.API.Controllers
             }
 
             return Ok(kidDetail);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> InsertKid(KidInsertRequest dto)
+        {
+            var kid = _mapper.Map<Kid>(dto);
+            kid.DateRegistered = DateTime.Now;
+
+            var id = await _repo.InsertKid(kid);
+            if (id > 0)
+            {
+                var newKid = await _repo.GetKid(id, User.IsInRole(UserRoles.Admin));
+                var newKidDetail = _mapper.Map<KidDetail>(kid);
+
+                return CreatedAtRoute("GetKid", new { controller = "Kids", id = kid.Id }, newKidDetail);
+            }
+
+            return BadRequest("Failed to create new kid");
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateKid(int id, KidUpdateRequest updatedKid)
+        {
+            var kid = await _repo.GetKid(id);
+
+            _mapper.Map(updatedKid, kid);
+
+            if (await _repo.SaveAll())
+            {
+                return NoContent();
+            }
+
+            throw new Exception("Updating kid failed on save");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteKid(int id)
+        {
+            var kid = await _repo.GetKid(id);
+            if (kid == null)
+            {
+                return NotFound();
+            }
+
+            if (await _repo.DeleteKid(kid))
+            {
+                return NoContent();
+            }
+
+            return BadRequest("Failed to delete the kid");
         }
 
         [HttpGet("{id}/memories")]

@@ -26,6 +26,8 @@ namespace BibleBlast.API.Helpers
                         Gender = kid.Kid.Gender,
                         Birthday = kid.Kid.Birthday,
                         DateRegistered = kid.Kid.DateRegistered,
+                        Parents = kid.Kid.Parents.Select(x => new UserDetail { Id = x.UserId }).ToList(),
+                        IsActive = kid.Kid.IsActive,
                     }));
                 });
 
@@ -45,6 +47,17 @@ namespace BibleBlast.API.Helpers
                         LastName = p.User.LastName,
                     }));
                 });
+
+            CreateMap<KidInsertRequest, Kid>()
+                .ForMember(dest => dest.Parents, opt =>
+                  {
+                      opt.MapFrom(src => src.Parents.Select(x => new UserKid
+                      {
+                          UserId = x.Id
+                      }));
+                  });
+
+            CreateMap<KidUpdateRequest, Kid>();
 
             CreateMap<KidMemory, CompletedMemory>()
                 .ForMember(dest => dest.Points, opt => opt.MapFrom(src => src.Memory.Points))

@@ -45,12 +45,11 @@ namespace BibleBlast.API.DataAccess
             return await PagedList<Kid>.CreateAsync(kids, queryParams.PageNumber, queryParams.PageSize);
         }
 
-        public async Task<Kid> GetKid(int id, int userId)
+        public async Task<Kid> GetKid(int id, bool ignoreQueryFilters)
         {
             var kids = _context.Kids.AsQueryable();
-            var userRoles = _context.UserRoles.Where(x => x.UserId == userId).Select(x => x.Role.Name);
 
-            if (userRoles.Contains(UserRoles.Admin))
+            if (ignoreQueryFilters)
             {
                 kids = kids.IgnoreQueryFilters();
             }
@@ -63,6 +62,23 @@ namespace BibleBlast.API.DataAccess
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             return kid;
+        }
+
+        // todo pull insert and delete into generic repo
+        public async Task<int> InsertKid(Kid kid)
+        {
+            await _context.Kids.AddAsync(kid);
+
+            await _context.SaveChangesAsync();
+
+            return kid.Id;
+        }
+
+        public async Task<bool> DeleteKid(Kid kid)
+        {
+            _context.Kids.Remove(kid);
+
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<IEnumerable<KidMemory>> GetCompletedMemories(int id, int userId)
@@ -100,6 +116,12 @@ namespace BibleBlast.API.DataAccess
 
             _context.KidMemories.RemoveRange(memories);
 
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        // todo replace repeated code
+        public async Task<bool> SaveAll()
+        {
             return await _context.SaveChangesAsync() > 0;
         }
     }

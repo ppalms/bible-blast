@@ -43,7 +43,7 @@ namespace BibleBlast.API.DataAccess
             }
 
             var user = await users
-                .Include(x => x.Kids).ThenInclude(x => x.Kid)
+                .Include(x => x.Kids).ThenInclude(x => x.Kid).ThenInclude(x => x.Parents)
                 .Include(x => x.Organization)
                 .Include(x => x.UserRoles).ThenInclude(x => x.Role)
                 .FirstOrDefaultAsync(x => x.Id == id);
