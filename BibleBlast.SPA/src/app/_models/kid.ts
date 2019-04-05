@@ -6,6 +6,7 @@ export interface Kid {
     lastName: string;
     gender: string;
     grade: string;
+    birthday: Date;
     completedMemories: CompletedMemory[];
     memoriesByCategory: KidMemoryCategory[];
     parents: any[];

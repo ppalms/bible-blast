@@ -29,6 +29,12 @@
       <input type="text" class="form-control" name="grade" [(ngModel)]="kid.grade">
     </div>
 
+    <div class="form-group">
+      <label for="birthday">Birthday</label>
+      <input type="text" class="form-control" name="birthday" [(ngModel)]="kid.birthday" bsDatepicker
+        [bsConfig]="bsConfig">
+    </div>
+
     <div class="form-group custom-control custom-checkbox" *ngIf="kid.id">
       <input type="checkbox" class="custom-control-input" name="isActive" id="isActive" [(ngModel)]="kid.isActive">
       <label class="custom-control-label" for="isActive">Active</label>
@@ -38,6 +44,7 @@
 
 <div class="modal-footer">
   <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
-  <button type="button" class="btn btn-success" (click)="saveKid()" form="kidForm">Save</button>
+  <button type="button" class="btn btn-success" (click)="saveKid()" form="kidForm"
+    [disabled]="!kidForm.dirty">Save</button>
   <button type="button" class="btn btn-danger" *ngIf="kid.id" (click)="deleteKid()">Delete</button>
 </div>
