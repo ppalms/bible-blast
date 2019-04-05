@@ -1,0 +1,18 @@
+<div class="d-flex justify-content-between">
+  <h3>Kids</h3>
+  <button class="btn btn-primary" type="button" (click)="openKidEdit({})">Add</button>
+</div>
+
+<ul class="list-group mt-2">
+  <li *ngFor="let kid of user.kids" class="list-group-item d-flex justify-content-between"
+    (click)="openKidEdit(kid)">
+    {{kid.firstName}} {{kid.lastName}}
+    <div class="float-right">
+      <span class="badge badge-pill mr-2"
+        [ngClass]="kid.isActive ? 'badge-success' : 'badge-danger'">{{kid.isActive ? 'Active' : 'Inactive'}}
+      </span>
+    </div>
+  </li>
+</ul>
+
+<div class="lead" *ngIf="!user.kids || user.kids.length === 0">User has no kids.</div>

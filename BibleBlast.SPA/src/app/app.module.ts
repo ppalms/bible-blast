@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
-import { BsDropdownModule, PaginationModule, ProgressbarModule, AccordionModule, BsDatepickerModule } from 'ngx-bootstrap';
+import { BsDropdownModule, PaginationModule, ProgressbarModule, AccordionModule, BsDatepickerModule, ModalModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -12,8 +12,10 @@ import { HomeComponent } from './home/home.component';
 import { KidListComponent } from './kids/kid-list/kid-list.component';
 import { KidCardComponent } from './kids/kid-card/kid-card.component';
 import { KidDetailComponent } from './kids/kid-detail/kid-detail.component';
+import { KidEditComponent } from './kids/kid-edit/kid-edit.component';
 import { UserListComponent } from './users/user-list/user-list.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
+import { UserKidListComponent } from './users/user-kid-list/user-kid-list.component';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 
 import { AuthService } from './_services/auth.service';
@@ -43,8 +45,10 @@ export function tokenGetter() {
     KidListComponent,
     KidCardComponent,
     KidDetailComponent,
+    KidEditComponent,
     UserListComponent,
     UserEditComponent,
+    UserKidListComponent,
     AdminPanelComponent,
     HasRoleDirective,
   ],
@@ -59,6 +63,7 @@ export function tokenGetter() {
     ProgressbarModule.forRoot(),
     AccordionModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    ModalModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter,
@@ -79,6 +84,9 @@ export function tokenGetter() {
     UserListResolver,
     UserEditResolver,
     OrganizationListResolver,
+  ],
+  entryComponents: [
+    KidEditComponent
   ],
   bootstrap: [
     AppComponent,

@@ -69,8 +69,12 @@
         </div>
       </div>
 
-      <button class="btn btn-primary mr-2" type="submit" [disabled]="!editForm.valid || !editForm.dirty">Save</button>
+      <button class="btn btn-success mr-2" type="submit" [disabled]="!editForm.valid || !editForm.dirty">Save</button>
       <button class="btn btn-danger" type="button" (click)="deleteUser()" *ngIf="user.id">Delete</button>
     </form>
+  </div>
+
+  <div *ngIf="user.id" class="mt-4 mx-sm-5 p-4 border shadow">
+    <app-user-kid-list [user]="user"></app-user-kid-list>
   </div>
 </div>

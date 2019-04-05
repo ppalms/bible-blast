@@ -1,4 +1,5 @@
 import { Organization } from './organization';
+import { Kid } from './kid';
 
 export interface User {
     id: number;
@@ -7,4 +8,5 @@ export interface User {
     lastName: string;
     organization: Organization;
     userRoles: string[];
+    kids: Kid[];
 }

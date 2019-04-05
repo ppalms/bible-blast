@@ -31,7 +31,7 @@ export class UserEditComponent implements OnInit {
         username: [{ value: this.user.username, disabled: this.user.id }, Validators.required],
         firstName: [this.user.firstName, Validators.required],
         lastName: [this.user.lastName, Validators.required],
-        userRoles: [this.user.userRoles[0], Validators.required],
+        userRoles: [this.user.userRoles && this.user.userRoles[0] || 'Member', Validators.required],
         organization: [this.user.organization || { id: this.authService.decodedToken.organizationId }, Validators.required],
         password: [{ value: '', disabled: this.user.id }, [Validators.required, Validators.minLength(8)]],
         confirmPassword: [{ value: '', disabled: this.user.id }, Validators.required],
@@ -62,10 +62,11 @@ export class UserEditComponent implements OnInit {
         this.editForm.reset(this.user);
       }, this.alertify.error);
     } else {
-      this.authService.register(this.user).subscribe(() => {
+      this.authService.register(this.user).subscribe((newUser: User) => {
         this.alertify.success('User created');
+        this.user = newUser;
       }, this.alertify.error, () => {
-        this.router.navigate(['/users']);
+        this.router.navigate([`/users/${this.user.id}`]);
       });
     }
   }

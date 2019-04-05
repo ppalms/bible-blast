@@ -53,6 +53,18 @@ export class KidService {
       }));
   }
 
+  insertKid(kid: Kid) {
+    return this.http.post(`${environment.apiUrl}/kids`, kid);
+  }
+
+  updateKid(kid: Kid) {
+    return this.http.patch(`${environment.apiUrl}/kids/${kid.id}`, kid);
+  }
+
+  deleteKid(id: number) {
+    return this.http.delete(`${environment.apiUrl}/kids/${id}`);
+  }
+
   upsertKidMemories(id: number, kidMemories: any[]) {
     return this.http.post(`${environment.apiUrl}/kids/${id}/memories`, kidMemories);
   }

@@ -8,6 +8,8 @@ export interface Kid {
     grade: string;
     completedMemories: CompletedMemory[];
     memoriesByCategory: KidMemoryCategory[];
+    parents: any[];
+    organizationId: number;
     isActive: boolean;
 }
 
