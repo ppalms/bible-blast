@@ -92,7 +92,7 @@ namespace BibleBlast.API.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
-                new Claim(ClaimTypes.Name,user.UserName),
+                new Claim(ClaimTypes.Name, user.UserName),
                 new Claim("organizationId", user.Organization?.Id.ToString() ?? string.Empty),
             };
 

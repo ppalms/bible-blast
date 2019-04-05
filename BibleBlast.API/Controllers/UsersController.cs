@@ -54,6 +54,7 @@ namespace BibleBlast.API.Controllers
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UserUpdateRequest updatedUser)
         {
+            // todo check role
             var user = await _repo.GetUser(id, true);
 
             _mapper.Map(updatedUser, user);
@@ -81,7 +82,7 @@ namespace BibleBlast.API.Controllers
                 return NoContent();
             }
 
-            throw new Exception($"Updating user failed on save");
+            throw new Exception("Updating user failed on save");
         }
 
         [HttpDelete("{id}")]
