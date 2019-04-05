@@ -21,7 +21,8 @@ export class UserKidListComponent implements OnInit {
     this.sortKids();
   }
 
-  openKidEdit(kid: Kid) {
+  // todo get rid of 'any'
+  openKidEdit(kid: any) {
     if (!kid.id) {
       kid.organizationId = this.user.organization.id;
       kid.parents = [{ id: this.user.id }];
