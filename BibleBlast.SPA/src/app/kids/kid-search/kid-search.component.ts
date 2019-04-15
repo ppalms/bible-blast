@@ -7,7 +7,7 @@ import { BsModalRef } from 'ngx-bootstrap';
 @Component({
   selector: 'app-kid-search',
   templateUrl: './kid-search.component.html',
-  styleUrls: ['./kid-search.component.css']
+  styleUrls: ['./kid-search.component.scss']
 })
 export class KidSearchComponent implements OnInit {
   @Output() kidsSelected = new EventEmitter();
