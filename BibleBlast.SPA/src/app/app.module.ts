@@ -13,6 +13,7 @@ import { KidListComponent } from './kids/kid-list/kid-list.component';
 import { KidCardComponent } from './kids/kid-card/kid-card.component';
 import { KidDetailComponent } from './kids/kid-detail/kid-detail.component';
 import { KidEditComponent } from './kids/kid-edit/kid-edit.component';
+import { KidSearchComponent } from './kids/kid-search/kid-search.component';
 import { UserListComponent } from './users/user-list/user-list.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { UserKidListComponent } from './users/user-kid-list/user-kid-list.component';
@@ -46,6 +47,7 @@ export function tokenGetter() {
     KidCardComponent,
     KidDetailComponent,
     KidEditComponent,
+    KidSearchComponent,
     UserListComponent,
     UserEditComponent,
     UserKidListComponent,
@@ -86,7 +88,8 @@ export function tokenGetter() {
     OrganizationListResolver,
   ],
   entryComponents: [
-    KidEditComponent
+    KidEditComponent,
+    KidSearchComponent,
   ],
   bootstrap: [
     AppComponent,
