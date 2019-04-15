@@ -54,17 +54,23 @@ namespace BibleBlast.API.Controllers
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UserUpdateRequest updatedUser)
         {
+            if (id != updatedUser.Id)
+            {
+                return BadRequest();
+            }
+
             // todo check role
             var user = await _repo.GetUser(id, true);
 
             _mapper.Map(updatedUser, user);
 
             var currentRoles = await _userManager.GetRolesAsync(user);
-            var current = currentRoles.FirstOrDefault();
+            var currentRole = currentRoles.FirstOrDefault();
+            var updatedRole = updatedUser.UserRoles.First();
 
-            if (updatedUser.UserRole != current)
+            if (updatedRole != currentRole)
             {
-                var result = await _userManager.AddToRoleAsync(user, updatedUser.UserRole);
+                var result = await _userManager.AddToRoleAsync(user, updatedRole);
                 if (!result.Succeeded)
                 {
                     return BadRequest("Failed to add to roles");
@@ -77,7 +83,7 @@ namespace BibleBlast.API.Controllers
                 }
             }
 
-            if (await _repo.SaveAll() || currentRoles.FirstOrDefault() != updatedUser.UserRole)
+            if (await _repo.SaveAll() || currentRoles.FirstOrDefault() != updatedRole)
             {
                 return NoContent();
             }

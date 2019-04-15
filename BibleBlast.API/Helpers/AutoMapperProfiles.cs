@@ -35,7 +35,27 @@ namespace BibleBlast.API.Helpers
                 .ForMember(dest => dest.Organization, opt => opt.Ignore());
 
             CreateMap<UserUpdateRequest, User>()
-                .ForMember(dest => dest.UserRoles, opt => opt.Ignore());
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.UserRoles, opt =>
+                {
+                    opt.MapFrom(src => src.UserRoles.Select(roleName => new UserRole { Role = new Role { Name = roleName } }));
+                })
+                .ForMember(dest => dest.Kids, opt =>
+                {
+                    opt.MapFrom(src => src.Kids.Select(kid => new UserKid { KidId = kid.Id }));
+                })
+                .AfterMap((src, dest) =>
+                {
+                    foreach (var role in dest.UserRoles)
+                    {
+                        role.UserId = dest.Id;
+                    }
+
+                    foreach (var kid in dest.Kids)
+                    {
+                        kid.UserId = dest.Id;
+                    }
+                });
 
             CreateMap<Kid, KidDetail>()
                 .ForMember(dest => dest.Parents, opt =>
