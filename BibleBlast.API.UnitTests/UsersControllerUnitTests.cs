@@ -41,10 +41,11 @@ namespace BibleBlast.API.UnitTests
             const int userId = 19;
             var updatedUser = new UserUpdateRequest
             {
+                Id = userId,
                 FirstName = "Bob",
                 LastName = "Belcher",
                 OrganizationId = 2,
-                UserRole = "Coach",
+                UserRoles = new[] { "Coach" },
             };
 
             var user = new User { Id = userId, FirstName = "Robert", LastName = "Belcher", OrganizationId = 2 };
@@ -65,10 +66,11 @@ namespace BibleBlast.API.UnitTests
             const int userId = 19;
             var updatedUser = new UserUpdateRequest
             {
+                Id = userId,
                 FirstName = "Bob",
                 LastName = "Belcher",
                 OrganizationId = 2,
-                UserRole = "Coach",
+                UserRoles = new[] { "Coach" },
             };
 
             var user = new User { Id = userId, FirstName = "Robert", LastName = "Belcher", OrganizationId = 2 };
@@ -79,6 +81,26 @@ namespace BibleBlast.API.UnitTests
             _userRepoMock.Setup(x => x.SaveAll()).ReturnsAsync(false);
 
             Assert.ThrowsExceptionAsync<System.Exception>(() => _controller.UpdateUser(userId, updatedUser));
+        }
+
+        [TestMethod]
+        public void UpdateUser_UserIdDoesNotMatchRequest_BadRequest()
+        {
+            const int userId = 19;
+            var updatedUser = new UserUpdateRequest
+            {
+                Id = 37,
+                FirstName = "Bob",
+                LastName = "Belcher",
+                OrganizationId = 2,
+                UserRoles = new[] { "Coach" },
+            };
+
+            var user = new User { Id = userId, FirstName = "Robert", LastName = "Belcher", OrganizationId = 2 };
+
+            var actual = _controller.UpdateUser(userId, updatedUser);
+
+            Assert.IsInstanceOfType(actual.Result, typeof(BadRequestResult));
         }
     }
 }
