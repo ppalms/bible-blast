@@ -12,6 +12,8 @@ From the BibleBlast.API directory, run the `dotnet run` or `dotnet watch run` co
 
 From the BibleBlast.SPA directory, run the `npm start` command to start the Angular app.
 
+The app should now be running at http://localhost:4200.
+
 ## Building and Running in a Docker Container
 To create a docker image, run the following command from the root of the repository:
 ```
@@ -23,6 +25,5 @@ To run the image in a new container that will terminate when stopped:
 docker run -d --rm=true \
     -e SQLCONNSTR_DefaultConnection='Server=serverlocation;Database=db_name;User ID=db_user;Password=db_password' \
     -e SHARED_KEY='abiglongstring' \
-    -p 80:8080 \
     --name bible-blast <Docker Image Name>
 ```
