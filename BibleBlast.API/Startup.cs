@@ -58,7 +58,7 @@ namespace BibleBlast.API
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("IDENTITY_TOKEN"))
+                        Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("SHARED_KEY"))
                     ),
                     ValidateIssuer = false,
                     ValidateAudience = false,

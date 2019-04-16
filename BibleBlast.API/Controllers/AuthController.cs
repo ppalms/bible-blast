@@ -104,7 +104,7 @@ namespace BibleBlast.API.Controllers
 
             // Server needs to sign the token to prove its validity
             // 1. Create a security key using the secret we know
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("IDENTITY_TOKEN")));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SHARED_KEY")));
 
             // 2. Create signing credentials containing the encrypted key
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
