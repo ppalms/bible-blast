@@ -107,7 +107,7 @@ namespace BibleBlast.API.Controllers
                 return NoContent();
             }
 
-            throw new Exception("Updating kid failed on save");
+            return BadRequest("Failed to update kid");
         }
 
         [HttpDelete("{id}")]

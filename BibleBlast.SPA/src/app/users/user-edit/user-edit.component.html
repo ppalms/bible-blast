@@ -69,8 +69,13 @@
         </div>
       </div>
 
-      <button class="btn btn-success mr-2" type="submit" [disabled]="!editForm.valid || !editForm.dirty">Save</button>
-      <button class="btn btn-danger" type="button" (click)="deleteUser()" *ngIf="user.id">Delete</button>
+      <div class="float-left">
+        <button class="btn btn-success mr-2" type="submit" [disabled]="!editForm.valid || !editForm.dirty">Save</button>
+        <button class="btn btn-warning" type="button" (click)="resetPassword()" *ngIf="user.id">Reset Password</button>
+      </div>
+      <div class="float-right">
+        <button class="btn btn-danger" type="button" (click)="deleteUser()" *ngIf="user.id">Delete</button>
+      </div>
     </form>
   </div>
 

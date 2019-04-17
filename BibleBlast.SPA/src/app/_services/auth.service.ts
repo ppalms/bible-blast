@@ -49,4 +49,8 @@ export class AuthService {
 
     return isMatch;
   }
+
+  resetPassword(userId: number, password: string) {
+    return this.http.post(`${this.baseUrl}/reset-password`, { userId, password });
+  }
 }

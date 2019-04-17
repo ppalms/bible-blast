@@ -17,7 +17,12 @@ import { KidSearchComponent } from './kids/kid-search/kid-search.component';
 import { UserListComponent } from './users/user-list/user-list.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { UserKidListComponent } from './users/user-kid-list/user-kid-list.component';
+import { UserPasswordResetComponent } from './users/user-password-reset/user-password-reset.component';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+
+import { HasRoleDirective } from './_directives/has-role.directive';
+
+import { ErrorInterceptorProvider } from './_services/error.interceptor';
 
 import { AuthService } from './_services/auth.service';
 import { AlertifyService } from './_services/alertify.service';
@@ -31,8 +36,6 @@ import { KidDetailResolver } from './_resolvers/kid-detail.resolver';
 import { UserListResolver } from './_resolvers/user-list.resolver';
 import { UserEditResolver } from './_resolvers/user-edit.resolver';
 import { OrganizationListResolver } from './_resolvers/organization-list.resolver';
-
-import { HasRoleDirective } from './_directives/has-role.directive';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -51,6 +54,7 @@ export function tokenGetter() {
     UserListComponent,
     UserEditComponent,
     UserKidListComponent,
+    UserPasswordResetComponent,
     AdminPanelComponent,
     HasRoleDirective,
   ],
@@ -75,6 +79,7 @@ export function tokenGetter() {
     }),
   ],
   providers: [
+    ErrorInterceptorProvider,
     AuthService,
     AlertifyService,
     KidService,
@@ -90,6 +95,7 @@ export function tokenGetter() {
   entryComponents: [
     KidEditComponent,
     KidSearchComponent,
+    UserPasswordResetComponent,
   ],
   bootstrap: [
     AppComponent,

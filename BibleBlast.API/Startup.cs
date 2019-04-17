@@ -52,6 +52,7 @@ namespace BibleBlast.API
             identityBuilder.AddRoleValidator<RoleValidator<Role>>();
             identityBuilder.AddRoleManager<RoleManager<Role>>();
             identityBuilder.AddSignInManager<SignInManager<User>>();
+            identityBuilder.AddDefaultTokenProviders();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters

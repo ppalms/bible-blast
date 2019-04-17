@@ -86,6 +86,23 @@ namespace BibleBlast.API.Controllers
             return Unauthorized();
         }
 
+        [HttpPost("reset-password")]
+        public async Task<ActionResult> ResetPassword([FromBody]PasswordResetRequest request)
+        {
+            var user = await _userManager.FindByIdAsync(request.UserId);
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var result = await _userManager.ResetPasswordAsync(user, token, request.Password);
+
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+
+            return BadRequest("Failed to reset password");
+        }
+
         private async Task<string> GenerateJwtToken(User user)
         {
             // Who is this person? Claims describe the user

@@ -6,6 +6,8 @@ import { User } from 'src/app/_models/user';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { Organization } from 'src/app/_models/organization';
 import { AuthService } from 'src/app/_services/auth.service';
+import { BsModalService } from 'ngx-bootstrap';
+import { UserPasswordResetComponent } from '../user-password-reset/user-password-reset.component';
 
 @Component({
   selector: 'app-user-edit',
@@ -20,7 +22,8 @@ export class UserEditComponent implements OnInit {
 
   constructor(
     private userService: UserService, private authService: AuthService, private route: ActivatedRoute,
-    private router: Router, private alertify: AlertifyService, private formBuilder: FormBuilder) { }
+    private router: Router, private modalService: BsModalService, private alertify: AlertifyService,
+    private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -69,6 +72,10 @@ export class UserEditComponent implements OnInit {
         this.router.navigate([`/users/${this.user.id}`]);
       });
     }
+  }
+
+  resetPassword() {
+    this.modalService.show(UserPasswordResetComponent, { initialState: { userId: this.user.id } });
   }
 
   deleteUser() {
