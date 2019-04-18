@@ -110,7 +110,7 @@ namespace BibleBlast.API
                         var error = context.Features.Get<IExceptionHandlerFeature>();
                         if (error != null)
                         {
-                            context.Response.AddApplicationError(error.Error.Message);
+                            context.Response.AddApplicationErrorHeaders(error.Error.Message);
                             await context.Response.WriteAsync(error.Error.Message);
                         }
                     });
