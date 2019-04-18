@@ -12,6 +12,7 @@ import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { UserListResolver } from './_resolvers/user-list.resolver';
 import { UserEditResolver } from './_resolvers/user-edit.resolver';
 import { OrganizationListResolver } from './_resolvers/organization-list.resolver';
+import { UserProfileResolver } from './_resolvers/user-profile.resolver';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -32,6 +33,10 @@ const routes: Routes = [
         path: 'users/:id', component: UserEditComponent,
         resolve: { user: UserEditResolver, organizations: OrganizationListResolver },
         data: { roles: ['Admin', 'Coach'] }
+      },
+      {
+        path: 'profile', component: UserEditComponent,
+        resolve: { user: UserProfileResolver }
       },
       { path: 'admin', component: AdminPanelComponent, data: { roles: ['Admin'] } },
     ]

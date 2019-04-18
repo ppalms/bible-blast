@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ComponentFactoryResolver } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from 'src/app/_services/user.service';
@@ -55,6 +55,8 @@ export class UserEditComponent implements OnInit {
   goBack() {
     this.router.navigate(['/users']);
   }
+
+  isCurrentUser = () => this.user.id === +this.authService.decodedToken.nameid;
 
   saveUser() {
     if (!this.editForm.valid) {

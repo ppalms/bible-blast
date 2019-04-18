@@ -22,8 +22,11 @@
       </a>
 
       <div class="dropdown-menu mt-3" *dropdownMenu>
+        <a class="dropdown-item" [routerLink]="['/profile']">
+          <i class="fa fa-user-circle" aria-hidden="true"></i> Edit Profile
+        </a>
         <a class="dropdown-item" (click)="logout()">
-          <i class="fa fa-sign-out"></i> Logout
+          <i class="fa fa-sign-out" aria-hidden="true"></i> Logout
         </a>
       </div>
     </div>

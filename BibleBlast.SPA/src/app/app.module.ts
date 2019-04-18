@@ -35,6 +35,7 @@ import { KidListResolver } from './_resolvers/kid-list.resolver';
 import { KidDetailResolver } from './_resolvers/kid-detail.resolver';
 import { UserListResolver } from './_resolvers/user-list.resolver';
 import { UserEditResolver } from './_resolvers/user-edit.resolver';
+import { UserProfileResolver } from './_resolvers/user-profile.resolver';
 import { OrganizationListResolver } from './_resolvers/organization-list.resolver';
 
 export function tokenGetter() {
@@ -90,6 +91,7 @@ export function tokenGetter() {
     KidDetailResolver,
     UserListResolver,
     UserEditResolver,
+    UserProfileResolver,
     OrganizationListResolver,
   ],
   entryComponents: [

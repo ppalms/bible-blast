@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container mb-5">
   <div class="row justify-content-center">
     <form class="col-md-6" [formGroup]="editForm" (ngSubmit)="saveUser()">
       <div class="form-group">
@@ -33,13 +33,13 @@
           && editForm.get('email').touched}" placeholder="Email address">
         <div class="invalid-feedback">Invalid email address</div>
       </div>
-      
+
       <div class="form-group">
         <label for="phoneNumber">Phone</label>
         <input type="text" class="form-control" formControlName="phoneNumber" placeholder="Phone number">
       </div>
 
-      <div class="form-group">
+      <div class="form-group" *appHasRole="['Coach','Admin']">
         <label for="userRole">Role</label>
         <select class="form-control" formControlName="userRole">
           <option *ngFor="let role of roleSelectList" [ngValue]="role">{{role}}</option>
@@ -86,12 +86,15 @@
         <button class="btn btn-warning" type="button" (click)="resetPassword()" *ngIf="user.id">Reset Password</button>
       </div>
       <div class="float-right">
-        <button class="btn btn-danger" type="button" (click)="deleteUser()" *ngIf="user.id">Delete</button>
+        <button class="btn btn-danger" type="button" (click)="deleteUser()" *ngIf="user.id"
+          [hidden]="isCurrentUser()">Delete</button>
       </div>
     </form>
   </div>
 
-  <div *ngIf="user.id" class="my-4 mx-md-5 p-4 border shadow">
-    <app-user-kid-list [user]="user"></app-user-kid-list>
+  <div *appHasRole="['Coach','Admin']">
+    <div *ngIf="user.id" class="mx-md-5 mt-4 p-4 border shadow">
+      <app-user-kid-list [user]="user"></app-user-kid-list>
+    </div>
   </div>
 </div>
