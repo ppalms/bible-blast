@@ -45,7 +45,7 @@ namespace BibleBlast.API.UnitTests
                 FirstName = "Bob",
                 LastName = "Belcher",
                 OrganizationId = 2,
-                UserRoles = new[] { "Coach" },
+                UserRole = "Coach",
             };
 
             var user = new User { Id = userId, FirstName = "Robert", LastName = "Belcher", OrganizationId = 2 };
@@ -70,7 +70,7 @@ namespace BibleBlast.API.UnitTests
                 FirstName = "Bob",
                 LastName = "Belcher",
                 OrganizationId = 2,
-                UserRoles = new[] { "Coach" },
+                UserRole = "Coach",
             };
 
             var user = new User { Id = userId, FirstName = "Robert", LastName = "Belcher", OrganizationId = 2 };
@@ -93,7 +93,7 @@ namespace BibleBlast.API.UnitTests
                 FirstName = "Bob",
                 LastName = "Belcher",
                 OrganizationId = 2,
-                UserRoles = new[] { "Coach" },
+                UserRole = "Coach",
             };
 
             var user = new User { Id = userId, FirstName = "Robert", LastName = "Belcher", OrganizationId = 2 };
