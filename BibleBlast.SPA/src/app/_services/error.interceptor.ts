@@ -12,16 +12,20 @@ export class ErrorInterceptor implements HttpInterceptor {
                     return throwError(response.statusText);
                 }
 
-                const applicationError = response.headers.get('Application-Error');
-                if (applicationError) {
-                    return throwError(applicationError);
+                const applicationException = response.headers.get('Application-Error');
+                if (applicationException) {
+                    return throwError(applicationException);
                 }
 
-                const serverError = response.error && response.error.errors || response.error;
+                const serverError = typeof (response.error) === 'string' ? response.error : response.statusText;
 
                 let modelStateErrors = '';
-                if (serverError && typeof serverError === 'object') {
-                    modelStateErrors += serverError.title;
+                if (response.error.errors) {
+                    for (const key in response.error.errors) {
+                        if (response.error.errors[key]) {
+                            modelStateErrors += response.error.errors[key] + '\n';
+                        }
+                    }
                 }
 
                 return throwError(modelStateErrors || serverError || 'Server Error');
