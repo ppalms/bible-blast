@@ -61,16 +61,15 @@ namespace BibleBlast.API.Controllers
 
             // todo check role
             var user = await _repo.GetUser(id, true);
+            var currentRoles = await _userManager.GetRolesAsync(user);
+            var currentRole = currentRoles.FirstOrDefault();
 
             _mapper.Map(updatedUser, user);
 
-            var currentRoles = await _userManager.GetRolesAsync(user);
-            var currentRole = currentRoles.FirstOrDefault();
-            var updatedRole = updatedUser.UserRoles.First();
-
-            if (updatedRole != currentRole)
+            bool roleChanged = updatedUser.UserRole != currentRole;
+            if (roleChanged)
             {
-                var result = await _userManager.AddToRoleAsync(user, updatedRole);
+                var result = await _userManager.AddToRoleAsync(user, updatedUser.UserRole);
                 if (!result.Succeeded)
                 {
                     return BadRequest("Failed to add to roles");
@@ -83,7 +82,7 @@ namespace BibleBlast.API.Controllers
                 }
             }
 
-            if (await _repo.SaveAll() || currentRoles.FirstOrDefault() != updatedRole)
+            if (await _repo.SaveAll() || roleChanged)
             {
                 return NoContent();
             }

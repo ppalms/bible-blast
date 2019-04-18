@@ -41,9 +41,10 @@ export class UserService {
       id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
-      userRole: user.userRoles,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
       organizationId: user.organization.id,
-      userRoles: user.userRoles,
+      userRole: user.userRole,
       kids: user.kids,
     });
   }

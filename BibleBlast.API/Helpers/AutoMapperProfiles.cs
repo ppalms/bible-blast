@@ -11,9 +11,9 @@ namespace BibleBlast.API.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<User, UserDetail>()
-                .ForMember(dest => dest.UserRoles, opt =>
+                .ForMember(dest => dest.UserRole, opt =>
                 {
-                    opt.MapFrom(src => src.UserRoles.Select(ur => ur.Role.Name));
+                    opt.MapFrom(src => src.UserRoles.Select(ur => ur.Role.Name).First());
                 })
                 .ForMember(dest => dest.Kids, opt =>
                 {
@@ -36,10 +36,7 @@ namespace BibleBlast.API.Helpers
 
             CreateMap<UserUpdateRequest, User>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.UserRoles, opt =>
-                {
-                    opt.MapFrom(src => src.UserRoles.Select(roleName => new UserRole { Role = new Role { Name = roleName } }));
-                })
+                .ForMember(dest => dest.UserRoles, opt => opt.Ignore())
                 .ForMember(dest => dest.Kids, opt =>
                 {
                     opt.MapFrom(src => src.Kids.Select(kid => new UserKid { KidId = kid.Id }));

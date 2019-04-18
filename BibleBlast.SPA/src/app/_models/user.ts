@@ -6,7 +6,9 @@ export interface User {
     username: string;
     firstName: string;
     lastName: string;
+    email: string;
+    phoneNumber: string;
     organization: Organization;
-    userRoles: string[];
+    userRole: string;
     kids: Kid[];
 }
