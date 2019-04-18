@@ -82,12 +82,9 @@ namespace BibleBlast.API.Controllers
                 }
             }
 
-            if (await _repo.SaveAll() || roleChanged)
-            {
-                return NoContent();
-            }
+            await _repo.SaveAll();
 
-            throw new Exception("Updating user failed on save");
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
