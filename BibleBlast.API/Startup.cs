@@ -35,11 +35,26 @@ namespace BibleBlast.API
 
         public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureProductionServices(IServiceCollection services)
         {
             services.AddDbContext<SqlServerAppContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            IdentityBuilder coreBuilder = services.AddIdentityCore<User>(opt =>
+            IdentityBuilder identityBuilder = services.AddIdentityCore<User>(opt =>
+            {
+                opt.Password.RequiredLength = 8;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireDigit = true;
+                opt.Password.RequireUppercase = true;
+            });
+
+            ConfigureServices(identityBuilder, services);
+        }
+
+        public void ConfigureDevelopmentServices(IServiceCollection services)
+        {
+            services.AddDbContext<SqlServerAppContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            IdentityBuilder identityBuilder = services.AddIdentityCore<User>(opt =>
             {
                 opt.Password.RequiredLength = 8;
                 opt.Password.RequireNonAlphanumeric = false;
@@ -47,7 +62,51 @@ namespace BibleBlast.API
                 opt.Password.RequireUppercase = false;
             });
 
-            var identityBuilder = new IdentityBuilder(coreBuilder.UserType, typeof(Role), coreBuilder.Services);
+            Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
+
+            ConfigureServices(identityBuilder, services);
+        }
+
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, Seeder seeder)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                seeder.Seed();
+            }
+            else
+            {
+                // app.UseHsts();
+                app.UseExceptionHandler(builder =>
+                {
+                    builder.Run(async context =>
+                    {
+                        context.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
+                        var error = context.Features.Get<IExceptionHandlerFeature>();
+                        if (error != null)
+                        {
+                            context.Response.AddApplicationErrorHeaders(error.Error.Message);
+                            await context.Response.WriteAsync(error.Error.Message);
+                        }
+                    });
+                });
+            }
+
+            // app.UseHttpsRedirection();
+            app.UseCors(x => x.WithOrigins("http://localhost:4200")
+                .AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+            app.UseAuthentication();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseMvc(routes => routes.MapSpaFallbackRoute(
+                name: "spa-fallback",
+                defaults: new { controller = "Fallback", action = "Index" }
+            ));
+        }
+
+        private void ConfigureServices(IdentityBuilder identityBuilder, IServiceCollection services)
+        {
+            identityBuilder.AddRoles<Role>();
             identityBuilder.AddEntityFrameworkStores<SqlServerAppContext>();
             identityBuilder.AddRoleValidator<RoleValidator<Role>>();
             identityBuilder.AddRoleManager<RoleManager<Role>>();
@@ -90,43 +149,6 @@ namespace BibleBlast.API
             services.AddScoped<IKidRepository, KidRepository>();
             services.AddScoped<IMemoryRepository, MemoryRepository>();
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();
-        }
-
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, Seeder seeder)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                seeder.Seed();
-            }
-            else
-            {
-                // app.UseHsts();
-                app.UseExceptionHandler(builder =>
-                {
-                    builder.Run(async context =>
-                    {
-                        context.Response.StatusCode = (int)System.Net.HttpStatusCode.InternalServerError;
-                        var error = context.Features.Get<IExceptionHandlerFeature>();
-                        if (error != null)
-                        {
-                            context.Response.AddApplicationErrorHeaders(error.Error.Message);
-                            await context.Response.WriteAsync(error.Error.Message);
-                        }
-                    });
-                });
-            }
-
-            // app.UseHttpsRedirection();
-            app.UseCors(x => x.WithOrigins("http://localhost:4200")
-                .AllowAnyMethod().AllowAnyHeader().AllowCredentials());
-            app.UseAuthentication();
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-            app.UseMvc(routes => routes.MapSpaFallbackRoute(
-                name: "spa-fallback",
-                defaults: new { controller = "Fallback", action = "Index" }
-            ));
         }
     }
 }
