@@ -15,6 +15,7 @@ namespace BibleBlast.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class KidsController : ControllerBase
     {
         private readonly IKidRepository _repo;
