@@ -41,7 +41,7 @@ namespace BibleBlast.API
 
             IdentityBuilder identityBuilder = services.AddIdentityCore<User>(opt =>
             {
-                opt.Password.RequiredLength = 8;
+                opt.Password.RequiredLength = 10;
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.Password.RequireDigit = true;
                 opt.Password.RequireUppercase = true;
