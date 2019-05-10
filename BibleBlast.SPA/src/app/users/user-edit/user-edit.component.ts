@@ -37,7 +37,7 @@ export class UserEditComponent implements OnInit {
         email: [this.user.email, Validators.email],
         phoneNumber: [this.user.phoneNumber, [Validators.maxLength(11), Validators.pattern('^\\d+$')]],
         userRole: [{
-          value: this.user.userRole || 'Member', disabled: this.user.id === this.authService.currentUser.id
+          value: this.user.userRole || 'Member', disabled: this.user.id === this.authService.decodedToken.nameid
         }, Validators.required],
         organization: [this.user.organization || { id: this.authService.decodedToken.organizationId }, Validators.required],
         password: [{ value: '', disabled: this.user.id }, [Validators.required, Validators.minLength(8)]],
