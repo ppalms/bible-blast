@@ -24,13 +24,6 @@ import { HasRoleDirective } from './_directives/has-role.directive';
 
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
 
-import { AuthService } from './_services/auth.service';
-import { AlertifyService } from './_services/alertify.service';
-import { KidService } from './_services/kid.service';
-import { MemoryService } from './_services/memory.service';
-import { UserService } from './_services/user.service';
-import { OrganizationService } from './_services/organization.service';
-
 import { KidListResolver } from './_resolvers/kid-list.resolver';
 import { KidDetailResolver } from './_resolvers/kid-detail.resolver';
 import { UserListResolver } from './_resolvers/user-list.resolver';
@@ -81,12 +74,6 @@ export function tokenGetter() {
   ],
   providers: [
     ErrorInterceptorProvider,
-    AuthService,
-    AlertifyService,
-    KidService,
-    MemoryService,
-    UserService,
-    OrganizationService,
     KidListResolver,
     KidDetailResolver,
     UserListResolver,
