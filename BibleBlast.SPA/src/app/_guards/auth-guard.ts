@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from 'src/app/_services/auth.service';
-import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import { Router, CanActivate, ActivatedRouteSnapshot, UrlTree } from '@angular/router';
+import { AlertifyService } from '../_services/alertify.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-    constructor(private auth: AuthService, private router: Router) { }
+    constructor(private auth: AuthService, private router: Router, private alertify: AlertifyService) { }
 
-    canActivate(next: ActivatedRouteSnapshot): boolean {
+    canActivate(next: ActivatedRouteSnapshot): boolean | UrlTree {
         const roles = next.firstChild.data.roles as Array<string>;
         if (roles) {
             const hasRole = this.auth.userHasRole(roles);
@@ -24,8 +25,7 @@ export class AuthGuard implements CanActivate {
             return true;
         }
 
-        console.error('Please log in');
-        this.router.navigate(['/home']);
-        return false;
+        this.alertify.error('Please log in');
+        return this.router.parseUrl('home');
     }
 }
