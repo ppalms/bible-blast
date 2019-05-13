@@ -40,17 +40,21 @@
       </div>
 
       <div class="form-group" *appHasRole="['Coach','Admin']">
-        <label for="userRole">Role</label>
-        <select class="form-control" formControlName="userRole">
-          <option *ngFor="let role of roleSelectList" [ngValue]="role">{{role}}</option>
-        </select>
+        <div *ngIf="!isCurrentUser()">
+          <label for="userRole">Role</label>
+          <select class="form-control" formControlName="userRole">
+            <option *ngFor="let role of roleSelectList" [ngValue]="role">{{role}}</option>
+          </select>
+        </div>
       </div>
 
       <div class="form-group" *appHasRole="['Admin']">
-        <label for="organization">Organization</label>
-        <select class="form-control" formControlName="organization" [compareWith]="sameId">
-          <option *ngFor="let org of orgSelectList" [ngValue]="org">{{org.name}}</option>
-        </select>
+        <div *ngIf="!isCurrentUser()">
+          <label for="organization">Organization</label>
+          <select class="form-control" formControlName="organization" [compareWith]="sameId">
+            <option *ngFor="let org of orgSelectList" [ngValue]="org">{{org.name}}</option>
+          </select>
+        </div>
       </div>
 
       <div *ngIf="!user.id">
