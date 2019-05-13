@@ -40,18 +40,6 @@ namespace BibleBlast.API.Helpers
                 .ForMember(dest => dest.Kids, opt =>
                 {
                     opt.MapFrom(src => src.Kids.Select(kid => new UserKid { KidId = kid.Id }));
-                })
-                .AfterMap((src, dest) =>
-                {
-                    foreach (var role in dest.UserRoles)
-                    {
-                        role.UserId = dest.Id;
-                    }
-
-                    foreach (var kid in dest.Kids)
-                    {
-                        kid.UserId = dest.Id;
-                    }
                 });
 
             CreateMap<Kid, KidDetail>()

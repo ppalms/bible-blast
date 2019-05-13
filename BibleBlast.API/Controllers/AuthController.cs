@@ -49,7 +49,7 @@ namespace BibleBlast.API.Controllers
                 return BadRequest(userResult.Errors);
             }
 
-            var roleResult = await _userManager.AddToRoleAsync(user, UserRoles.Member);
+            var roleResult = await _userManager.AddToRoleAsync(user, request.UserRole);
             if (!roleResult.Succeeded)
             {
                 return BadRequest(roleResult.Errors);
@@ -75,7 +75,6 @@ namespace BibleBlast.API.Controllers
             }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
-
             if (result.Succeeded)
             {
                 var userInfo = _mapper.Map<UserDetail>(user);
