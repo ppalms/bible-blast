@@ -8,6 +8,7 @@ using BibleBlast.API.DataAccess;
 using BibleBlast.API.Dtos;
 using BibleBlast.API.Helpers;
 using BibleBlast.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,6 +53,7 @@ namespace BibleBlast.API.Controllers
         }
 
         [HttpPatch("{id}")]
+        [Authorize(Roles = "Coach,Admin")]
         public async Task<IActionResult> UpdateUser(int id, UserUpdateRequest updatedUser)
         {
             if (id != updatedUser.Id)
@@ -59,7 +61,6 @@ namespace BibleBlast.API.Controllers
                 return BadRequest();
             }
 
-            // todo check role
             var user = await _repo.GetUser(id, true);
             var currentRoles = await _userManager.GetRolesAsync(user);
             var currentRole = currentRoles.FirstOrDefault();
@@ -88,13 +89,21 @@ namespace BibleBlast.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Coach,Admin")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            // todo check role
             var user = await _repo.GetUser(id, true);
             if (user == null)
             {
                 return BadRequest("User does not exist");
+            }
+
+            var currentUserRole = User.FindFirstValue(ClaimTypes.Role);
+            int currentUserOrganizationId = int.Parse(User.FindFirstValue("organizationId"));
+
+            if (currentUserRole != UserRoles.Admin && currentUserOrganizationId != user.OrganizationId)
+            {
+                return Unauthorized("User does not belong to your organization");
             }
 
             var result = await _userManager.DeleteAsync(user);

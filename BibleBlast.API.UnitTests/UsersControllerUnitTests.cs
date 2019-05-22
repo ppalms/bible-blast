@@ -1,8 +1,10 @@
-﻿using AutoMapper;
+﻿using System.Security.Claims;
+using AutoMapper;
 using BibleBlast.API.Controllers;
 using BibleBlast.API.DataAccess;
 using BibleBlast.API.Dtos;
 using BibleBlast.API.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,7 +26,15 @@ namespace BibleBlast.API.UnitTests
             _userRepoMock = new Mock<IUserRepository>();
             _userManagerMock = new Mock<UserManager<User>>(new Mock<IUserStore<User>>().Object, null, null, null, null, null, null, null, null);
             _mapperMock = new Mock<IMapper>();
+
             _controller = new UsersController(_userRepoMock.Object, _userManagerMock.Object, _mapperMock.Object);
+            _controller.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext()
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.NameIdentifier, "27") }))
+                }
+            };
         }
 
         [TestCleanup]
@@ -38,6 +48,8 @@ namespace BibleBlast.API.UnitTests
         [TestMethod]
         public void UpdateUser_Success_ReturnNoContent()
         {
+            AddCurrentUserRole(UserRoles.Coach);
+
             const int userId = 19;
             var updatedUser = new UserUpdateRequest
             {
@@ -63,6 +75,8 @@ namespace BibleBlast.API.UnitTests
         [TestMethod]
         public void UpdateUser_FailToPersist_ThrowsException()
         {
+            AddCurrentUserRole(UserRoles.Coach);
+
             const int userId = 19;
             var updatedUser = new UserUpdateRequest
             {
@@ -84,7 +98,7 @@ namespace BibleBlast.API.UnitTests
         }
 
         [TestMethod]
-        public void UpdateUser_UserIdDoesNotMatchRequest_BadRequest()
+        public void UpdateUser_UserIdDoesNotMatchRequest_ReturnsBadRequest()
         {
             const int userId = 19;
             var updatedUser = new UserUpdateRequest
@@ -102,5 +116,40 @@ namespace BibleBlast.API.UnitTests
 
             Assert.IsInstanceOfType(actual.Result, typeof(BadRequestResult));
         }
+
+        [TestMethod]
+        public void DeleteUser_CurrentUser_Coach_NotInOrganization_ReturnsNoContent()
+        {
+            AddCurrentUserRole(UserRoles.Coach);
+            AddCurrentUserOrganizationId(2);
+
+            var user = new User { Id = 19, OrganizationId = 1 };
+            _userRepoMock.Setup(x => x.GetUser(19, true)).ReturnsAsync(user);
+
+            var actual = _controller.DeleteUser(19);
+
+            Assert.IsInstanceOfType(actual.Result, typeof(UnauthorizedObjectResult));
+        }
+
+        [TestMethod]
+        public void DeleteUser_CurrentUser_Admin_NotInOrganization_ReturnsNoContent()
+        {
+            AddCurrentUserRole(UserRoles.Admin);
+            AddCurrentUserOrganizationId(2);
+
+            var user = new User { Id = 19, OrganizationId = 1, UserRoles = new[] { new UserRole { RoleId = 1, UserId = 19 } } };
+            _userRepoMock.Setup(x => x.GetUser(19, true)).ReturnsAsync(user);
+            _userManagerMock.Setup(x => x.DeleteAsync(user)).ReturnsAsync(IdentityResult.Success);
+
+            var actual = _controller.DeleteUser(19);
+
+            Assert.IsInstanceOfType(actual.Result, typeof(NoContentResult));
+        }
+
+        private void AddCurrentUserRole(string userRole) =>
+            _controller.HttpContext.User.AddIdentity(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Role, userRole) }));
+
+        private void AddCurrentUserOrganizationId(int id) =>
+            _controller.HttpContext.User.AddIdentity(new ClaimsIdentity(new[] { new Claim("organizationId", id.ToString()) }));
     }
 }
