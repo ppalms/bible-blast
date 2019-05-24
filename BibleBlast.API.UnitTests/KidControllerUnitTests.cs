@@ -32,17 +32,10 @@ namespace BibleBlast.API.UnitTests
             _memoryRepoMock = new Mock<IMemoryRepository>(MockBehavior.Strict);
             _mapperMock = new Mock<IMapper>(MockBehavior.Strict);
 
-            var user = new ClaimsPrincipal(
-                new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, _userId.ToString()),
-                    new Claim(ClaimTypes.Role, "Coach")
-                })
-            );
             _kidsController = new KidsController(_kidRepoMock.Object, _memoryRepoMock.Object, _mapperMock.Object);
             _kidsController.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = user }
+                HttpContext = new DefaultHttpContext() { User = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.NameIdentifier, _userId.ToString()) })) }
             };
         }
 
@@ -125,7 +118,9 @@ namespace BibleBlast.API.UnitTests
                 },
             };
 
-            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId, _userId)).ReturnsAsync(kidMemories);
+            _kidsController.AddUserClaim(ClaimTypes.Role, UserRoles.Member);
+
+            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId, _userId, "Member")).ReturnsAsync(kidMemories);
 
             var expected = new Collection<CompletedMemory>
             {
@@ -148,9 +143,9 @@ namespace BibleBlast.API.UnitTests
         {
             const int kidId = 324;
 
-            _kidsController.HttpContext.User.AddIdentity(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Role, UserRoles.Admin) }));
+            _kidsController.AddUserClaim(ClaimTypes.Role, UserRoles.Member);
 
-            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId, _userId)).ReturnsAsync(Enumerable.Empty<KidMemory>());
+            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId, _userId, "Member")).ReturnsAsync(Enumerable.Empty<KidMemory>());
 
             var actual = _kidsController.GetCompletedMemeories(kidId).Result;
 
@@ -187,7 +182,7 @@ namespace BibleBlast.API.UnitTests
                 },
             };
 
-            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId, _userId)).ReturnsAsync(kidMemories);
+            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId, _userId, "Member")).ReturnsAsync(kidMemories);
 
             var actual = _kidsController.GetCompletedMemeories(kidId).Result;
 
@@ -215,7 +210,7 @@ namespace BibleBlast.API.UnitTests
                 },
             };
 
-            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId, _userId)).ReturnsAsync(kidMemories);
+            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId, _userId, UserRoles.Coach)).ReturnsAsync(kidMemories);
 
             var expected = new Collection<CompletedMemory>
             {
@@ -233,7 +228,38 @@ namespace BibleBlast.API.UnitTests
         }
 
         [TestMethod]
-        public void UpsertCompletedMemories_ReturnNoContent()
+        public void UpsertCompletedMemories_AsMember_ReturnsBadRequest()
+        {
+            const int kidId = 29;
+
+            var requestParams = new[] {
+                new KidMemoryParams
+                {
+                    MemoryId= 23,
+                    DateCompleted = new DateTime(2019, 3, 18)
+                },
+                new KidMemoryParams
+                {
+                    MemoryId= 24,
+                    DateCompleted = new DateTime(2019, 3, 19)
+                },
+            };
+
+            var kidMemories = new[]
+            {
+                new KidMemory { KidId = kidId, MemoryId = 23, DateCompleted = new DateTime(2019, 3, 18)},
+                new KidMemory { KidId = kidId, MemoryId = 24, DateCompleted = new DateTime(2019, 3, 19)},
+            };
+
+            _kidsController.AddUserClaim(ClaimTypes.Role, UserRoles.Member);
+
+            var actual = _kidsController.UpsertCompletedMemories(kidId, requestParams).Result;
+
+            Assert.IsInstanceOfType(actual, typeof(BadRequestResult));
+        }
+
+        [TestMethod]
+        public void UpsertCompletedMemories_AsCoach_ReturnsNoContent()
         {
             const int kidId = 29;
 
@@ -258,7 +284,11 @@ namespace BibleBlast.API.UnitTests
 
             _mapperMock.Setup(x => x.Map<IEnumerable<KidMemory>>(requestParams)).Returns(kidMemories);
 
+            _kidRepoMock.Setup(x => x.UserHasAccess(kidId, _userId, UserRoles.Coach)).ReturnsAsync(true);
+
             _kidRepoMock.Setup(x => x.UpsertCompletedMemories(kidMemories)).ReturnsAsync(true);
+
+            _kidsController.AddUserClaim(ClaimTypes.Role, UserRoles.Coach);
 
             var actual = _kidsController.UpsertCompletedMemories(kidId, requestParams).Result;
 

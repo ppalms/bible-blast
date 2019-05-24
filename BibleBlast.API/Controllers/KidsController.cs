@@ -22,6 +22,9 @@ namespace BibleBlast.API.Controllers
         private readonly IMemoryRepository _memoryRepo;
         private readonly IMapper _mapper;
 
+        private int UserId => int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        private string UserRole => User.FindFirstValue(ClaimTypes.Role);
+
         public KidsController(IKidRepository repo, IMemoryRepository memoryRepo, IMapper mapper)
         {
             _repo = repo;
@@ -33,7 +36,7 @@ namespace BibleBlast.API.Controllers
         public async Task<IActionResult> Get([FromQuery]KidParams queryParams)
         {
             queryParams.UserId = UserId;
-            queryParams.UserRoles = User.Claims.Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value);
+            queryParams.UserRoles = new[] { UserRole };
 
             var kids = await _repo.GetKids(queryParams);
 
@@ -47,13 +50,13 @@ namespace BibleBlast.API.Controllers
         [HttpGet("{id}", Name = "GetKid")]
         public async Task<IActionResult> Get(int id, bool includeMemories = false)
         {
-            var kid = await _repo.GetKid(id, User.IsInRole(UserRoles.Admin));
+            var kid = await _repo.GetKid(id, UserRole == UserRoles.Admin);
             if (kid == null)
             {
                 return NotFound();
             }
 
-            if (!User.IsInRole(UserRoles.Admin) && !User.IsInRole(UserRoles.Coach) && !kid.Parents.Any(p => p.UserId == UserId))
+            if (UserRole != UserRoles.Admin && UserRole != UserRoles.Coach && !kid.Parents.Any(p => p.UserId == UserId))
             {
                 return Unauthorized();
             }
@@ -87,7 +90,7 @@ namespace BibleBlast.API.Controllers
             var id = await _repo.InsertKid(kid);
             if (id > 0)
             {
-                var newKid = await _repo.GetKid(id, User.IsInRole(UserRoles.Admin));
+                var newKid = await _repo.GetKid(id, UserRole == UserRoles.Admin);
                 var newKidDetail = _mapper.Map<KidDetail>(kid);
 
                 return CreatedAtRoute("GetKid", new { controller = "Kids", id = kid.Id }, newKidDetail);
@@ -131,13 +134,13 @@ namespace BibleBlast.API.Controllers
         [HttpGet("{id}/memories")]
         public async Task<IActionResult> GetCompletedMemeories(int id)
         {
-            var memories = await _repo.GetCompletedMemories(id, UserId);
+            var memories = await _repo.GetCompletedMemories(id, UserId, UserRole);
             if (!memories.Any())
             {
                 return NotFound();
             }
 
-            if (!User.IsInRole(UserRoles.Admin) && !User.IsInRole(UserRoles.Coach) && !memories.Any(x => x.Kid.Parents.Any(p => p.UserId == UserId)))
+            if (UserRole != UserRoles.Admin && UserRole != UserRoles.Coach && !memories.Any(x => x.Kid.Parents.Any(p => p.UserId == UserId)))
             {
                 return Unauthorized();
             }
@@ -151,6 +154,17 @@ namespace BibleBlast.API.Controllers
         [Authorize(Roles = "Coach,Admin")]
         public async Task<IActionResult> UpsertCompletedMemories(int id, [FromBody]KidMemoryParams[] kidMemoryParams)
         {
+            if (UserRole == UserRoles.Member)
+            {
+                return BadRequest();
+            }
+
+            bool userHasAccess = await _repo.UserHasAccess(id, UserId, UserRole);
+            if (!userHasAccess)
+            {
+                return BadRequest();
+            }
+
             var kidMemories = _mapper.Map<IEnumerable<KidMemory>>(kidMemoryParams);
             foreach (var kidMemory in kidMemories)
             {
@@ -170,7 +184,5 @@ namespace BibleBlast.API.Controllers
 
             return NoContent();
         }
-
-        private int UserId => int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
     }
 }

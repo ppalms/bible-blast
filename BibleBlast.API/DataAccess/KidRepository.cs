@@ -64,7 +64,21 @@ namespace BibleBlast.API.DataAccess
             return kid;
         }
 
-        // todo pull insert and delete into generic repo
+        public async Task<bool> UserHasAccess(int kidId, int userId, string role)
+        {
+            switch (role)
+            {
+                case UserRoles.Member:
+                    return await _context.Kids.AnyAsync(x => x.Id == kidId && x.Parents.Any(u => u.UserId == userId));
+                case UserRoles.Coach:
+                    return await _context.Kids.AnyAsync(x => x.Id == kidId);
+                case UserRoles.Admin:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         public async Task<int> InsertKid(Kid kid)
         {
             await _context.Kids.AddAsync(kid);
@@ -81,17 +95,16 @@ namespace BibleBlast.API.DataAccess
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<IEnumerable<KidMemory>> GetCompletedMemories(int id, int userId)
+        public async Task<IEnumerable<KidMemory>> GetCompletedMemories(int id, int userId, string role)
         {
             var kidMemories = _context.KidMemories.AsQueryable();
-            var userRoles = _context.UserRoles.Where(x => x.UserId == userId).Select(x => x.Role.Name);
 
-            if (userRoles.Contains(UserRoles.Admin))
+            if (role == UserRoles.Admin)
             {
                 kidMemories = kidMemories.IgnoreQueryFilters();
             }
 
-            var memories = await kidMemories
+            var memories = await kidMemories.Include(x => x.Kid).ThenInclude(x => x.Parents)
                 .Include(x => x.Memory).ThenInclude(x => x.Category)
                 .Where(x => x.KidId == id)
                 .ToListAsync();
@@ -101,7 +114,10 @@ namespace BibleBlast.API.DataAccess
 
         public async Task<bool> UpsertCompletedMemories(IEnumerable<KidMemory> kidMemories)
         {
-            var memoriesToUpdate = kidMemories.Where(memory => _context.KidMemories.Contains(memory));
+            var memoriesToUpdate = kidMemories.Where(memory =>
+                _context.KidMemories.IgnoreQueryFilters().Contains(memory)
+            );
+
             _context.KidMemories.UpdateRange(memoriesToUpdate);
 
             var memoriesToInsert = kidMemories.Except(memoriesToUpdate);
