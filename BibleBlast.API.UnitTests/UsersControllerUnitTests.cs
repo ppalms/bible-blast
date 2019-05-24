@@ -15,7 +15,7 @@ namespace BibleBlast.API.UnitTests
     [TestClass]
     public class UsersControllerUnitTests
     {
-        private UsersController _controller;
+        private UsersController _usersController;
         private Mock<IUserRepository> _userRepoMock;
         private Mock<UserManager<User>> _userManagerMock;
         private Mock<IMapper> _mapperMock;
@@ -27,8 +27,8 @@ namespace BibleBlast.API.UnitTests
             _userManagerMock = new Mock<UserManager<User>>(new Mock<IUserStore<User>>().Object, null, null, null, null, null, null, null, null);
             _mapperMock = new Mock<IMapper>();
 
-            _controller = new UsersController(_userRepoMock.Object, _userManagerMock.Object, _mapperMock.Object);
-            _controller.ControllerContext = new ControllerContext()
+            _usersController = new UsersController(_userRepoMock.Object, _userManagerMock.Object, _mapperMock.Object);
+            _usersController.ControllerContext = new ControllerContext()
             {
                 HttpContext = new DefaultHttpContext()
                 {
@@ -48,7 +48,7 @@ namespace BibleBlast.API.UnitTests
         [TestMethod]
         public void UpdateUser_Success_ReturnNoContent()
         {
-            AddCurrentUserRole(UserRoles.Coach);
+            _usersController.AddUserClaim(ClaimTypes.Role, UserRoles.Coach);
 
             const int userId = 19;
             var updatedUser = new UserUpdateRequest
@@ -67,7 +67,7 @@ namespace BibleBlast.API.UnitTests
             _userManagerMock.Setup(x => x.GetRolesAsync(user)).ReturnsAsync(new[] { "Coach" });
             _userRepoMock.Setup(x => x.SaveAll()).ReturnsAsync(true);
 
-            var actual = _controller.UpdateUser(userId, updatedUser);
+            var actual = _usersController.UpdateUser(userId, updatedUser);
 
             Assert.IsInstanceOfType(actual.Result, typeof(NoContentResult));
         }
@@ -75,7 +75,7 @@ namespace BibleBlast.API.UnitTests
         [TestMethod]
         public void UpdateUser_FailToPersist_ThrowsException()
         {
-            AddCurrentUserRole(UserRoles.Coach);
+            _usersController.AddUserClaim(ClaimTypes.Role, UserRoles.Coach);
 
             const int userId = 19;
             var updatedUser = new UserUpdateRequest
@@ -94,7 +94,7 @@ namespace BibleBlast.API.UnitTests
             _userManagerMock.Setup(x => x.GetRolesAsync(user)).ReturnsAsync(new[] { "Coach" });
             _userRepoMock.Setup(x => x.SaveAll()).ReturnsAsync(false);
 
-            Assert.ThrowsExceptionAsync<System.Exception>(() => _controller.UpdateUser(userId, updatedUser));
+            Assert.ThrowsExceptionAsync<System.Exception>(() => _usersController.UpdateUser(userId, updatedUser));
         }
 
         [TestMethod]
@@ -112,7 +112,7 @@ namespace BibleBlast.API.UnitTests
 
             var user = new User { Id = userId, FirstName = "Robert", LastName = "Belcher", OrganizationId = 2 };
 
-            var actual = _controller.UpdateUser(userId, updatedUser);
+            var actual = _usersController.UpdateUser(userId, updatedUser);
 
             Assert.IsInstanceOfType(actual.Result, typeof(BadRequestResult));
         }
@@ -120,13 +120,13 @@ namespace BibleBlast.API.UnitTests
         [TestMethod]
         public void DeleteUser_CurrentUser_Coach_NotInOrganization_ReturnsNoContent()
         {
-            AddCurrentUserRole(UserRoles.Coach);
-            AddCurrentUserOrganizationId(2);
+            _usersController.AddUserClaim(ClaimTypes.Role, UserRoles.Coach);
+            _usersController.AddUserClaim("organizationId", 2);
 
             var user = new User { Id = 19, OrganizationId = 1 };
             _userRepoMock.Setup(x => x.GetUser(19, true)).ReturnsAsync(user);
 
-            var actual = _controller.DeleteUser(19);
+            var actual = _usersController.DeleteUser(19);
 
             Assert.IsInstanceOfType(actual.Result, typeof(UnauthorizedObjectResult));
         }
@@ -134,22 +134,16 @@ namespace BibleBlast.API.UnitTests
         [TestMethod]
         public void DeleteUser_CurrentUser_Admin_NotInOrganization_ReturnsNoContent()
         {
-            AddCurrentUserRole(UserRoles.Admin);
-            AddCurrentUserOrganizationId(2);
+            _usersController.AddUserClaim(ClaimTypes.Role, UserRoles.Admin);
+            _usersController.AddUserClaim("organizationId", 2);
 
             var user = new User { Id = 19, OrganizationId = 1, UserRoles = new[] { new UserRole { RoleId = 1, UserId = 19 } } };
             _userRepoMock.Setup(x => x.GetUser(19, true)).ReturnsAsync(user);
             _userManagerMock.Setup(x => x.DeleteAsync(user)).ReturnsAsync(IdentityResult.Success);
 
-            var actual = _controller.DeleteUser(19);
+            var actual = _usersController.DeleteUser(19);
 
             Assert.IsInstanceOfType(actual.Result, typeof(NoContentResult));
         }
-
-        private void AddCurrentUserRole(string userRole) =>
-            _controller.HttpContext.User.AddIdentity(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Role, userRole) }));
-
-        private void AddCurrentUserOrganizationId(int id) =>
-            _controller.HttpContext.User.AddIdentity(new ClaimsIdentity(new[] { new Claim("organizationId", id.ToString()) }));
     }
 }
