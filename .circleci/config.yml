@@ -14,7 +14,9 @@ jobs:
             dotnet build ./BibleBlast.API/BibleBlast.API.csproj -c Release --no-restore
       - run:
           name: Run API tests
-          command: dotnet test ./BibleBlast.API.UnitTests/BibleBlast.API.UnitTests.csproj
+          command: |
+            set -e
+            dotnet test ./BibleBlast.API.UnitTests/BibleBlast.API.UnitTests.csproj
 
   deploy:
     machine: true
