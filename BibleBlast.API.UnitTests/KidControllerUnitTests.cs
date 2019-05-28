@@ -292,8 +292,7 @@ namespace BibleBlast.API.UnitTests
 
             var actual = _kidsController.UpsertCompletedMemories(kidId, requestParams).Result;
 
-            // Assert.IsInstanceOfType(actual, typeof(NoContentResult));
-            Assert.Fail("Test CircleCI unit test failure");
+            Assert.IsInstanceOfType(actual, typeof(NoContentResult));
         }
 
         [TestMethod]
