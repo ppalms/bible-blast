@@ -3,7 +3,7 @@ FROM node:10.15.3 AS clientbuild
 WORKDIR /sln/BibleBlast.SPA
 COPY ./BibleBlast.SPA .
 
-RUN npm install
+RUN npm install && npm install -g @angular/cli@8.0.3
 RUN ng build --prod
 
 # Build Web API project
