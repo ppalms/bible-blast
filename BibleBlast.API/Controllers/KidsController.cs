@@ -102,7 +102,11 @@ namespace BibleBlast.API.Controllers
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateKid(int id, KidUpdateRequest updatedKid)
         {
-            var kid = await _repo.GetKid(id);
+            var kid = await _repo.GetKid(id, UserRole == UserRoles.Admin);
+            if (kid == null)
+            {
+                return NotFound();
+            }
 
             _mapper.Map(updatedKid, kid);
 
@@ -117,7 +121,7 @@ namespace BibleBlast.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteKid(int id)
         {
-            var kid = await _repo.GetKid(id);
+            var kid = await _repo.GetKid(id, UserRole == UserRoles.Admin);
             if (kid == null)
             {
                 return NotFound();
