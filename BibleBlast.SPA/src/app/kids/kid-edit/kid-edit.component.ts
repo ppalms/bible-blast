@@ -10,7 +10,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./kid-edit.component.scss']
 })
 export class KidEditComponent implements OnInit {
-  @ViewChild('kidForm') kidForm: NgForm;
+  @ViewChild('kidForm', { static: true }) kidForm: NgForm;
   @Output() kidUpdated = new EventEmitter();
   @Output() kidDeleted = new EventEmitter();
   kid: Kid;
