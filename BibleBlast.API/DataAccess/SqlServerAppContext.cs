@@ -1,11 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using BibleBlast.API.Models;
 using BibleBlast.API.Helpers;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using System.Linq;
 
 namespace BibleBlast.API.DataAccess
 {
@@ -13,11 +10,11 @@ namespace BibleBlast.API.DataAccess
         IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>,
         IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
-        private readonly IOrganizationProvider _organizationProvider;
+        private readonly IUserResolver _userResolver;
 
-        public SqlServerAppContext(DbContextOptions<SqlServerAppContext> options, IOrganizationProvider organizationProvider) : base(options)
+        public SqlServerAppContext(DbContextOptions<SqlServerAppContext> options, IUserResolver userResolver) : base(options)
         {
-            _organizationProvider = organizationProvider;
+            _userResolver = userResolver;
         }
 
         public DbSet<Organization> Organizations { get; set; }
@@ -31,51 +28,56 @@ namespace BibleBlast.API.DataAccess
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<UserRole>(x =>
+            modelBuilder.Entity<UserRole>(entity =>
             {
-                x.HasKey(ur => new { ur.UserId, ur.RoleId });
+                entity.HasKey(ur => new { ur.UserId, ur.RoleId });
 
-                x.HasOne(ur => ur.Role)
+                entity.HasOne(ur => ur.Role)
                     .WithMany(r => r.UserRoles)
                     .HasForeignKey(ur => ur.RoleId)
                     .IsRequired();
 
-                x.HasOne(ur => ur.User)
+                entity.HasOne(ur => ur.User)
                     .WithMany(u => u.UserRoles)
                     .HasForeignKey(ur => ur.UserId)
                     .IsRequired();
             });
 
-            modelBuilder.Entity<UserKid>(x =>
+            modelBuilder.Entity<UserKid>(entity =>
             {
-                x.HasKey(uk => new { uk.UserId, uk.KidId });
+                entity.HasKey(uk => new { uk.UserId, uk.KidId });
 
-                x.HasOne(uk => uk.Kid)
+                entity.HasOne(uk => uk.Kid)
                     .WithMany(k => k.Parents)
                     .HasForeignKey(uk => uk.KidId)
                     .IsRequired();
 
-                x.HasOne(uk => uk.User)
+                entity.HasOne(uk => uk.User)
                     .WithMany(k => k.Kids)
                     .HasForeignKey(uk => uk.UserId)
                     .IsRequired();
             });
 
-            modelBuilder.Entity<Kid>().HasQueryFilter(x => x.IsActive)
-                .HasQueryFilter(x => x.OrganizationId == _organizationProvider.OrganizationId);
+            modelBuilder.Entity<Kid>()
+                .HasQueryFilter(kid => kid.IsActive
+                    && kid.OrganizationId == _userResolver.OrganizationId
+                    || _userResolver.UserRole == Models.UserRoles.Admin);
 
-            modelBuilder.Entity<KidMemory>(x =>
+            modelBuilder.Entity<KidMemory>(entity =>
             {
-                x.HasKey(km => new { km.KidId, km.MemoryId });
-                x.HasQueryFilter(km => km.Kid.IsActive)
-                    .HasQueryFilter(km => km.Kid.OrganizationId == _organizationProvider.OrganizationId);
+                entity.HasKey(km => new { km.KidId, km.MemoryId });
+                entity.HasQueryFilter(km => km.Kid.IsActive
+                    && km.Kid.OrganizationId == _userResolver.OrganizationId
+                    || _userResolver.UserRole == Models.UserRoles.Admin);
             });
 
             modelBuilder.Entity<Memory>().Property(x => x.Name).IsRequired();
             modelBuilder.Entity<MemoryCategory>().Property(x => x.Name).IsRequired();
 
-            modelBuilder.Entity<User>().HasQueryFilter(x => x.IsActive)
-                .HasQueryFilter(x => x.OrganizationId == _organizationProvider.OrganizationId);
+            modelBuilder.Entity<User>()
+                .HasQueryFilter(user => user.IsActive
+                    && user.OrganizationId == _userResolver.OrganizationId
+                    || _userResolver.UserRole == Models.UserRoles.Admin);
 
             modelBuilder.ApplySingularTableNameConvention();
         }

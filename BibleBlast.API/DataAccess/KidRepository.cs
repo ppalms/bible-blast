@@ -45,39 +45,12 @@ namespace BibleBlast.API.DataAccess
             return await PagedList<Kid>.CreateAsync(kids, queryParams.PageNumber, queryParams.PageSize);
         }
 
-        public async Task<Kid> GetKid(int id, bool ignoreQueryFilters)
-        {
-            var kids = _context.Kids.AsQueryable();
+        public async Task<Kid> GetKid(int id) => await _context.Kids.FirstOrDefaultAsync(x => x.Id == id);
 
-            if (ignoreQueryFilters)
-            {
-                kids = kids.IgnoreQueryFilters();
-            }
-
-            var kid = await kids
-                .Include(x => x.CompletedMemories).ThenInclude(x => x.Memory).ThenInclude(x => x.Category)
-                .Include(k => k.Parents)
-                .ThenInclude(p => p.User)
-                .ThenInclude(p => p.Organization)
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            return kid;
-        }
-
-        public async Task<bool> UserHasAccess(int kidId, int userId, string role)
-        {
-            switch (role)
-            {
-                case UserRoles.Member:
-                    return await _context.Kids.AnyAsync(x => x.Id == kidId && x.Parents.Any(u => u.UserId == userId));
-                case UserRoles.Coach:
-                    return await _context.Kids.AnyAsync(x => x.Id == kidId);
-                case UserRoles.Admin:
-                    return true;
-                default:
-                    return false;
-            }
-        }
+        public async Task<Kid> GetKidWithChildEntities(int id) => await _context.Kids
+                .Include(kid => kid.CompletedMemories).ThenInclude(km => km.Memory).ThenInclude(mem => mem.Category)
+                .Include(kid => kid.Parents).ThenInclude(parent => parent.User).ThenInclude(parent => parent.Organization)
+                .FirstOrDefaultAsync(kid => kid.Id == id);
 
         public async Task<int> InsertKid(Kid kid)
         {
@@ -95,14 +68,9 @@ namespace BibleBlast.API.DataAccess
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<IEnumerable<KidMemory>> GetCompletedMemories(int id, int userId, string role)
+        public async Task<IEnumerable<KidMemory>> GetCompletedMemories(int id)
         {
             var kidMemories = _context.KidMemories.AsQueryable();
-
-            if (role == UserRoles.Admin)
-            {
-                kidMemories = kidMemories.IgnoreQueryFilters();
-            }
 
             var memories = await kidMemories.Include(x => x.Kid).ThenInclude(x => x.Parents)
                 .Include(x => x.Memory).ThenInclude(x => x.Category)
@@ -115,7 +83,7 @@ namespace BibleBlast.API.DataAccess
         public async Task<bool> UpsertCompletedMemories(IEnumerable<KidMemory> kidMemories)
         {
             var memoriesToUpdate = kidMemories.Where(memory =>
-                _context.KidMemories.IgnoreQueryFilters().Contains(memory)
+                _context.KidMemories.Contains(memory)
             );
 
             _context.KidMemories.UpdateRange(memoriesToUpdate);

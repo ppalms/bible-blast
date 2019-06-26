@@ -61,7 +61,7 @@ namespace BibleBlast.API.UnitTests
                 }
             };
 
-            _kidRepoMock.Setup(x => x.GetKid(1, false)).Returns(Task.FromResult(kid));
+            _kidRepoMock.Setup(x => x.GetKidWithChildEntities(1)).Returns(Task.FromResult(kid));
 
             var kidDetail = new KidDetail
             {
@@ -87,7 +87,7 @@ namespace BibleBlast.API.UnitTests
         [TestMethod]
         public void GetById_MemberUser_IsNotParent_ReturnsNotFound()
         {
-            _kidRepoMock.Setup(x => x.GetKid(1, false)).ReturnsAsync((Kid)null);
+            _kidRepoMock.Setup(x => x.GetKidWithChildEntities(1)).ReturnsAsync((Kid)null);
 
             var result = _kidsController.Get(1).Result;
 
@@ -120,7 +120,7 @@ namespace BibleBlast.API.UnitTests
 
             _kidsController.AddUserClaim(ClaimTypes.Role, UserRoles.Member);
 
-            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId, _userId, "Member")).ReturnsAsync(kidMemories);
+            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId)).ReturnsAsync(kidMemories);
 
             var expected = new Collection<CompletedMemory>
             {
@@ -145,7 +145,7 @@ namespace BibleBlast.API.UnitTests
 
             _kidsController.AddUserClaim(ClaimTypes.Role, UserRoles.Member);
 
-            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId, _userId, "Member")).ReturnsAsync(Enumerable.Empty<KidMemory>());
+            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId)).ReturnsAsync(Enumerable.Empty<KidMemory>());
 
             var actual = _kidsController.GetCompletedMemeories(kidId).Result;
 
@@ -182,7 +182,7 @@ namespace BibleBlast.API.UnitTests
                 },
             };
 
-            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId, _userId, "Member")).ReturnsAsync(kidMemories);
+            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId)).ReturnsAsync(kidMemories);
 
             var actual = _kidsController.GetCompletedMemeories(kidId).Result;
 
@@ -210,7 +210,7 @@ namespace BibleBlast.API.UnitTests
                 },
             };
 
-            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId, _userId, UserRoles.Coach)).ReturnsAsync(kidMemories);
+            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId)).ReturnsAsync(kidMemories);
 
             var expected = new Collection<CompletedMemory>
             {
@@ -284,7 +284,7 @@ namespace BibleBlast.API.UnitTests
 
             _mapperMock.Setup(x => x.Map<IEnumerable<KidMemory>>(requestParams)).Returns(kidMemories);
 
-            _kidRepoMock.Setup(x => x.UserHasAccess(kidId, _userId, UserRoles.Coach)).ReturnsAsync(true);
+            _kidRepoMock.Setup(x => x.GetKid(kidId)).ReturnsAsync(new Kid { Id = kidId });
 
             _kidRepoMock.Setup(x => x.UpsertCompletedMemories(kidMemories)).ReturnsAsync(true);
 
@@ -314,6 +314,7 @@ namespace BibleBlast.API.UnitTests
             };
 
             _kidRepoMock.Setup(x => x.DeleteCompletedMemories(kidId, new[] { 23, 24 })).ReturnsAsync(true);
+            _kidRepoMock.Setup(x => x.GetKid(kidId)).ReturnsAsync(new Kid { Id = kidId, FirstName = "Roland", LastName = "Deschain" });
 
             var actual = _kidsController.DeleteCompletedMemories(kidId, requestParams).Result;
 

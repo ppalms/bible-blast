@@ -50,7 +50,7 @@ namespace BibleBlast.API.Controllers
         [HttpGet("{id}", Name = "GetKid")]
         public async Task<IActionResult> Get(int id, bool includeMemories = false)
         {
-            var kid = await _repo.GetKid(id, UserRole == UserRoles.Admin);
+            var kid = await _repo.GetKidWithChildEntities(id);
             if (kid == null)
             {
                 return NotFound();
@@ -90,7 +90,7 @@ namespace BibleBlast.API.Controllers
             var id = await _repo.InsertKid(kid);
             if (id > 0)
             {
-                var newKid = await _repo.GetKid(id, UserRole == UserRoles.Admin);
+                var newKid = await _repo.GetKidWithChildEntities(id);
                 var newKidDetail = _mapper.Map<KidDetail>(kid);
 
                 return CreatedAtRoute("GetKid", new { controller = "Kids", id = kid.Id }, newKidDetail);
@@ -102,7 +102,7 @@ namespace BibleBlast.API.Controllers
         [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateKid(int id, KidUpdateRequest updatedKid)
         {
-            var kid = await _repo.GetKid(id, UserRole == UserRoles.Admin);
+            var kid = await _repo.GetKid(id);
             if (kid == null)
             {
                 return NotFound();
@@ -121,7 +121,7 @@ namespace BibleBlast.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteKid(int id)
         {
-            var kid = await _repo.GetKid(id, UserRole == UserRoles.Admin);
+            var kid = await _repo.GetKid(id);
             if (kid == null)
             {
                 return NotFound();
@@ -138,13 +138,13 @@ namespace BibleBlast.API.Controllers
         [HttpGet("{id}/memories")]
         public async Task<IActionResult> GetCompletedMemeories(int id)
         {
-            var memories = await _repo.GetCompletedMemories(id, UserId, UserRole);
+            var memories = await _repo.GetCompletedMemories(id);
             if (!memories.Any())
             {
                 return NotFound();
             }
 
-            if (UserRole != UserRoles.Admin && UserRole != UserRoles.Coach && !memories.Any(x => x.Kid.Parents.Any(p => p.UserId == UserId)))
+            if (UserRole == UserRoles.Member && !memories.Any(x => x.Kid.Parents.Any(p => p.UserId == UserId)))
             {
                 return Unauthorized();
             }
@@ -163,8 +163,7 @@ namespace BibleBlast.API.Controllers
                 return BadRequest();
             }
 
-            bool userHasAccess = await _repo.UserHasAccess(id, UserId, UserRole);
-            if (!userHasAccess)
+            if (await _repo.GetKid(id) == null)
             {
                 return BadRequest();
             }
@@ -184,6 +183,11 @@ namespace BibleBlast.API.Controllers
         [Authorize(Roles = "Coach,Admin")]
         public async Task<IActionResult> DeleteCompletedMemories(int id, [FromBody]KidMemoryParams[] kidMemoryParams)
         {
+            if (await _repo.GetKid(id) == null)
+            {
+                return BadRequest();
+            }
+
             await _repo.DeleteCompletedMemories(id, kidMemoryParams.Select(x => x.MemoryId));
 
             return NoContent();
