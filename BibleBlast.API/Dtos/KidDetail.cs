@@ -4,6 +4,10 @@ using BibleBlast.API.Models;
 
 namespace BibleBlast.API.Dtos
 {
+    /// <summary>
+    /// DTO that maps from Kid and contains related entites such as Parents and Completed Memories. 
+    /// To fully map this DTO, be sure to use <see cref="IKidRepository.GetKidWithChildEntities"/>.
+    /// </summary>
     public class KidDetail
     {
         public int Id { get; set; }
