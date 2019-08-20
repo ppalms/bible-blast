@@ -59,8 +59,8 @@ namespace BibleBlast.API.DataAccess
             });
 
             modelBuilder.Entity<Kid>()
-                .HasQueryFilter(kid => kid.IsActive
-                    && kid.OrganizationId == _userResolver.OrganizationId
+                .HasQueryFilter(kid => 
+                    kid.OrganizationId == _userResolver.OrganizationId
                     || _userResolver.UserRole == Models.UserRoles.Admin);
 
             modelBuilder.Entity<KidMemory>(entity =>
