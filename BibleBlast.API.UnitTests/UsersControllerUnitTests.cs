@@ -118,7 +118,7 @@ namespace BibleBlast.API.UnitTests
         }
 
         [TestMethod]
-        public void DeleteUser_CurrentUser_Coach_NotInOrganization_ReturnsNoContent()
+        public void DeleteUser_CurrentUser_Coach_NotInOrganization_ReturnsUnauthorized()
         {
             _usersController.AddUserClaim(ClaimTypes.Role, UserRoles.Coach);
             _usersController.AddUserClaim("organizationId", 2);
