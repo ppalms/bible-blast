@@ -31,6 +31,7 @@ import { UserListResolver } from './_resolvers/user-list.resolver';
 import { UserEditResolver } from './_resolvers/user-edit.resolver';
 import { UserProfileResolver } from './_resolvers/user-profile.resolver';
 import { OrganizationListResolver } from './_resolvers/organization-list.resolver';
+import { MemoryCategoryResolver } from './_resolvers/memory-category.resolver';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -82,6 +83,7 @@ export function tokenGetter() {
     UserEditResolver,
     UserProfileResolver,
     OrganizationListResolver,
+    MemoryCategoryResolver,
   ],
   entryComponents: [
     KidEditComponent,

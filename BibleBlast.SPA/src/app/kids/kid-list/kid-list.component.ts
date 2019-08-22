@@ -3,6 +3,7 @@ import { Kid } from '../../_models/kid';
 import { KidService } from 'src/app/_services/kid.service';
 import { ActivatedRoute } from '@angular/router';
 import { Pagination, PaginatedResult } from '../../_models/pagination';
+import { MemoryCategory } from 'src/app/_models/memory';
 
 @Component({
   selector: 'app-kid-list',
@@ -10,8 +11,9 @@ import { Pagination, PaginatedResult } from '../../_models/pagination';
   styleUrls: ['./kid-list.component.scss']
 })
 export class KidListComponent implements OnInit {
-  kids: any[];
+  kids: Kid[];
   kidParams: any = {};
+  memoryCategories: MemoryCategory[];
   pagination: Pagination;
 
   constructor(private kidService: KidService, private route: ActivatedRoute) { }
@@ -19,6 +21,7 @@ export class KidListComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.kids = data.kids.result;
+      this.memoryCategories = data.memoryCategories;
       this.pagination = data.kids.pagination;
     });
   }

@@ -1,13 +1,20 @@
-export class KidMemoryListItem {
-    memoryId: number;
-    memoryName: string;
-    memoryDescription: string;
+export class MemoryListItem {
+    id: number;
+    name: string;
+    description: string;
     points: number;
+}
+
+export class MemoryCategory {
+    id: number;
+    name: string;
+    memories: MemoryListItem[];
+}
+
+export class KidMemoryListItem extends MemoryListItem {
     dateCompleted: Date;
 }
 
-export interface KidMemoryCategory {
-    categoryId: number;
-    categoryName: string;
+export class KidMemoryCategory extends MemoryCategory {
     memories: KidMemoryListItem[];
 }

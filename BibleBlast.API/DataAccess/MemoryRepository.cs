@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using BibleBlast.API.Models;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +23,7 @@ namespace BibleBlast.API.DataAccess
         public async Task<IEnumerable<MemoryCategory>> GetMemoryCategories()
         {
             var memories = await _context.MemoryCategories
-                .Include(x => x.Memories).ThenInclude(x => x.KidMemories)
+                .Include(x => x.Memories)
                 .ToListAsync();
 
             return memories;

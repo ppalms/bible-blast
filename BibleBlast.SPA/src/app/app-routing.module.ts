@@ -13,6 +13,7 @@ import { UserListResolver } from './_resolvers/user-list.resolver';
 import { UserEditResolver } from './_resolvers/user-edit.resolver';
 import { OrganizationListResolver } from './_resolvers/organization-list.resolver';
 import { UserProfileResolver } from './_resolvers/user-profile.resolver';
+import { MemoryCategoryResolver } from './_resolvers/memory-category.resolver';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -21,9 +22,19 @@ const routes: Routes = [
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
     children: [
-      { path: 'kids', component: KidListComponent, resolve: { kids: KidListResolver } },
-      { path: 'kids/:id', component: KidDetailComponent, resolve: { kid: KidDetailResolver } },
-      { path: 'users', component: UserListComponent, resolve: { users: UserListResolver }, data: { roles: ['Admin', 'Coach'] } },
+      {
+        path: 'kids', component: KidListComponent,
+        resolve: { kids: KidListResolver, memoryCategories: MemoryCategoryResolver }
+      },
+      {
+        path: 'kids/:id', component: KidDetailComponent,
+        resolve: { kid: KidDetailResolver }
+      },
+      {
+        path: 'users', component: UserListComponent,
+        resolve: { users: UserListResolver },
+        data: { roles: ['Admin', 'Coach'] }
+      },
       {
         path: 'users/new', component: UserEditComponent,
         resolve: { organizations: OrganizationListResolver },
@@ -35,10 +46,13 @@ const routes: Routes = [
         data: { roles: ['Admin', 'Coach'] }
       },
       {
-        path: 'profile', component: UserEditComponent,
-        resolve: { user: UserProfileResolver }
+        path: 'profile',
+        component: UserEditComponent, resolve: { user: UserProfileResolver }
       },
-      { path: 'admin', component: AdminPanelComponent, data: { roles: ['Admin'] } },
+      {
+        path: 'admin',
+        component: AdminPanelComponent, data: { roles: ['Admin'] }
+      },
     ]
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },

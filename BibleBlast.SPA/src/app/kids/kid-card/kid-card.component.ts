@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Kid } from 'src/app/_models/kid';
 import { Router } from '@angular/router';
 import { KidService } from 'src/app/_services/kid.service';
+import { MemoryCategory } from 'src/app/_models/memory';
 
 @Component({
   selector: 'app-kid-card',
@@ -10,6 +11,8 @@ import { KidService } from 'src/app/_services/kid.service';
 })
 export class KidCardComponent implements OnInit {
   @Input() kid: Kid;
+  @Input() memoryCategories: MemoryCategory[];
+
   totalPoints = 0;
   totalCompleteMemories = 0;
   // todo
@@ -23,12 +26,13 @@ export class KidCardComponent implements OnInit {
     }
 
     this.totalCompleteMemories = this.kid.completedMemories.length;
-    this.totalPoints = this.kid.completedMemories.map(m => m.points).reduce((total, current) => total += current);
+    this.totalPoints = this.kid.completedMemories
+      .map(m => m.points).reduce((total, current) => total += current);
   }
 
-  totalMemories = (categoryId: number) =>
+  completedMemories = (categoryId: number) =>
     `${this.kid.completedMemories.filter(x => x.categoryId === categoryId).length}
-      / ${this.kidService.memoryCategories.find(x => x.id === categoryId).memoryCount}`
+      / ${this.memoryCategories.find(x => x.id === categoryId).memories.length}`
 
   navigateToDetail = () => this.router.navigate([`/kids/${this.kid.id}`]);
 }

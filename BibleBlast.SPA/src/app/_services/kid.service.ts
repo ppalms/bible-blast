@@ -10,19 +10,6 @@ import { PaginatedResult } from '../_models/pagination';
   providedIn: 'root'
 })
 export class KidService {
-  // todo
-  public memoryCategories = [
-    { id: 1, name: 'ABCs', memoryCount: 26 },
-    { id: 2, name: 'XYZ', memoryCount: 8 },
-    { id: 3, name: 'Memory 1', memoryCount: 15 },
-    { id: 4, name: 'Memory 2', memoryCount: 17 },
-    { id: 5, name: 'Sword of the Spirit', memoryCount: 22 },
-    { id: 6, name: 'Psalmist', memoryCount: 24 },
-    { id: 7, name: 'Seekers', memoryCount: 5 },
-    { id: 8, name: 'Sermon on the Mount', memoryCount: 33 },
-    { id: 9, name: 'Blast Blaze', memoryCount: 21 },
-  ];
-
   constructor(private http: HttpClient) { }
 
   getKid(id: number): any {
