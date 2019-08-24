@@ -133,8 +133,11 @@ namespace BibleBlast.API
                     opt.AllowEmptyInputInBodyModelBinding = true;
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling =
-                    Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                .AddJsonOptions(opt =>
+                {
+                    opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    opt.SerializerSettings.DateFormatString = "MM/dd/yyyy";
+                });
 
             services.AddCors();
             services.AddAutoMapper();

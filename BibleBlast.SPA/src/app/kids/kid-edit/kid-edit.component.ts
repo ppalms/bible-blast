@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, ViewChild } from '@angular/core';
 import { Kid } from 'src/app/_models/kid';
 import { BsModalRef, BsDatepickerConfig } from 'ngx-bootstrap';
 import { AlertifyService } from 'src/app/_services/alertify.service';
@@ -20,7 +20,7 @@ export class KidEditComponent implements OnInit {
     { display: 'Female', value: 'female' },
     { display: 'Other', value: 'other' }
   ];
-  bsConfig: Partial<BsDatepickerConfig> = { dateInputFormat: 'YYYY-MM-DD' };
+  bsConfig: Partial<BsDatepickerConfig> = { dateInputFormat: 'MM/DD/YYYY' };
 
   constructor(public bsModalRef: BsModalRef, private alertify: AlertifyService) { }
 

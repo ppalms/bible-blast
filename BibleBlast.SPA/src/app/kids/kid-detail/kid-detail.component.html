@@ -60,7 +60,7 @@
                   <span *appHasRole="['Member']">{{memory.value.dateCompleted | date}}</span>
                   <span *appHasRole="['Coach','Admin']">
                     <input type="text" class="form-control" formControlName="dateCompleted" bsDatepicker
-                      [bsConfig]="bsConfig" value="{{memory.value.dateCompleted | date: 'MM/dd/yyyy'}}">
+                      [bsConfig]="bsConfig">
                   </span>
                 </td>
               </tr>
@@ -82,3 +82,5 @@
     </div>
   </accordion>
 </form>
+
+{{this.memoryForm.value | json}}
