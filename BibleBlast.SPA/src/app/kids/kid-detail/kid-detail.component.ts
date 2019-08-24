@@ -53,7 +53,7 @@ export class KidDetailComponent implements OnInit {
 
   getBadgeText = (memories: KidMemoryListItem[]) => `${memories.filter(m => m.dateCompleted).length} / ${memories.length}`;
 
-  isOpen = (cat: KidMemoryCategory) => cat.categoryId === 1;
+  isOpen = (category: KidMemoryCategory) => category.categoryId === 1;
 
   calculateTotalPoints = (memories: KidMemoryListItem[]) => memories.filter(m => m.dateCompleted)
     .map(m => m.points).reduce((total, current) => total += current, 0)

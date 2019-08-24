@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Kid } from 'src/app/_models/kid';
 import { Router } from '@angular/router';
-import { KidService } from 'src/app/_services/kid.service';
 import { MemoryCategory } from 'src/app/_models/memory';
 
 @Component({
@@ -18,7 +17,7 @@ export class KidCardComponent implements OnInit {
   // todo
   max = 171;
 
-  constructor(public kidService: KidService, private router: Router) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
     if (this.kid.completedMemories.length === 0) {
@@ -32,7 +31,7 @@ export class KidCardComponent implements OnInit {
 
   completedMemories = (categoryId: number) =>
     `${this.kid.completedMemories.filter(x => x.categoryId === categoryId).length}
-      / ${this.memoryCategories.find(x => x.id === categoryId).memories.length}`
+      / ${this.memoryCategories.find(x => x.categoryId === categoryId).memories.length}`
 
   navigateToDetail = () => this.router.navigate([`/kids/${this.kid.id}`]);
 }
