@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -32,7 +31,10 @@ namespace BibleBlast.API.Controllers
         public async Task<IActionResult> GetByCategory()
         {
             var memories = await _repo.GetMemoryCategories();
-            return Ok(memories);
+
+            var dto = _mapper.Map<IEnumerable<KidMemoryCategory>>(memories);
+
+            return Ok(dto);
         }
     }
 }

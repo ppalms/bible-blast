@@ -131,7 +131,7 @@ namespace BibleBlast.API.UnitTests
 
             _mapperMock.Setup(x => x.Map<IEnumerable<CompletedMemory>>(kidMemories)).Returns(expected);
 
-            var actual = _kidsController.GetCompletedMemeories(kidId).Result;
+            var actual = _kidsController.GetCompletedMemeories(kidId, null).Result;
 
             Assert.IsInstanceOfType(actual, typeof(OkObjectResult));
             Assert.IsInstanceOfType(((OkObjectResult)actual).Value, typeof(ICollection<CompletedMemory>));
@@ -147,7 +147,7 @@ namespace BibleBlast.API.UnitTests
 
             _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId)).ReturnsAsync(Enumerable.Empty<KidMemory>());
 
-            var actual = _kidsController.GetCompletedMemeories(kidId).Result;
+            var actual = _kidsController.GetCompletedMemeories(kidId, null).Result;
 
             Assert.IsInstanceOfType(actual, typeof(NotFoundResult));
         }
@@ -184,7 +184,7 @@ namespace BibleBlast.API.UnitTests
 
             _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId)).ReturnsAsync(kidMemories);
 
-            var actual = _kidsController.GetCompletedMemeories(kidId).Result;
+            var actual = _kidsController.GetCompletedMemeories(kidId, null).Result;
 
             Assert.IsInstanceOfType(actual, typeof(UnauthorizedResult));
         }
@@ -220,11 +220,53 @@ namespace BibleBlast.API.UnitTests
 
             _mapperMock.Setup(x => x.Map<IEnumerable<CompletedMemory>>(kidMemories)).Returns(expected);
 
-            var actual = _kidsController.GetCompletedMemeories(kidId).Result;
+            var actual = _kidsController.GetCompletedMemeories(kidId, null).Result;
 
             Assert.IsInstanceOfType(actual, typeof(OkObjectResult));
             Assert.IsInstanceOfType(((OkObjectResult)actual).Value, typeof(ICollection<CompletedMemory>));
             CollectionAssert.AreEquivalent(expected, ((OkObjectResult)actual).Value as Collection<CompletedMemory>);
+        }
+
+        [TestMethod]
+        public void GetCompletedMemeories_InvalidDateRange_ReturnsInvalid()
+        {
+            const int kidId = 324;
+
+            _kidsController.HttpContext.User.AddIdentity(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Role, UserRoles.Coach) }));
+
+            var actual = _kidsController.GetCompletedMemeories(kidId, new KidMemoryQueryParams
+            {
+                FromDate = new DateTime(2019, 8, 23),
+                ToDate = new DateTime(2018, 1, 1),
+            }).Result;
+
+            Assert.IsInstanceOfType(actual, typeof(BadRequestObjectResult));
+        }
+
+        [TestMethod]
+        public void GetCompletedMemeories_ValidDateRange_ReturnsOk()
+        {
+            const int kidId = 324;
+
+            _kidsController.HttpContext.User.AddIdentity(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Role, UserRoles.Coach) }));
+
+            var kidMemories = new List<KidMemory> { new KidMemory { KidId = kidId, MemoryId = 12, DateCompleted = new DateTime(2019, 8, 24), Memory = new Memory { Id = 12, CategoryId = 1 } } };
+
+            _kidRepoMock
+                .Setup(x => x.GetCompletedMemories(kidId, new DateTime(2019, 8, 23), new DateTime(2020, 1, 1), null))
+                .ReturnsAsync(kidMemories);
+
+            _mapperMock
+                .Setup(x => x.Map<IEnumerable<CompletedMemory>>(kidMemories))
+                .Returns(new[] { new CompletedMemory { MemoryId = 12 } });
+
+            var actual = _kidsController.GetCompletedMemeories(kidId, new KidMemoryQueryParams
+            {
+                FromDate = new DateTime(2019, 8, 23),
+                ToDate = new DateTime(2020, 1, 1),
+            }).Result;
+
+            Assert.IsInstanceOfType(actual, typeof(OkObjectResult));
         }
 
         [TestMethod]
@@ -233,12 +275,12 @@ namespace BibleBlast.API.UnitTests
             const int kidId = 29;
 
             var requestParams = new[] {
-                new KidMemoryParams
+                new KidMemoryRequest
                 {
                     MemoryId= 23,
                     DateCompleted = new DateTime(2019, 3, 18)
                 },
-                new KidMemoryParams
+                new KidMemoryRequest
                 {
                     MemoryId= 24,
                     DateCompleted = new DateTime(2019, 3, 19)
@@ -264,12 +306,12 @@ namespace BibleBlast.API.UnitTests
             const int kidId = 29;
 
             var requestParams = new[] {
-                new KidMemoryParams
+                new KidMemoryRequest
                 {
                     MemoryId= 23,
                     DateCompleted = new DateTime(2019, 3, 18)
                 },
-                new KidMemoryParams
+                new KidMemoryRequest
                 {
                     MemoryId= 24,
                     DateCompleted = new DateTime(2019, 3, 19)
@@ -301,12 +343,12 @@ namespace BibleBlast.API.UnitTests
             const int kidId = 29;
 
             var requestParams = new[] {
-                new KidMemoryParams
+                new KidMemoryRequest
                 {
                     MemoryId= 23,
                     DateCompleted = new DateTime(2019, 3, 18)
                 },
-                new KidMemoryParams
+                new KidMemoryRequest
                 {
                     MemoryId= 24,
                     DateCompleted = new DateTime(2019, 3, 19)

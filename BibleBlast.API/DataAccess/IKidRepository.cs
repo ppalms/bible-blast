@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BibleBlast.API.Helpers;
@@ -13,6 +14,7 @@ namespace BibleBlast.API.DataAccess
         Task<int> InsertKid(Kid kid);
         Task<bool> DeleteKid(Kid kid);
         Task<IEnumerable<KidMemory>> GetCompletedMemories(int id);
+        Task<IEnumerable<KidMemory>> GetCompletedMemories(int id, DateTime fromDate, DateTime toDate, IEnumerable<int> categoryIds);
         Task<bool> UpsertCompletedMemories(IEnumerable<KidMemory> kidMemories);
         Task<bool> DeleteCompletedMemories(int id, IEnumerable<int> memoryIds);
         Task<bool> SaveAll();

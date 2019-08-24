@@ -136,9 +136,23 @@ namespace BibleBlast.API.Controllers
         }
 
         [HttpGet("{id}/memories")]
-        public async Task<IActionResult> GetCompletedMemeories(int id)
+        public async Task<IActionResult> GetCompletedMemeories(int id, [FromBody]KidMemoryQueryParams queryParams)
         {
-            var memories = await _repo.GetCompletedMemories(id);
+            if (queryParams?.FromDate > queryParams?.ToDate)
+            {
+                return BadRequest("Invalid date range");
+            }
+
+            IEnumerable<KidMemory> memories;
+            if (queryParams == null)
+            {
+                memories = await _repo.GetCompletedMemories(id);
+            }
+            else
+            {
+                memories = await _repo.GetCompletedMemories(id, queryParams.FromDate, queryParams.ToDate, queryParams.CategoryIds);
+            }
+
             if (!memories.Any())
             {
                 return NotFound();
@@ -156,7 +170,7 @@ namespace BibleBlast.API.Controllers
 
         [HttpPost("{id}/memories")]
         [Authorize(Roles = "Coach,Admin")]
-        public async Task<IActionResult> UpsertCompletedMemories(int id, [FromBody]KidMemoryParams[] kidMemoryParams)
+        public async Task<IActionResult> UpsertCompletedMemories(int id, [FromBody]KidMemoryRequest[] kidMemoryParams)
         {
             if (UserRole == UserRoles.Member)
             {
@@ -181,7 +195,7 @@ namespace BibleBlast.API.Controllers
 
         [HttpDelete("{id}/memories")]
         [Authorize(Roles = "Coach,Admin")]
-        public async Task<IActionResult> DeleteCompletedMemories(int id, [FromBody]KidMemoryParams[] kidMemoryParams)
+        public async Task<IActionResult> DeleteCompletedMemories(int id, [FromBody]KidMemoryRequest[] kidMemoryParams)
         {
             if (await _repo.GetKid(id) == null)
             {

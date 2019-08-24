@@ -83,7 +83,7 @@ namespace BibleBlast.API.Helpers
                 });
 
             CreateMap<KidMemory, KidMemoryListItem>();
-            CreateMap<KidMemoryParams, KidMemory>();
+            CreateMap<KidMemoryRequest, KidMemory>();
         }
     }
 }

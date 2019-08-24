@@ -80,6 +80,21 @@ namespace BibleBlast.API.DataAccess
             return memories;
         }
 
+        public async Task<IEnumerable<KidMemory>> GetCompletedMemories(int id, DateTime fromDate, DateTime toDate, IEnumerable<int> categoryIds)
+        {
+            var memories = _context.KidMemories
+                .Include(km => km.Memory).ThenInclude(m => m.Category)
+                .Where(km => km.KidId == id)
+                .Where(km => km.DateCompleted >= fromDate && km.DateCompleted <= toDate);
+
+            if (categoryIds.Any())
+            {
+                memories = memories.Where(x => categoryIds.Contains(x.Memory.CategoryId));
+            }
+
+            return await memories.ToListAsync();
+        }
+
         public async Task<bool> UpsertCompletedMemories(IEnumerable<KidMemory> kidMemories)
         {
             var memoriesToUpdate = kidMemories.Where(memory =>

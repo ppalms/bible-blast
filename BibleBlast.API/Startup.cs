@@ -130,6 +130,7 @@ namespace BibleBlast.API
                         .Build();
 
                     opt.Filters.Add(new AuthorizeFilter(policy));
+                    opt.AllowEmptyInputInBodyModelBinding = true;
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling =

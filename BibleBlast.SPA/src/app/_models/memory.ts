@@ -1,13 +1,13 @@
 export class MemoryListItem {
-    id: number;
-    name: string;
-    description: string;
+    memoryId: number;
+    memoryName: string;
+    memoryDescription: string;
     points: number;
 }
 
 export class MemoryCategory {
-    id: number;
-    name: string;
+    categoryId: number;
+    categoryName: string;
     memories: MemoryListItem[];
 }
 
