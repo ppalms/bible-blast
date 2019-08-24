@@ -5,7 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
-import { BsDropdownModule, PaginationModule, ProgressbarModule, AccordionModule, BsDatepickerModule, ModalModule } from 'ngx-bootstrap';
+import {
+  BsDropdownModule, PaginationModule, ProgressbarModule,
+  AccordionModule, BsDatepickerModule, ModalModule, CollapseModule
+} from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -67,6 +70,7 @@ export function tokenGetter() {
     AccordionModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
+    CollapseModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter,

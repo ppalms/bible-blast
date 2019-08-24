@@ -1,20 +1,19 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-primary">
-  <div class="container">
-    <a class="navbar-brand" [routerLink]="['/home']">FUMC Bible Blast</a>
+<nav class="navbar navbar-expand-sm navbar-dark bg-primary">
+  <a class="navbar-brand" [routerLink]="['/home']">FUMC Bible Blast</a>
 
-    <ul *ngIf="isLoggedIn()" class="navbar-nav mr-auto">
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/kids']"><i class="fa fa-child" aria-hidden="true"></i> Kids</a>
-      </li>
-      <li *appHasRole="['Coach','Admin']" class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/users']">
-          <i class="fa fa-group" aria-hidden="true"></i> Users
-        </a>
-      </li>
-      <li *appHasRole="['Admin']" class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/admin']"><i class="fa fa-cog" aria-hidden="true"></i> Admin</a>
-      </li>
-    </ul>
+  <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" [collapse]="isCollapsed">
+    <div *ngIf="isLoggedIn()" class="navbar-nav mr-auto">
+      <a class="nav-item nav-link" [routerLink]="['/kids']" routerLinkActive="active">
+        <i class="fa fa-child" aria-hidden="true"></i> Kids</a>
+      <a class="nav-item nav-link" [routerLink]="['/users']" routerLinkActive="active" *appHasRole="['Coach','Admin']">
+        <i class="fa fa-group" aria-hidden="true"></i> Users</a>
+      <a class="nav-item nav-link" [routerLink]="['/admin']" routerLinkActive="active" *appHasRole="['Admin']">
+        <i class="fa fa-cog" aria-hidden="true"></i> Admin</a>
+    </div>
 
     <div *ngIf="isLoggedIn()" class="dropdown" dropdown>
       <a class="dropdown-toggle text-light" dropdownToggle>

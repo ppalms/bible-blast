@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
+import { filter } from 'rxjs/internal/operators/filter';
 
 @Component({
   selector: 'app-nav',
@@ -8,9 +9,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent {
+  isCollapsed = true;
+  // todo
   loginModel: any = {};
 
-  constructor(public authService: AuthService, private router: Router) { }
+  constructor(public authService: AuthService, private router: Router) {
+    this.router.events.pipe(filter(e => e instanceof NavigationStart))
+      .subscribe(() => this.isCollapsed = true);
+  }
 
   login() {
     this.authService.login(this.loginModel).subscribe((next) => {
