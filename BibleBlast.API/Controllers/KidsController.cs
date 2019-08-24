@@ -48,7 +48,7 @@ namespace BibleBlast.API.Controllers
         }
 
         [HttpGet("{id}", Name = "GetKid")]
-        public async Task<IActionResult> Get(int id, bool includeMemories = false)
+        public async Task<IActionResult> Get(int id)
         {
             var kid = await _repo.GetKidWithChildEntities(id);
             if (kid == null)
@@ -62,21 +62,6 @@ namespace BibleBlast.API.Controllers
             }
 
             var kidDetail = _mapper.Map<KidDetail>(kid);
-
-            if (includeMemories)
-            {
-                var memoryCategories = await _memoryRepo.GetMemoryCategories();
-
-                var dto = _mapper.Map<IEnumerable<KidMemoryCategory>>(memoryCategories);
-
-                foreach (var completedMemory in kid.CompletedMemories)
-                {
-                    var memoryListItem = dto.SelectMany(x => x.Memories).First(x => x.MemoryId == completedMemory.MemoryId);
-                    _mapper.Map(completedMemory, memoryListItem);
-                }
-
-                kidDetail.MemoriesByCategory = dto;
-            }
 
             return Ok(kidDetail);
         }

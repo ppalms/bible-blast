@@ -28,7 +28,7 @@ const routes: Routes = [
       },
       {
         path: 'kids/:id', component: KidDetailComponent,
-        resolve: { kid: KidDetailResolver }
+        resolve: { kid: KidDetailResolver, memoryCategories: MemoryCategoryResolver }
       },
       {
         path: 'users', component: UserListComponent,

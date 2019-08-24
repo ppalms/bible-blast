@@ -18,7 +18,6 @@ namespace BibleBlast.API.Dtos
         public ICollection<UserDetail> Parents { get; set; }
         public DateTime DateRegistered { get; set; }
         public ICollection<CompletedMemory> CompletedMemories { get; set; }
-        public IEnumerable<KidMemoryCategory> MemoriesByCategory { get; set; }
         public bool IsActive { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { KidService } from 'src/app/_services/kid.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { KidMemoryListItem as KidMemoryListItem, KidMemoryCategory } from 'src/app/_models/memory';
+import { KidMemoryListItem as KidMemoryListItem, KidMemoryCategory, MemoryCategory, MemoryListItem } from 'src/app/_models/memory';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
 import { Kid } from 'src/app/_models/kid';
@@ -14,8 +14,9 @@ import { AlertifyService } from 'src/app/_services/alertify.service';
 })
 export class KidDetailComponent implements OnInit {
   kid: Kid;
+  memoriesByCategory: KidMemoryCategory[];
   memoryForm: FormGroup;
-  bsConfig: Partial<BsDatepickerConfig> = { dateInputFormat: 'YYYY-MM-DD' };
+  bsConfig: Partial<BsDatepickerConfig> = { dateInputFormat: 'MM/DD/YYYY' };
 
   constructor(
     public kidService: KidService, private route: ActivatedRoute, private formBuilder: FormBuilder,
@@ -25,13 +26,24 @@ export class KidDetailComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.kid = data.kid;
-      this.kid.memoriesByCategory.forEach(c => c.memories.sort(this.sortMemories));
+      this.memoriesByCategory = data.memoryCategories;
+
+      this.memoriesByCategory.map(category => {
+        category.memories.map(memory => {
+          const completedMemory = this.kid.completedMemories.find(cm => cm.memoryId === memory.memoryId);
+          if (completedMemory) {
+            memory.dateCompleted = completedMemory.dateCompleted;
+          }
+        });
+      });
+
+      this.memoriesByCategory.forEach(c => c.memories.sort(this.sortMemories));
     });
 
     this.memoryForm = this.formBuilder.group({
       kidId: this.kid.id,
       memoriesByCategory: this.formBuilder.array(
-        this.kid.memoriesByCategory.map(c =>
+        this.memoriesByCategory.map(c =>
           this.formBuilder.group({
             categoryId: c.categoryId,
             categoryName: c.categoryName,

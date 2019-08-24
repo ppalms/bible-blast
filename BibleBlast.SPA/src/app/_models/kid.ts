@@ -1,5 +1,3 @@
-import { KidMemoryCategory } from './memory';
-
 export interface Kid {
     id: number;
     firstName: string;
@@ -8,7 +6,6 @@ export interface Kid {
     grade: string;
     birthday: Date;
     completedMemories: CompletedMemory[];
-    memoriesByCategory: KidMemoryCategory[];
     parents: any[];
     organizationId: number;
     isActive: boolean;

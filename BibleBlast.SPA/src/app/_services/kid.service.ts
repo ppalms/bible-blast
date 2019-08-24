@@ -13,7 +13,7 @@ export class KidService {
   constructor(private http: HttpClient) { }
 
   getKid(id: number): any {
-    return this.http.get<Kid>(`${environment.apiUrl}/kids/${id}?includeMemories=true`);
+    return this.http.get<Kid>(`${environment.apiUrl}/kids/${id}`);
   }
 
   getKids(page?: number, itemsPerPage?: number, kidParams?: any): Observable<PaginatedResult<Kid[]>> {
