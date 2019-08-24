@@ -1,5 +1,4 @@
 using System;
-using BibleBlast.API.Models;
 
 namespace BibleBlast.API.Dtos
 {

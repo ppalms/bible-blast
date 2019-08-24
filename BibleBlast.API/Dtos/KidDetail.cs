@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using BibleBlast.API.Models;
 
 namespace BibleBlast.API.Dtos
 {
