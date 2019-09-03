@@ -1,0 +1,19 @@
+<form class="form-inline mb-2" (ngSubmit)="loadCompletedMemories()" novalidate>
+    <label class="mr-2 my-2" for="fromDate">From</label>
+    <input type="text" class="form-control mr-2 col-3 col-md-auto" name="fromDate" [(ngModel)]="queryParams.fromDate"
+        bsDatepicker [bsConfig]="bsConfig">
+
+    <label class="mr-2 my-2" for="toDate">To</label>
+    <input type="text" class="form-control mr-2 col-3 col-md-auto" name="toDate" [(ngModel)]="queryParams.toDate"
+        bsDatepicker [bsConfig]="bsConfig">
+
+    <button type="submit" class="btn btn-primary"><i class="fa fa-refresh" aria-hidden="true"></i> Refresh</button>
+</form>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6" *ngFor="let kid of viewModel">
+            <app-completed-memories [kid]="kid"></app-completed-memories>
+        </div>
+    </div>
+</div>

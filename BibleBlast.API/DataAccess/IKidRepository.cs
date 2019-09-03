@@ -14,7 +14,7 @@ namespace BibleBlast.API.DataAccess
         Task<int> InsertKid(Kid kid);
         Task<bool> DeleteKid(Kid kid);
         Task<IEnumerable<KidMemory>> GetCompletedMemories(int id);
-        Task<IEnumerable<KidMemory>> GetCompletedMemories(int id, DateTime fromDate, DateTime toDate, IEnumerable<int> categoryIds);
+        Task<IEnumerable<KidMemory>> GetCompletedMemories(CompletedMemoryParams completedMemoryParams);
         Task<bool> UpsertCompletedMemories(IEnumerable<KidMemory> kidMemories);
         Task<bool> DeleteCompletedMemories(int id, IEnumerable<int> memoryIds);
         Task<bool> SaveAll();
@@ -23,6 +23,12 @@ namespace BibleBlast.API.DataAccess
     public class KidParams : PagedListParams
     {
         public string KidName { get; set; }
-        public int UserId { get; set; }
+    }
+
+    public class CompletedMemoryParams : PagedListParams
+    {
+        // public string KidName { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
     }
 }

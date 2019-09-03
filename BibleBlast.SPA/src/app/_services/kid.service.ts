@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
-import { Kid } from '../_models/kid';
+import { Kid, DashboardViewModel } from '../_models/kid';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { PaginatedResult } from '../_models/pagination';
@@ -50,6 +50,18 @@ export class KidService {
 
   deleteKid(id: number) {
     return this.http.delete(`${environment.apiUrl}/kids/${id}`);
+  }
+
+  getKidMemories(queryParams: any): Observable<DashboardViewModel[]> {
+    const params = new HttpParams({
+      fromObject: {
+        fromDate: queryParams.fromDate.toISOString(),
+        toDate: queryParams.toDate.toISOString(),
+        kidName: '',
+      }
+    });
+
+    return this.http.get<any[]>(`${environment.apiUrl}/kids/memories`, { params });
   }
 
   upsertKidMemories(id: number, kidMemories: any[]) {

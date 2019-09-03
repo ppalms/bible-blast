@@ -1,0 +1,20 @@
+<div class="card my-2">
+    <div class="card-body">
+        <h5 class="card-title">{{kid.firstName}} {{kid.lastName}}</h5>
+        <div *ngFor="let category of kid.categories">
+            <table class="table table-sm">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" colspan="2">{{category.categoryName}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of category.memories">
+                        <td>{{item.memoryName}} {{item.memoryDescription}}</td>
+                        <td class="text-right">{{item.dateCompleted | date}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

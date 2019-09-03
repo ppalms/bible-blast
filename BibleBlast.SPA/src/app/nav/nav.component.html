@@ -7,6 +7,8 @@
 
   <div class="collapse navbar-collapse" [collapse]="isCollapsed">
     <div *ngIf="isLoggedIn()" class="navbar-nav mr-auto">
+      <a class="nav-item nav-link" [routerLink]="['/dashboard']" routerLinkActive="active">
+        <i class="fa fa-check-square" aria-hidden="true"></i> Completed Items</a>
       <a class="nav-item nav-link" [routerLink]="['/kids']" routerLinkActive="active">
         <i class="fa fa-child" aria-hidden="true"></i> Kids</a>
       <a class="nav-item nav-link" [routerLink]="['/users']" routerLinkActive="active" *appHasRole="['Coach','Admin']">

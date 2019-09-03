@@ -23,7 +23,7 @@ namespace BibleBlast.API.Helpers
         }
 
         /// <summary>
-        /// Used to pare down an IQueryable of User prior to retreving
+        /// Used to pare down an IQueryable prior to retreving
         /// the data from the repository.
         /// </summary>
         public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source,
@@ -41,13 +41,13 @@ namespace BibleBlast.API.Helpers
     {
         private const int MaxPageSize = 50;
         private int pageSize = 6;
-
         public int PageNumber { get; set; } = 1;
         public int PageSize
         {
             get => pageSize;
             set => pageSize = value > MaxPageSize ? MaxPageSize : value;
         }
+        public int UserId { get; set; }
         public IEnumerable<string> UserRoles { get; set; }
     }
 }

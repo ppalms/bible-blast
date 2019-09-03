@@ -35,6 +35,8 @@ import { UserEditResolver } from './_resolvers/user-edit.resolver';
 import { UserProfileResolver } from './_resolvers/user-profile.resolver';
 import { OrganizationListResolver } from './_resolvers/organization-list.resolver';
 import { MemoryCategoryResolver } from './_resolvers/memory-category.resolver';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { CompletedMemoriesComponent } from './dashboard/completed-memories/completed-memories.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -56,6 +58,8 @@ export function tokenGetter() {
     UserPasswordResetComponent,
     AdminPanelComponent,
     HasRoleDirective,
+    DashboardComponent,
+    CompletedMemoriesComponent,
   ],
   imports: [
     BrowserModule,

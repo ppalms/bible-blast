@@ -14,6 +14,7 @@ import { UserEditResolver } from './_resolvers/user-edit.resolver';
 import { OrganizationListResolver } from './_resolvers/organization-list.resolver';
 import { UserProfileResolver } from './_resolvers/user-profile.resolver';
 import { MemoryCategoryResolver } from './_resolvers/memory-category.resolver';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,6 +23,10 @@ const routes: Routes = [
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
     children: [
+      {
+        path: 'dashboard', component: DashboardComponent,
+        resolve: { kids: KidListResolver }
+      },
       {
         path: 'kids', component: KidListComponent,
         resolve: { kids: KidListResolver, memoryCategories: MemoryCategoryResolver }
@@ -46,12 +51,12 @@ const routes: Routes = [
         data: { roles: ['Admin', 'Coach'] }
       },
       {
-        path: 'profile',
-        component: UserEditComponent, resolve: { user: UserProfileResolver }
+        path: 'profile', component: UserEditComponent,
+        resolve: { user: UserProfileResolver }
       },
       {
-        path: 'admin',
-        component: AdminPanelComponent, data: { roles: ['Admin'] }
+        path: 'admin', component: AdminPanelComponent,
+        data: { roles: ['Admin'] }
       },
     ]
   },

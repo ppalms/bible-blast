@@ -121,22 +121,10 @@ namespace BibleBlast.API.Controllers
         }
 
         [HttpGet("{id}/memories")]
-        public async Task<IActionResult> GetCompletedMemeories(int id, [FromBody]KidMemoryQueryParams queryParams)
+        public async Task<IActionResult> GetCompletedMemeories(int id)
         {
-            if (queryParams?.FromDate > queryParams?.ToDate)
-            {
-                return BadRequest("Invalid date range");
-            }
-
             IEnumerable<KidMemory> memories;
-            if (queryParams == null)
-            {
-                memories = await _repo.GetCompletedMemories(id);
-            }
-            else
-            {
-                memories = await _repo.GetCompletedMemories(id, queryParams.FromDate, queryParams.ToDate, queryParams.CategoryIds);
-            }
+            memories = await _repo.GetCompletedMemories(id);
 
             if (!memories.Any())
             {
@@ -151,6 +139,44 @@ namespace BibleBlast.API.Controllers
             var completedMemeories = _mapper.Map<IEnumerable<CompletedMemory>>(memories);
 
             return Ok(completedMemeories);
+        }
+
+        [HttpGet("memories")]
+        public async Task<IActionResult> GetCompletedMemeories([FromQuery]CompletedMemoryParams queryParams)
+        {
+            queryParams.UserId = UserId;
+            queryParams.UserRoles = new[] { UserRole };
+
+            if (queryParams?.FromDate > queryParams?.ToDate)
+            {
+                return BadRequest("Invalid date range");
+            }
+
+            var memories = await _repo.GetCompletedMemories(queryParams);
+
+            var dto = memories
+                .GroupBy(km => km.KidId)
+                .Select(kidMemories => new DashboardViewModel
+                {
+                    KidId = kidMemories.Key,
+                    FirstName = kidMemories.First().Kid.FirstName,
+                    LastName = kidMemories.First().Kid.LastName,
+                    Categories = kidMemories.GroupBy(x => x.Memory.CategoryId).Select(c => new KidMemoryCategory
+                    {
+                        CategoryId = c.First().Memory.Category.Id,
+                        CategoryName = c.First().Memory.Category.Name,
+                        Memories = c.Select(x => new KidMemoryListItem
+                        {
+                            MemoryId = x.Memory.Id,
+                            MemoryName = x.Memory.Name,
+                            MemoryDescription = x.Memory.Description,
+                            DateCompleted = x.DateCompleted,
+                            Points = x.Memory.Points ?? 0,
+                        })
+                    })
+                });
+
+            return Ok(dto);
         }
 
         [HttpPost("{id}/memories")]
