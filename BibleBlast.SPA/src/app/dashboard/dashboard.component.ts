@@ -12,8 +12,8 @@ import { AlertifyService } from '../_services/alertify.service';
 export class DashboardComponent implements OnInit {
   viewModel: any[];
   queryParams: any = {
-    fromDate: new Date(),
-    toDate: new Date(),
+    fromDate: new Date(new Date().setHours(0, 0, 0, 0)),
+    toDate: new Date(new Date().setHours(23, 59, 59, 999)),
     kidName: '',
   };
   bsConfig: Partial<BsDatepickerConfig> = { dateInputFormat: 'MM/DD/YYYY' };
@@ -28,7 +28,6 @@ export class DashboardComponent implements OnInit {
   loadCompletedMemories() {
     this.kidService.getKidMemories(this.queryParams)
       .subscribe(viewModel => {
-        console.log(viewModel);
         this.viewModel = viewModel;
       }, this.alertify.error);
   }
