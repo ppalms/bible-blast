@@ -40,7 +40,10 @@ export class UserEditComponent implements OnInit {
           value: this.user.userRole || 'Member', disabled: this.user.id === this.authService.decodedToken.nameid
         }, Validators.required],
         organization: [this.user.organization || { id: this.authService.decodedToken.organizationId }, Validators.required],
-        password: [{ value: '', disabled: this.user.id }, [Validators.required, Validators.minLength(8)]],
+        password: [{ value: '', disabled: this.user.id }, [
+          Validators.required, Validators.minLength(10),
+          // Validators.pattern('(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{10,}')
+        ]],
         confirmPassword: [{ value: '', disabled: this.user.id }, Validators.required],
       }, { validator: this.passwordMatchValidator });
     });
