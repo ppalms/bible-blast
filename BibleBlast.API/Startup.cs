@@ -37,8 +37,8 @@ namespace BibleBlast.API
             {
                 opt.Password.RequiredLength = 10;
                 opt.Password.RequireNonAlphanumeric = false;
-                opt.Password.RequireDigit = true;
-                opt.Password.RequireUppercase = true;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireUppercase = false;
             });
 
             ConfigureServices(identityBuilder, services);
