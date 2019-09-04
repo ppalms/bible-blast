@@ -24,7 +24,7 @@ export class NavComponent {
     }, error => {
       console.error(error);
     }, () => {
-      this.router.navigate(['/kids']);
+      this.router.navigate(['/dashboard']);
     });
   }
 
