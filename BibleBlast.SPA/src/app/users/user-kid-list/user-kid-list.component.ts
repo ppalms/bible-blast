@@ -36,9 +36,13 @@ export class UserKidListComponent implements OnInit {
     this.bsModalRef = this.modalService.show(KidEditComponent, { initialState: { kid } });
     this.bsModalRef.content.kidUpdated.subscribe((updatedKid: Kid) => {
       if (updatedKid.id) {
-        this.kidService.updateKid(updatedKid).subscribe(null, this.alertify.error, () => {
-          this.alertify.success('Successfully updated kid');
-          this.sortKids();
+        this.kidService.updateKid(updatedKid).subscribe({
+          next: null,
+          error: this.alertify.error,
+          complete: () => {
+            this.alertify.success('Successfully updated kid');
+            this.sortKids();
+          }
         });
       } else {
         this.kidService.insertKid(updatedKid).subscribe((result: Kid) =>
