@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BibleBlast.API.Dtos;
 using BibleBlast.API.Helpers;
 using BibleBlast.API.Models;
 using Microsoft.EntityFrameworkCore;
@@ -79,38 +78,6 @@ namespace BibleBlast.API.DataAccess
                 .ToListAsync();
 
             return memories;
-        }
-
-        public async Task<IEnumerable<KidMemory>> GetCompletedMemories(CompletedMemoryParams queryParams)
-        {
-            var categoryNames = new[] { "ABCs", "XYZs", "Memory 1", "Memory 2" };
-
-            var completedMemories = _context.KidMemories
-                .Include(km => km.Kid).ThenInclude(k => k.Parents)
-                .Include(km => km.Memory).ThenInclude(m => m.Category)
-                .Where(km => categoryNames.Contains(km.Memory.Category.Name))
-                .AsQueryable();
-
-            if (queryParams.UserRoles.Contains(UserRoles.Admin))
-            {
-                completedMemories = completedMemories.IgnoreQueryFilters();
-            }
-            else if (!queryParams.UserRoles.Contains(UserRoles.Coach))
-            {
-                completedMemories = completedMemories.Where(x => x.Kid.Parents.Any(p => p.UserId == queryParams.UserId));
-            }
-
-            if (queryParams.FromDate != null)
-            {
-                completedMemories = completedMemories.Where(m => m.DateCompleted >= queryParams.FromDate);
-            }
-
-            if (queryParams.ToDate != null)
-            {
-                completedMemories = completedMemories.Where(m => m.DateCompleted <= queryParams.ToDate);
-            }
-
-            return await completedMemories.ToListAsync();
         }
 
         public async Task<bool> UpsertCompletedMemories(IEnumerable<KidMemory> kidMemories)

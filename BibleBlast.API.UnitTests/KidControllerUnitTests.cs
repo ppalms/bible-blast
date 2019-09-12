@@ -228,44 +228,6 @@ namespace BibleBlast.API.UnitTests
         }
 
         [TestMethod]
-        public void GetCompletedMemeories_InvalidDateRange_ReturnsInvalid()
-        {
-            _kidsController.HttpContext.User.AddIdentity(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Role, UserRoles.Coach) }));
-
-            var actual = _kidsController.GetCompletedMemeories(new CompletedMemoryParams
-            {
-                FromDate = new DateTime(2019, 8, 23),
-                ToDate = new DateTime(2018, 1, 1),
-            }).Result;
-
-            Assert.IsInstanceOfType(actual, typeof(BadRequestObjectResult));
-        }
-
-        [TestMethod]
-        public void GetCompletedMemeories_ValidDateRange_ReturnsOk()
-        {
-            const int kidId = 324;
-
-            _kidsController.HttpContext.User.AddIdentity(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Role, UserRoles.Coach) }));
-
-            CompletedMemoryParams queryParams = new CompletedMemoryParams
-            {
-                FromDate = new DateTime(2019, 8, 23),
-                ToDate = new DateTime(2020, 1, 1),
-            };
-
-            var kidMemories = new List<KidMemory> { new KidMemory { KidId = kidId, MemoryId = 12, DateCompleted = new DateTime(2019, 8, 24), Memory = new Memory { Id = 12, CategoryId = 1 } } };
-
-            _kidRepoMock
-                .Setup(x => x.GetCompletedMemories(queryParams))
-                .ReturnsAsync(kidMemories);
-                
-            var actual = _kidsController.GetCompletedMemeories(queryParams).Result;
-
-            Assert.IsInstanceOfType(actual, typeof(OkObjectResult));
-        }
-
-        [TestMethod]
         public void UpsertCompletedMemories_AsMember_ReturnsBadRequest()
         {
             const int kidId = 29;

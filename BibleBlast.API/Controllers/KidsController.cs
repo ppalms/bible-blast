@@ -141,44 +141,6 @@ namespace BibleBlast.API.Controllers
             return Ok(completedMemeories);
         }
 
-        [HttpGet("memories")]
-        public async Task<IActionResult> GetCompletedMemeories([FromQuery]CompletedMemoryParams queryParams)
-        {
-            queryParams.UserId = UserId;
-            queryParams.UserRoles = new[] { UserRole };
-
-            if (queryParams?.FromDate > queryParams?.ToDate)
-            {
-                return BadRequest("Invalid date range");
-            }
-
-            var memories = await _repo.GetCompletedMemories(queryParams);
-
-            var dto = memories
-                .GroupBy(km => km.KidId)
-                .Select(kidMemories => new DashboardViewModel
-                {
-                    KidId = kidMemories.Key,
-                    FirstName = kidMemories.First().Kid.FirstName,
-                    LastName = kidMemories.First().Kid.LastName,
-                    Categories = kidMemories.GroupBy(x => x.Memory.CategoryId).Select(c => new KidMemoryCategory
-                    {
-                        CategoryId = c.First().Memory.Category.Id,
-                        CategoryName = c.First().Memory.Category.Name,
-                        Memories = c.Select(x => new KidMemoryListItem
-                        {
-                            MemoryId = x.Memory.Id,
-                            MemoryName = x.Memory.Name,
-                            MemoryDescription = x.Memory.Description,
-                            DateCompleted = x.DateCompleted,
-                            Points = x.Memory.Points ?? 0,
-                        })
-                    })
-                });
-
-            return Ok(dto);
-        }
-
         [HttpPost("{id}/memories")]
         [Authorize(Roles = "Coach,Admin")]
         public async Task<IActionResult> UpsertCompletedMemories(int id, [FromBody]KidMemoryRequest[] kidMemoryParams)

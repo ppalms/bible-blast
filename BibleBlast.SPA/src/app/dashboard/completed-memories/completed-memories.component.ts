@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./completed-memories.component.scss']
 })
 export class CompletedMemoriesComponent implements OnInit {
-  @Input() kid: any;
+  @Input() category: any;
 
   constructor() { }
 

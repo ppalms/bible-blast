@@ -24,8 +24,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'dashboard', component: DashboardComponent,
-        resolve: { kids: KidListResolver }
+        path: 'dashboard', component: DashboardComponent
       },
       {
         path: 'kids', component: KidListComponent,

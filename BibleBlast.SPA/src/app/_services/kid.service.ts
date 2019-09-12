@@ -52,18 +52,6 @@ export class KidService {
     return this.http.delete(`${environment.apiUrl}/kids/${id}`);
   }
 
-  getKidMemories(queryParams: any): Observable<DashboardViewModel[]> {
-    const params = new HttpParams({
-      fromObject: {
-        fromDate: queryParams.fromDate.toISOString(),
-        toDate: queryParams.toDate.toISOString(),
-        kidName: '',
-      }
-    });
-
-    return this.http.get<any[]>(`${environment.apiUrl}/kids/memories`, { params });
-  }
-
   upsertKidMemories(id: number, kidMemories: any[]) {
     return this.http.post(`${environment.apiUrl}/kids/${id}/memories`, kidMemories);
   }
