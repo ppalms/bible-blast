@@ -26,12 +26,5 @@
     "FirstName": "Doc",
     "LastName": "Watson",
     "IsActive": true
-  },
-  {
-    "OrganizationId": 2,
-    "Username": "jmcguirk",
-    "FirstName": "John",
-    "LastName": "McGuirk",
-    "IsActive": true
   }
 ]

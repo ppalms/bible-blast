@@ -96,15 +96,13 @@ namespace BibleBlast.API.DataAccess
                 _context.SaveChanges();
             }
 
-            var adminUser = new User { UserName = "admin" };
-            _userManager.CreateAsync(adminUser, "password").Wait();
-
-            var admin = _userManager.FindByNameAsync("admin").Result;
+            var admin = new User { UserName = "admin" };
+            _userManager.CreateAsync(admin, "password").Wait();
             _userManager.AddToRoleAsync(admin, UserRoles.Admin).Wait();
 
-            var coachMcGuirk = _userManager.FindByNameAsync("jmcguirk").Result;
-            _userManager.AddToRoleAsync(coachMcGuirk, UserRoles.Coach).Wait();
-            _userManager.RemoveFromRoleAsync(coachMcGuirk, UserRoles.Member).Wait();
+            var coach = new User { UserName = "jmcguirk", OrganizationId = 2 };
+            _userManager.CreateAsync(coach, "password").Wait();
+            _userManager.AddToRoleAsync(coach, UserRoles.Coach).Wait();
         }
 
         private void SeedMemoryCategories()
