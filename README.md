@@ -8,7 +8,7 @@ In order to run the app, the following environment variables must be set:
 - `SHARED_KEY` - the shared key to use for JWT authentication (a string that will be used to sign and verify tokens)
 
 ## Running Locally
-From the BibleBlast.API directory, use the `dotnet run` or `dotnet watch run` command to start the Web API project. This solution uses Entity Framework Core; the data schema for the application will be created in the first run and sample data will be seeded in.
+This solution uses Entity Framework Core; use the `dotnet ef database update` command to create a database with the necessary schema. Sample data will be seeded in on the first run. From the BibleBlast.API directory, use the `dotnet run` or `dotnet watch run` command to start the Web API project.
 
 From the BibleBlast.SPA directory, use the `npm start` command to run the Angular app.
 
