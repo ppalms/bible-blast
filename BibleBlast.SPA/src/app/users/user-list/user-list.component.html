@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of users" data-toggle="collapse" class="clickable" (click)="editUser(user)">
+      <tr *ngFor="let user of users" data-toggle="collapse" class="clickable" (click)="editUser(user.id)">
         <td>{{user.firstName}}</td>
         <td>{{user.lastName}}</td>
         <td *appHasRole="['Admin']">{{user.organization.name}}</td>

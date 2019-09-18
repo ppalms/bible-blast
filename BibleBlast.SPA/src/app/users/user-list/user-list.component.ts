@@ -36,7 +36,7 @@ export class UserListComponent implements OnInit {
       }, console.error);
   }
 
-  editUser(user: any) {
-    this.router.navigate([`/users/${user.id}`]);
+  editUser(userId: number) {
+    this.router.navigate([`/users/${userId}`]);
   }
 }
