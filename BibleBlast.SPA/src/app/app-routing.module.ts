@@ -9,12 +9,14 @@ import { KidDetailResolver } from './_resolvers/kid-detail.resolver';
 import { UserListComponent } from './users/user-list/user-list.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { AwardsComponent } from './awards/awards.component';
 import { UserListResolver } from './_resolvers/user-list.resolver';
 import { UserEditResolver } from './_resolvers/user-edit.resolver';
 import { OrganizationListResolver } from './_resolvers/organization-list.resolver';
 import { UserProfileResolver } from './_resolvers/user-profile.resolver';
 import { MemoryCategoryResolver } from './_resolvers/memory-category.resolver';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AwardListResolver } from './_resolvers/award-list.resolver';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -33,6 +35,10 @@ const routes: Routes = [
       {
         path: 'kids/:id', component: KidDetailComponent,
         resolve: { kid: KidDetailResolver, memoryCategories: MemoryCategoryResolver }
+      },
+      {
+        path: 'awards', component: AwardsComponent,
+        resolve: { awards: AwardListResolver }
       },
       {
         path: 'users', component: UserListComponent,

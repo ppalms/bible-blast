@@ -11,6 +11,8 @@
         <i class="fa fa-check-square" aria-hidden="true"></i> Completed Items</a>
       <a class="nav-item nav-link" [routerLink]="['/kids']" routerLinkActive="active">
         <i class="fa fa-child" aria-hidden="true"></i> Kids</a>
+      <a class="nav-item nav-link" [routerLink]="['/awards']" routerLinkActive="active">
+        <i class="fa fa-trophy" aria-hidden="true"></i> Awards</a>
       <a class="nav-item nav-link" [routerLink]="['/users']" routerLinkActive="active" *appHasRole="['Coach','Admin']">
         <i class="fa fa-group" aria-hidden="true"></i> Users</a>
       <a class="nav-item nav-link" [routerLink]="['/admin']" routerLinkActive="active" *appHasRole="['Admin']">

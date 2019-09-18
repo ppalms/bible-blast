@@ -23,6 +23,8 @@ import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { UserKidListComponent } from './users/user-kid-list/user-kid-list.component';
 import { UserPasswordResetComponent } from './users/user-password-reset/user-password-reset.component';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { AwardsComponent } from './awards/awards.component';
+import { AwardListComponent } from './awards/award-list/award-list.component';
 
 import { HasRoleDirective } from './_directives/has-role.directive';
 
@@ -35,7 +37,7 @@ import { UserEditResolver } from './_resolvers/user-edit.resolver';
 import { UserProfileResolver } from './_resolvers/user-profile.resolver';
 import { OrganizationListResolver } from './_resolvers/organization-list.resolver';
 import { MemoryCategoryResolver } from './_resolvers/memory-category.resolver';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { AwardListResolver } from './_resolvers/award-list.resolver';
 import { CompletedMemoriesComponent } from './dashboard/completed-memories/completed-memories.component';
 
 export function tokenGetter() {
@@ -60,6 +62,8 @@ export function tokenGetter() {
     HasRoleDirective,
     DashboardComponent,
     CompletedMemoriesComponent,
+    AwardsComponent,
+    AwardListComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,6 +96,7 @@ export function tokenGetter() {
     UserProfileResolver,
     OrganizationListResolver,
     MemoryCategoryResolver,
+    AwardListResolver,
   ],
   entryComponents: [
     KidEditComponent,

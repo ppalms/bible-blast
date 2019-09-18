@@ -1,0 +1,13 @@
+<accordion>
+    <accordion-group class="mb-1" *ngFor="let category of awardsByCategory">
+        <div accordion-heading class="memory-category">
+            <div class="row">
+                <div class="col">
+                    <span class="category-name">{{category.categoryName}}</span>
+                </div>
+            </div>
+        </div>
+
+        <app-award-list [awards]="category.awards"></app-award-list>
+    </accordion-group>
+</accordion>

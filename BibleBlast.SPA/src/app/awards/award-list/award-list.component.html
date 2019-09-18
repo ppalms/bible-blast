@@ -1,0 +1,16 @@
+<table class="table table-sm table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th style="width: 25%">Award</th>
+            <th>Requirement</th>
+            <th style="width: 15%">Timing</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let award of awards" class="clickable" (click)="editAward(award.awardId)">
+            <td>{{award.itemDescription}}</td>
+            <td>{{award.requirement}}</td>
+            <td>{{award.timing}}</td>
+        </tr>
+    </tbody>
+</table>
