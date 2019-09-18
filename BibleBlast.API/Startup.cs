@@ -147,6 +147,7 @@ namespace BibleBlast.API
             services.AddScoped<IKidRepository, KidRepository>();
             services.AddScoped<IMemoryRepository, MemoryRepository>();
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+            services.AddScoped<IAwardRepository, AwardRepository>();
         }
     }
 }
