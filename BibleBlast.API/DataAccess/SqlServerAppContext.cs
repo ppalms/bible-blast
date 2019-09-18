@@ -23,6 +23,9 @@ namespace BibleBlast.API.DataAccess
         public DbSet<Memory> Memories { get; set; }
         public DbSet<MemoryCategory> MemoryCategories { get; set; }
         public DbSet<KidMemory> KidMemories { get; set; }
+        public DbSet<Award> Awards { get; set; }
+        public DbSet<AwardItem> AwardItems { get; set; }
+        public DbSet<AwardMemory> AwardMemories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -59,7 +62,7 @@ namespace BibleBlast.API.DataAccess
             });
 
             modelBuilder.Entity<Kid>()
-                .HasQueryFilter(kid => 
+                .HasQueryFilter(kid =>
                     kid.OrganizationId == _userResolver.OrganizationId
                     || _userResolver.UserRole == Models.UserRoles.Admin);
 
@@ -78,6 +81,16 @@ namespace BibleBlast.API.DataAccess
                 .HasQueryFilter(user => user.IsActive
                     && user.OrganizationId == _userResolver.OrganizationId
                     || _userResolver.UserRole == Models.UserRoles.Admin);
+
+            modelBuilder.Entity<AwardMemory>(entity =>
+            {
+                entity.HasKey(am => new { am.AwardId, am.MemoryId });
+
+                entity.HasOne(am => am.Memory).WithMany().OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<AwardItem>(entity =>
+                entity.Property(x => x.Description).IsRequired());
 
             modelBuilder.ApplySingularTableNameConvention();
         }

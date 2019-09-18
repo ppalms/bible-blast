@@ -1,0 +1,92 @@
+[
+    {
+        "CategoryId": 1,
+        "ItemId": 1,
+        "IsImmediate": true,
+        "Ordinal": 1
+    },
+    {
+        "CategoryId": 1,
+        "ItemId": 2,
+        "IsImmediate": true,
+        "Ordinal": 2
+    },
+    {
+        "CategoryId": 1,
+        "ItemId": 3,
+        "IsImmediate": false,
+        "Ordinal": 3
+    },
+    {
+        "CategoryId": 2,
+        "ItemId": 1,
+        "IsImmediate": true,
+        "Ordinal": 1
+    },
+    {
+        "CategoryId": 2,
+        "ItemId": 2,
+        "IsImmediate": true,
+        "Ordinal": 2
+    },
+    {
+        "CategoryId": 2,
+        "ItemId": 3,
+        "IsImmediate": false,
+        "Ordinal": 3
+    },
+    {
+        "CategoryId": 3,
+        "ItemId": 4,
+        "IsImmediate": true,
+        "Ordinal": 1
+    },
+    {
+        "CategoryId": 3,
+        "ItemId": 1,
+        "IsImmediate": true,
+        "Ordinal": 2
+    },
+    {
+        "CategoryId": 3,
+        "ItemId": 5,
+        "IsImmediate": true,
+        "Ordinal": 3
+    },
+    {
+        "CategoryId": 3,
+        "ItemId": 6,
+        "IsImmediate": true,
+        "Ordinal": 4
+    },
+    {
+        "CategoryId": 3,
+        "ItemId": 8,
+        "IsImmediate": true,
+        "Ordinal": 5
+    },
+    {
+        "CategoryId": 3,
+        "ItemId": 7,
+        "IsImmediate": true,
+        "Ordinal": 6
+    },
+    {
+        "CategoryId": 3,
+        "ItemId": 3,
+        "IsImmediate": false,
+        "Ordinal": 7
+    },
+    {
+        "CategoryId": 4,
+        "ItemId": 9,
+        "IsImmediate": true,
+        "Ordinal": 1
+    },
+    {
+        "CategoryId": 4,
+        "ItemId": 3,
+        "IsImmediate": false,
+        "Ordinal": 2
+    }
+]
