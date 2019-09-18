@@ -1,21 +1,25 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from './_guards/auth-guard';
+
 import { HomeComponent } from './home/home.component';
 import { KidListComponent } from './kids/kid-list/kid-list.component';
-import { AuthGuard } from './_guards/auth-guard';
-import { KidListResolver } from './_resolvers/kid-list.resolver';
 import { KidDetailComponent } from './kids/kid-detail/kid-detail.component';
-import { KidDetailResolver } from './_resolvers/kid-detail.resolver';
 import { UserListComponent } from './users/user-list/user-list.component';
 import { UserEditComponent } from './users/user-edit/user-edit.component';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { AwardsComponent } from './awards/awards.component';
+import { AwardEditComponent } from './awards/award-edit/award-edit.component';
+
+import { KidListResolver } from './_resolvers/kid-list.resolver';
+import { KidDetailResolver } from './_resolvers/kid-detail.resolver';
 import { UserListResolver } from './_resolvers/user-list.resolver';
 import { UserEditResolver } from './_resolvers/user-edit.resolver';
 import { OrganizationListResolver } from './_resolvers/organization-list.resolver';
 import { UserProfileResolver } from './_resolvers/user-profile.resolver';
 import { MemoryCategoryResolver } from './_resolvers/memory-category.resolver';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { AwardEditResolver } from './_resolvers/award-edit.resolver';
 import { AwardListResolver } from './_resolvers/award-list.resolver';
 
 const routes: Routes = [
@@ -39,6 +43,10 @@ const routes: Routes = [
       {
         path: 'awards', component: AwardsComponent,
         resolve: { awards: AwardListResolver }
+      },
+      {
+        path: 'awards/:id', component: AwardEditComponent,
+        resolve: { award: AwardEditResolver }
       },
       {
         path: 'users', component: UserListComponent,
