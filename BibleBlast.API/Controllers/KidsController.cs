@@ -120,27 +120,6 @@ namespace BibleBlast.API.Controllers
             return BadRequest("Failed to delete the kid");
         }
 
-        [HttpGet("{id}/memories")]
-        public async Task<IActionResult> GetCompletedMemeories(int id)
-        {
-            IEnumerable<KidMemory> memories;
-            memories = await _repo.GetCompletedMemories(id);
-
-            if (!memories.Any())
-            {
-                return NotFound();
-            }
-
-            if (UserRole == UserRoles.Member && !memories.Any(x => x.Kid.Parents.Any(p => p.UserId == UserId)))
-            {
-                return Unauthorized();
-            }
-
-            var completedMemeories = _mapper.Map<IEnumerable<CompletedMemory>>(memories);
-
-            return Ok(completedMemeories);
-        }
-
         [HttpPost("{id}/memories")]
         [Authorize(Roles = "Coach,Admin")]
         public async Task<IActionResult> UpsertCompletedMemories(int id, [FromBody]KidMemoryRequest[] kidMemoryParams)

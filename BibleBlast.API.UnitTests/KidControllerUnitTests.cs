@@ -9,9 +9,7 @@ using AutoMapper;
 using System.Security.Claims;
 using BibleBlast.API.Dtos;
 using Microsoft.AspNetCore.Http;
-using System.Collections.ObjectModel;
 using System.Collections.Generic;
-using System.Linq;
 using System;
 
 namespace BibleBlast.API.UnitTests
@@ -92,139 +90,6 @@ namespace BibleBlast.API.UnitTests
             var result = _kidsController.Get(1).Result;
 
             Assert.IsInstanceOfType(result, typeof(NotFoundResult));
-        }
-
-        [TestMethod]
-        public void GetCompletedMemories_MemberUser_IsParent_HasMemories_ReturnsOk()
-        {
-            const int kidId = 324;
-
-            var kidMemories = new Collection<KidMemory>
-            {
-                new KidMemory
-                {
-                    Memory = new Memory { Id = 1, Name = "The Lords Prayer", Description = "Matthew 6:9-13" },
-                    Kid = new Kid { Id = 1, Parents = new [] { new UserKid { KidId = 1, UserId = _userId } } }
-                },
-                new KidMemory
-                {
-                    Memory = new Memory { Id = 2, Name = "The 12 Apostles", Description = "Matthew 10:2-4" },
-                    Kid = new Kid { Id = 1, Parents = new [] { new UserKid { KidId = 1, UserId = _userId } } }
-                },
-                new KidMemory
-                {
-                    Memory = new Memory { Id = 3, Name = "The 4 Brothers of Jesus", Description = "Matthew 13:55" },
-                    Kid = new Kid { Id = 1, Parents = new [] { new UserKid { KidId = 1, UserId = _userId } } }
-                },
-            };
-
-            _kidsController.AddUserClaim(ClaimTypes.Role, UserRoles.Member);
-
-            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId)).ReturnsAsync(kidMemories);
-
-            var expected = new Collection<CompletedMemory>
-            {
-                new CompletedMemory { KidId = kidId, MemoryId = 1 },
-                new CompletedMemory { KidId = kidId, MemoryId = 2 },
-                new CompletedMemory { KidId = kidId, MemoryId = 3 },
-            };
-
-            _mapperMock.Setup(x => x.Map<IEnumerable<CompletedMemory>>(kidMemories)).Returns(expected);
-
-            var actual = _kidsController.GetCompletedMemeories(kidId).Result;
-
-            Assert.IsInstanceOfType(actual, typeof(OkObjectResult));
-            Assert.IsInstanceOfType(((OkObjectResult)actual).Value, typeof(ICollection<CompletedMemory>));
-            CollectionAssert.AreEquivalent(expected, ((OkObjectResult)actual).Value as Collection<CompletedMemory>);
-        }
-
-        [TestMethod]
-        public void GetCompletedMemories_NoMemories_ReturnsNotFound()
-        {
-            const int kidId = 324;
-
-            _kidsController.AddUserClaim(ClaimTypes.Role, UserRoles.Member);
-
-            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId)).ReturnsAsync(Enumerable.Empty<KidMemory>());
-
-            var actual = _kidsController.GetCompletedMemeories(kidId).Result;
-
-            Assert.IsInstanceOfType(actual, typeof(NotFoundResult));
-        }
-
-        [TestMethod]
-        public void GetCompletedMemories_MemberUser_IsNotParent_ReturnsUnauthorized()
-        {
-            var user = new ClaimsPrincipal(new ClaimsIdentity(new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, _userId.ToString()),
-                new Claim(ClaimTypes.Role, "Member")
-            }));
-
-            _kidsController.ControllerContext = new ControllerContext()
-            {
-                HttpContext = new DefaultHttpContext() { User = user }
-            };
-
-            const int kidId = 324;
-
-            var kidMemories = new Collection<KidMemory>
-            {
-                new KidMemory
-                {
-                    Memory = new Memory { Id = 1, Name = "The Lords Prayer", Description = "Matthew 6:9-13" },
-                    Kid = new Kid { Id = 1, Parents = new [] { new UserKid { KidId = 1, UserId = 789 } } }
-                },
-                new KidMemory
-                {
-                    Memory = new Memory { Id = 2, Name = "The 12 Apostles", Description = "Matthew 10:2-4" },
-                    Kid = new Kid { Id = 1, Parents = new [] { new UserKid { KidId = 1, UserId = 789 } } }
-                },
-            };
-
-            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId)).ReturnsAsync(kidMemories);
-
-            var actual = _kidsController.GetCompletedMemeories(kidId).Result;
-
-            Assert.IsInstanceOfType(actual, typeof(UnauthorizedResult));
-        }
-
-        [TestMethod]
-        public void GetCompletedMemories_CoachUser_IsNotParent_ReturnsOk()
-        {
-            const int kidId = 324;
-
-            _kidsController.HttpContext.User.AddIdentity(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Role, UserRoles.Coach) }));
-
-            var kidMemories = new Collection<KidMemory>
-            {
-                new KidMemory
-                {
-                    Memory = new Memory { Id = 1, Name = "The Lords Prayer", Description = "Matthew 6:9-13" },
-                    Kid = new Kid { Id = 1, Parents = new [] { new UserKid { KidId = 1, UserId = 789 } } }
-                },
-                new KidMemory
-                {
-                    Memory = new Memory { Id = 2, Name = "The 12 Apostles", Description = "Matthew 10:2-4" },
-                    Kid = new Kid { Id = 1, Parents = new [] { new UserKid { KidId = 1, UserId = 789 } } }
-                },
-            };
-
-            _kidRepoMock.Setup(x => x.GetCompletedMemories(kidId)).ReturnsAsync(kidMemories);
-
-            var expected = new Collection<CompletedMemory>
-            {
-                new CompletedMemory { KidId = kidId, MemoryId = 1 },
-                new CompletedMemory { KidId = kidId, MemoryId = 2 },
-            };
-
-            _mapperMock.Setup(x => x.Map<IEnumerable<CompletedMemory>>(kidMemories)).Returns(expected);
-
-            var actual = _kidsController.GetCompletedMemeories(kidId).Result;
-
-            Assert.IsInstanceOfType(actual, typeof(OkObjectResult));
-            Assert.IsInstanceOfType(((OkObjectResult)actual).Value, typeof(ICollection<CompletedMemory>));
-            CollectionAssert.AreEquivalent(expected, ((OkObjectResult)actual).Value as Collection<CompletedMemory>);
         }
 
         [TestMethod]
