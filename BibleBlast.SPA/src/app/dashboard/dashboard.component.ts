@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { AlertifyService } from '../_services/alertify.service';
-import { KidMemoryCategory } from '../_models/memory';
-import { DashboardViewModel } from '../_models/kid';
 import { MemoryService } from '../_services/memory.service';
+import { KidMemoryCategory } from '../_models/memory';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +10,7 @@ import { MemoryService } from '../_services/memory.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  viewModel: DashboardViewModel[];
+  categories: KidMemoryCategory[];
   queryParams: any = {
     fromDate: new Date(new Date().setHours(0, 0, 0, 0)),
     toDate: new Date(new Date().setHours(23, 59, 59, 999)),
@@ -29,8 +27,6 @@ export class DashboardComponent implements OnInit {
 
   loadCompletedMemories() {
     this.memoryService.getCompletedMemories(this.queryParams)
-      .subscribe(viewModel => {
-        this.viewModel = viewModel;
-      }, this.alertify.error);
+      .subscribe(categories => this.categories = categories, this.alertify.error);
   }
 }

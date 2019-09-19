@@ -36,9 +36,9 @@ namespace BibleBlast.API.Controllers
         {
             var memories = await _repo.GetMemoryCategories();
 
-            var dto = _mapper.Map<IEnumerable<KidMemoryCategory>>(memories);
+            // var dto = _mapper.Map<IEnumerable<KidMemoryCategory>>(memories);
 
-            return Ok(dto);
+            return Ok(memories);
         }
 
         [HttpGet("completed")]
@@ -57,18 +57,18 @@ namespace BibleBlast.API.Controllers
             var dto = memories
                 .GroupBy(km => km.Memory.Category)
                 .OrderBy(c => c.Key.Id)
-                .Select(c => new DashboardViewModel
+                .Select(c => new KidMemoryCategory
                 {
                     CategoryId = c.Key.Id,
                     CategoryName = c.Key.Name,
-                    Memories = c.GroupBy(km => km.Kid)
+                    KidMemories = c.GroupBy(km => km.Kid)
                         .OrderBy(km => km.Key.LastName)
-                        .Select(k => new DashboardMemory
+                        .Select(k => new KidMemoryDetail
                         {
                             FirstName = k.Key.FirstName,
                             LastName = k.Key.LastName,
                             Completed = k.OrderByDescending(x => x.DateCompleted).ThenBy(x => x.Memory.Name)
-                                .Select(x => new KidMemoryListItem
+                                .Select(x => new CompletedMemoryDetail
                                 {
                                     MemoryId = x.Memory.Id,
                                     MemoryName = x.Memory.Name,

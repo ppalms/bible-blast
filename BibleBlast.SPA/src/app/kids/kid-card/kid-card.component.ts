@@ -31,7 +31,7 @@ export class KidCardComponent implements OnInit {
 
   completedMemories = (categoryId: number) =>
     `${this.kid.completedMemories.filter(x => x.categoryId === categoryId).length}
-      / ${this.memoryCategories.find(x => x.categoryId === categoryId).memories.length}`
+      / ${this.memoryCategories.find(c => c.id === categoryId).memories.length}`
 
   navigateToDetail = () => this.router.navigate([`/kids/${this.kid.id}`]);
 }

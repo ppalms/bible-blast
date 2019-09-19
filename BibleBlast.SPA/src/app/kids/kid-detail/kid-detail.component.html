@@ -20,7 +20,7 @@
         <div accordion-heading class="memory-category">
           <div class="row">
             <div class="col">
-              <span class="category-name">{{cat.value.categoryName}}</span>
+              <span class="category-name">{{cat.value.name}}</span>
             </div>
             <div class="col text-right">
               <span class="badge badge-secondary">{{getBadgeText(cat.value.memories)}}</span>
@@ -47,14 +47,14 @@
                     <i class="fa fa-check text-success" *ngIf="memory.value.dateCompleted"></i>
                   </span>
                   <span *appHasRole="['Coach','Admin']" class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" [id]="memory.value.memoryId"
+                    <input type="checkbox" class="custom-control-input" [id]="memory.value.id"
                       [checked]="memory.value.dateCompleted"
                       (change)="setCompleted(memory, $event.currentTarget.checked)">
-                    <label class="custom-control-label" [for]="memory.value.memoryId"></label>
+                    <label class="custom-control-label" [for]="memory.value.id"></label>
                   </span>
                 </td>
-                <td class="align-middle">{{memory.value.memoryName}}</td>
-                <td class="align-middle">{{memory.value.memoryDescription}}</td>
+                <td class="align-middle">{{memory.value.name}}</td>
+                <td class="align-middle">{{memory.value.description}}</td>
                 <td class="align-middle">{{memory.value.points}}</td>
                 <td>
                   <span *appHasRole="['Member']">{{memory.value.dateCompleted | date}}</span>

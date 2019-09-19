@@ -67,21 +67,7 @@ namespace BibleBlast.API.Helpers
                 .ForMember(dest => dest.Points, opt => opt.MapFrom(src => src.Memory.Points))
                 .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Memory.Category.Id));
 
-            CreateMap<MemoryCategory, KidMemoryCategory>()
-                .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.Memories, opt =>
-                {
-                    opt.MapFrom(src => src.Memories.Select(memory => new KidMemoryListItem
-                    {
-                        MemoryId = memory.Id,
-                        MemoryName = memory.Name,
-                        MemoryDescription = memory.Description,
-                        Points = memory.Points ?? 0,
-                    }));
-                });
-
-            CreateMap<KidMemory, KidMemoryListItem>();
+            CreateMap<KidMemory, CompletedMemoryDetail>();
             CreateMap<KidMemoryRequest, KidMemory>();
         }
     }

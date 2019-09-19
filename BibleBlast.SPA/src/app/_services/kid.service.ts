@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
-import { Kid, DashboardViewModel } from '../_models/kid';
+import { Kid } from '../_models/kid';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { PaginatedResult } from '../_models/pagination';

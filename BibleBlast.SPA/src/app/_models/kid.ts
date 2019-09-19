@@ -1,5 +1,3 @@
-import { KidMemoryListItem, KidMemoryCategory } from './memory';
-
 export interface Kid {
     id: number;
     firstName: string;
@@ -18,11 +16,4 @@ export interface CompletedMemory {
     categoryId: number;
     points: number;
     dateCompleted: Date;
-}
-
-export interface DashboardViewModel {
-    kidId: number;
-    firstName: string;
-    lastName: string;
-    categories: KidMemoryCategory[];
 }

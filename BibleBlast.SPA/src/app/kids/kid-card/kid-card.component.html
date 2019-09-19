@@ -15,9 +15,9 @@
 
     <div>
       <div class="card-text row" *ngFor="let category of this.memoryCategories">
-        <div class="col">{{category.categoryName}}</div>
+        <div class="col">{{category.name}}</div>
         <div class="col-4 text-right">
-          <span class="badge badge-secondary">{{this.completedMemories(category.categoryId)}}</span>
+          <span class="badge badge-secondary">{{this.completedMemories(category.id)}}</span>
         </div>
       </div>
     </div>
