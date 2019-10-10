@@ -69,6 +69,9 @@ namespace BibleBlast.API.Helpers
 
             CreateMap<KidMemory, CompletedMemoryDetail>();
             CreateMap<KidMemoryRequest, KidMemory>();
+
+            CreateMap<KidAward, EarnedAward>()
+                .ForMember(dest => dest.ItemDescription, opt => opt.MapFrom(src => src.Award.Item.Description));
         }
     }
 }

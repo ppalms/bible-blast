@@ -16,6 +16,7 @@ namespace BibleBlast.API.Models
         public ICollection<UserKid> Parents { get; set; }
         public Organization Organization { get; set; }
         public ICollection<KidMemory> CompletedMemories { get; set; }
+        public ICollection<KidAward> EarnedAwards { get; set; }
         public bool IsActive { get; set; } = true;
     }
 }

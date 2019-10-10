@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using BibleBlast.API.Models;
 
 namespace BibleBlast.API.Dtos
 {
@@ -18,6 +19,7 @@ namespace BibleBlast.API.Dtos
         public ICollection<UserDetail> Parents { get; set; }
         public DateTime DateRegistered { get; set; }
         public ICollection<CompletedMemory> CompletedMemories { get; set; }
+        public ICollection<EarnedAward> EarnedAwards { get; set; }
         public bool IsActive { get; set; }
     }
 
@@ -31,5 +33,12 @@ namespace BibleBlast.API.Dtos
         public int? Points { get; set; }
         public int CategoryId { get; set; }
         public DateTime DateCompleted { get; set; }
+    }
+
+    public class EarnedAward
+    {
+        public int AwardId { get; set; }
+        public string ItemDescription { get; set; }
+        public DateTime DatePresented { get; set; }
     }
 }
