@@ -18,9 +18,11 @@ export class AwardService {
     return this.http.get<Award>(`${environment.apiUrl}/awards/${id}`);
   }
 
-  getAwardsEarned(categoryId: number): Observable<AwardEarned[]> {
+  getAwardsEarned(categoryId: number, fromDate: Date, toDate: Date): Observable<AwardEarned[]> {
     let params = new HttpParams();
     params = params.append('categoryId', categoryId.toString());
+    params = params.append('fromDate', fromDate.toISOString());
+    params = params.append('toDate', toDate.toISOString());
 
     return this.http.get<AwardEarned[]>(`${environment.apiUrl}/awards/earned`, { params });
   }

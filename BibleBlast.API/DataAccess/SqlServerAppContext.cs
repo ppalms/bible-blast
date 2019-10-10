@@ -3,6 +3,7 @@ using BibleBlast.API.Models;
 using BibleBlast.API.Helpers;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using BibleBlast.API.Dtos;
 
 namespace BibleBlast.API.DataAccess
 {
@@ -27,6 +28,7 @@ namespace BibleBlast.API.DataAccess
         public DbSet<AwardItem> AwardItems { get; set; }
         public DbSet<AwardMemory> AwardMemories { get; set; }
         public DbSet<KidAward> KidAwards { get; set; }
+        public DbQuery<AwardEarnedDto> AwardsEarned { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

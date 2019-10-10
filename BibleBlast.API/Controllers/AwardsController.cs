@@ -60,33 +60,27 @@ namespace BibleBlast.API.Controllers
         }
 
         [HttpGet("earned")]
-        public async Task<IActionResult> GetAwardsEarned([FromQuery]int categoryId)
+        public async Task<IActionResult> GetAwardsEarned([FromQuery]int categoryId, DateTime fromDate, DateTime toDate)
         {
-            var awards = await _repo.GetAwardsEarned(categoryId);
+            var awards = await _repo.GetAwardsEarned(categoryId, fromDate, toDate);
 
-            var dto = awards.Select(award => new AwardEarned
-            {
-                Id = award.Id,
-                CategoryId = award.CategoryId,
-                ItemDescription = award.Item.Description,
-                Timing = award.IsImmediate ? "Now" : "Finale",
-                Kids = award.AwardMemories.SelectMany(am => am.Memory.KidMemories)
-                    .GroupBy(km => km.Kid)
-                    .Where(g => award.AwardMemories.Count() == g.Count())
-                    .Select(g => new KidAwardListItem
+            var dto = awards.GroupBy(a => new { a.AwardId, a.CategoryId, a.ItemDescription, a.IsImmediate, a.Ordinal })
+                .Select(g => new AwardEarned
+                {
+                    Id = g.Key.AwardId,
+                    CategoryId = g.Key.CategoryId,
+                    ItemDescription = g.Key.ItemDescription,
+                    Timing = g.Key.IsImmediate ? "Now" : "Finale",
+                    Kids = g.GroupBy(k => new { k.KidId, k.FirstName, k.LastName, k.DatePresented })
+                    .Select(x => new KidAwardListItem
                     {
-                        Id = g.Key.Id,
-                        FirstName = g.Key.FirstName,
-                        LastName = g.Key.LastName,
-                        DatePresented = g.Key.EarnedAwards.Any(ea => ea.AwardId == award.Id)
-                            ? g.Key.EarnedAwards
-                                .Where(ea => ea.AwardId == award.Id)
-                                .Select(ea => ea.DatePresented)
-                                .First()
-                            : (DateTime?)null
+                        Id = x.Key.KidId,
+                        FirstName = x.Key.FirstName,
+                        LastName = x.Key.LastName,
+                        DatePresented = x.Key.DatePresented
                     }),
-                Ordinal = award.Ordinal,
-            });
+                    Ordinal = g.Key.Ordinal
+                });
 
             return Ok(dto);
         }

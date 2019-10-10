@@ -20,7 +20,7 @@ export class CompletedMemoriesComponent implements OnInit {
   }
 
   loadAwardsEarned() {
-    this.awardService.getAwardsEarned(this.category.categoryId)
+    this.awardService.getAwardsEarned(this.category.categoryId, this.fromDate, this.toDate)
       .subscribe(awards => this.awards = awards, console.error);
   }
 }
