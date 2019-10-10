@@ -158,5 +158,24 @@ namespace BibleBlast.API.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("{id}/award")]
+        [Authorize(Roles = "Coach,Admin")]
+        public async Task<IActionResult> InsertKidAward(int id, [FromBody]KidAward kidAward)
+        {
+            if (id != kidAward.KidId)
+            {
+                return BadRequest();
+            }
+
+            if (await _repo.GetKid(id) == null)
+            {
+                return BadRequest();
+            }
+
+            await _repo.InsertPresentedAward(kidAward);
+
+            return NoContent();
+        }
     }
 }

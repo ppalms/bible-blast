@@ -185,5 +185,31 @@ namespace BibleBlast.API.UnitTests
 
             Assert.IsInstanceOfType(actual, typeof(NoContentResult));
         }
+
+        [TestMethod]
+        public void InsertKidAward_WrongKidId_ReturnsBadRequest()
+        {
+            const int expectedKidId = 22;
+
+            var kidAward = new KidAward { KidId = 19, AwardId = 1 };
+
+            var actual = _kidsController.InsertKidAward(expectedKidId, kidAward).Result;
+
+            Assert.IsInstanceOfType(actual, typeof(BadRequestResult));
+        }
+
+        [TestMethod]
+        public void InsertKidAward_Success_ReturnsNoContent()
+        {
+            const int kidId = 19;
+            var kidAward = new KidAward { KidId = kidId, AwardId = 1 };
+
+            _kidRepoMock.Setup(x => x.GetKid(kidId)).ReturnsAsync(new Kid { Id = kidId });
+            _kidRepoMock.Setup(x => x.InsertPresentedAward(kidAward)).ReturnsAsync(true);
+
+            var actual = _kidsController.InsertKidAward(kidAward.KidId, kidAward).Result;
+
+            Assert.IsInstanceOfType(actual, typeof(NoContentResult));
+        }
     }
 }

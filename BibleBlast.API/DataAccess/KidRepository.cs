@@ -49,6 +49,7 @@ namespace BibleBlast.API.DataAccess
 
         public async Task<Kid> GetKidWithChildEntities(int id) => await _context.Kids
                 .Include(kid => kid.CompletedMemories).ThenInclude(km => km.Memory).ThenInclude(mem => mem.Category)
+                .Include(kid => kid.EarnedAwards).ThenInclude(ea => ea.Award).ThenInclude(a => a.Item)
                 .Include(kid => kid.Parents).ThenInclude(parent => parent.User).ThenInclude(parent => parent.Organization)
                 .FirstOrDefaultAsync(kid => kid.Id == id);
 
@@ -65,7 +66,7 @@ namespace BibleBlast.API.DataAccess
         {
             _context.Kids.Remove(kid);
 
-            return await _context.SaveChangesAsync() > 0;
+            return await SaveAll();
         }
 
         public async Task<IEnumerable<KidMemory>> GetCompletedMemories(int id)
@@ -91,7 +92,7 @@ namespace BibleBlast.API.DataAccess
             var memoriesToInsert = kidMemories.Except(memoriesToUpdate);
             _context.KidMemories.AddRange(memoriesToInsert);
 
-            return await _context.SaveChangesAsync() > 0;
+            return await SaveAll();
         }
 
         public async Task<bool> DeleteCompletedMemories(int id, IEnumerable<int> memoryIds)
@@ -100,10 +101,16 @@ namespace BibleBlast.API.DataAccess
 
             _context.KidMemories.RemoveRange(memories);
 
-            return await _context.SaveChangesAsync() > 0;
+            return await SaveAll();
         }
 
-        // todo replace repeated code
+        public async Task<bool> InsertPresentedAward(KidAward kidAward)
+        {
+            await _context.KidAwards.AddAsync(kidAward);
+
+            return await SaveAll();
+        }
+
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync() > 0;
