@@ -29,8 +29,7 @@ namespace BibleBlast.API.DataAccess
         
         public async Task<IEnumerable<KidMemory>> GetCompletedMemories(CompletedMemoryParams queryParams)
         {
-            var completedMemories = _context.KidMemories
-                .Include(km => km.Kid).ThenInclude(k => k.Parents)
+            var completedMemories = _context.KidMemories.Include(km => km.Kid)
                 .Include(km => km.Memory).ThenInclude(m => m.Category)
                 .AsQueryable();
 
