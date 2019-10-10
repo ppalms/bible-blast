@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using BibleBlast.API.Dtos;
@@ -56,6 +57,38 @@ namespace BibleBlast.API.Controllers
             }
 
             return Ok(award);
+        }
+
+        [HttpGet("earned")]
+        public async Task<IActionResult> GetAwardsEarned([FromQuery]int categoryId)
+        {
+            var awards = await _repo.GetAwardsEarned(categoryId);
+
+            var dto = awards.Select(award => new AwardEarned
+            {
+                Id = award.Id,
+                CategoryId = award.CategoryId,
+                ItemDescription = award.Item.Description,
+                Timing = award.IsImmediate ? "Now" : "Finale",
+                Kids = award.AwardMemories.SelectMany(am => am.Memory.KidMemories)
+                    .GroupBy(km => km.Kid)
+                    .Where(g => award.AwardMemories.Count() == g.Count())
+                    .Select(g => new KidAwardListItem
+                    {
+                        Id = g.Key.Id,
+                        FirstName = g.Key.FirstName,
+                        LastName = g.Key.LastName,
+                        DatePresented = g.Key.EarnedAwards.Any(ea => ea.AwardId == award.Id)
+                            ? g.Key.EarnedAwards
+                                .Where(ea => ea.AwardId == award.Id)
+                                .Select(ea => ea.DatePresented)
+                                .First()
+                            : (DateTime?)null
+                    }),
+                Ordinal = award.Ordinal,
+            });
+
+            return Ok(dto);
         }
     }
 }
