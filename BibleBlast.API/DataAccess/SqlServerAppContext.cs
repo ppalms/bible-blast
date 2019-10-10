@@ -26,6 +26,7 @@ namespace BibleBlast.API.DataAccess
         public DbSet<Award> Awards { get; set; }
         public DbSet<AwardItem> AwardItems { get; set; }
         public DbSet<AwardMemory> AwardMemories { get; set; }
+        public DbSet<KidAward> KidAwards { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -91,6 +92,14 @@ namespace BibleBlast.API.DataAccess
 
             modelBuilder.Entity<AwardItem>(entity =>
                 entity.Property(x => x.Description).IsRequired());
+
+            modelBuilder.Entity<KidAward>(entity =>
+            {
+                entity.HasKey(ka => new { ka.KidId, ka.AwardId });
+                entity.HasQueryFilter(km => km.Kid.IsActive
+                    && km.Kid.OrganizationId == _userResolver.OrganizationId
+                    || _userResolver.UserRole == Models.UserRoles.Admin);
+            });
 
             modelBuilder.ApplySingularTableNameConvention();
         }
