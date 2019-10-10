@@ -13,7 +13,8 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6" *ngFor="let category of categories">
-            <app-completed-memories [category]="category"></app-completed-memories>
+            <app-completed-memories [category]="category" [fromDate]="queryParams.fromDate"
+                [toDate]="queryParams.toDate"></app-completed-memories>
         </div>
     </div>
 </div>

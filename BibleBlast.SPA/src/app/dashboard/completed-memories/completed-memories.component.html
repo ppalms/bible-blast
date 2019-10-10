@@ -1,12 +1,13 @@
 <div class="card my-2">
     <div class="card-body">
-        <h5 class="card-title">{{category.categoryName}}</h5>
+        <h4 class="card-title text-primary">{{category.categoryName}}</h4>
+        <h5 class="card-title text-secondary">Completed Memory Items</h5>
 
         <div *ngFor="let kidMemory of category.kidMemories">
             <table class="table table-sm">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" colspan="3">{{kidMemory.firstName}} {{kidMemory.lastName}}</th>
+                        <th scope="colgroup" colspan="3">{{kidMemory.firstName}} {{kidMemory.lastName}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -18,5 +19,7 @@
                 </tbody>
             </table>
         </div>
+
+        <app-award-list-earned [awards]=awards></app-award-list-earned>
     </div>
 </div>

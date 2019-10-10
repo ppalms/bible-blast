@@ -1,0 +1,22 @@
+<h5 class="card-title text-secondary">Awards Earned</h5>
+<div *ngFor="let award of awards">
+    <table class="table table-sm">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="colgroup" colspan="2">{{award.itemDescription}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let kid of award.kids">
+                <td>{{kid.firstName}} {{kid.lastName}}</td>
+                <td class="text-right pt-0">
+                    <button *ngIf="!kid.datePresented" class="badge badge-primary"
+                        (click)="presentAward(kid.id, award.id)">Present Award</button>
+                    <span *ngIf="kid.datePresented">
+                        {{kid.datePresented | date}}
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

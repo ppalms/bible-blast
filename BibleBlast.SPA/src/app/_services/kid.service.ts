@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
-import { Kid } from '../_models/kid';
+import { Kid, KidAward } from '../_models/kid';
 import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { PaginatedResult } from '../_models/pagination';
@@ -63,5 +63,9 @@ export class KidService {
     };
 
     return this.http.delete(`${environment.apiUrl}/kids/${id}/memories`, options);
+  }
+
+  insertKidAward(kidAward: KidAward) {
+    return this.http.post(`${environment.apiUrl}/kids/${kidAward.kidId}/award`, kidAward);
   }
 }

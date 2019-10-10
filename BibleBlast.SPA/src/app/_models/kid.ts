@@ -17,3 +17,16 @@ export interface CompletedMemory {
     points: number;
     dateCompleted: Date;
 }
+
+export interface KidAward {
+    kidId: number;
+    awardId: number;
+    datePresented: Date;
+}
+
+export interface KidAwardListItem {
+    id: number;
+    firstName: string;
+    lastName: string;
+    datePresented: Date;
+}

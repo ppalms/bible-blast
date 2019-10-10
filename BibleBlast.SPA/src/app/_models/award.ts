@@ -1,3 +1,5 @@
+import { KidAwardListItem } from './kid';
+
 export class Award {
     id: number;
     itemId: number;
@@ -15,5 +17,14 @@ export class AwardListItem {
     itemDescription: string;
     requirement: string;
     timing: boolean;
+    ordinal: number;
+}
+
+export class AwardEarned {
+    id: number;
+    categoryId: number;
+    itemDescription: string;
+    timing: boolean;
+    kids: KidAwardListItem[];
     ordinal: number;
 }

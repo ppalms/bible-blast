@@ -42,6 +42,7 @@ import { OrganizationListResolver } from './_resolvers/organization-list.resolve
 import { MemoryCategoryResolver } from './_resolvers/memory-category.resolver';
 import { AwardListResolver } from './_resolvers/award-list.resolver';
 import { AwardEditResolver } from './_resolvers/award-edit.resolver';
+import { AwardListEarnedComponent } from './awards/award-list-earned/award-list-earned.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -68,6 +69,7 @@ export function tokenGetter() {
     AwardsComponent,
     AwardListComponent,
     AwardEditComponent,
+    AwardListEarnedComponent,
   ],
   imports: [
     BrowserModule,
