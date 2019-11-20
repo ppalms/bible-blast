@@ -9,6 +9,6 @@ namespace BibleBlast.API.Dtos
     public class KidMemoryRequest
     {
         public int MemoryId { get; set; }
-        public DateTime DateCompleted { get; set; }
+        public DateTime? DateCompleted { get; set; }
     }
 }

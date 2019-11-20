@@ -1,0 +1,20 @@
+<div [formGroup]="memoryForm" class="row my-1 align-items-center">
+  <div class="col-1 text-center">
+    <span *appHasRole="['Member']">
+      <i class="fa fa-check text-success" *ngIf="memoryForm.value.dateCompleted"></i>
+    </span>
+    <span *appHasRole="['Coach','Admin']" class="custom-control custom-checkbox">
+      <input type="checkbox" class="custom-control-input" [id]="memoryForm.value.memoryId"
+        [checked]="memoryForm.value.dateCompleted" (change)="setCompleted($event.currentTarget.checked)">
+      <label class="custom-control-label" [for]="memoryForm.value.memoryId"></label>
+    </span>
+  </div>
+  <div class="col">{{memoryForm.value.name}}</div>
+  <div class="col">{{memoryForm.value.description}}</div>
+  <div class="col-5 col-md-3">
+    <span *appHasRole="['Member']">{{memoryForm.value.dateCompleted | date}}</span>
+    <span *appHasRole="['Coach','Admin']">
+      <input type="text" class="form-control" formControlName="dateCompleted" bsDatepicker [bsConfig]="bsConfig">
+    </span>
+  </div>
+</div>

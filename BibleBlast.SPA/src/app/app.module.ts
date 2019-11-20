@@ -16,6 +16,8 @@ import { HomeComponent } from './home/home.component';
 import { KidListComponent } from './kids/kid-list/kid-list.component';
 import { KidCardComponent } from './kids/kid-card/kid-card.component';
 import { KidDetailComponent } from './kids/kid-detail/kid-detail.component';
+import { KidMemoryCategoryComponent } from './kids/kid-detail/kid-memory-category/kid-memory-category.component';
+import { KidMemoryItemComponent } from './kids/kid-detail/kid-memory-category/kid-memory-item/kid-memory-item.component';
 import { KidEditComponent } from './kids/kid-edit/kid-edit.component';
 import { KidSearchComponent } from './kids/kid-search/kid-search.component';
 import { UserListComponent } from './users/user-list/user-list.component';
@@ -56,6 +58,8 @@ export function tokenGetter() {
     KidListComponent,
     KidCardComponent,
     KidDetailComponent,
+    KidMemoryCategoryComponent,
+    KidMemoryItemComponent,
     KidEditComponent,
     KidSearchComponent,
     UserListComponent,

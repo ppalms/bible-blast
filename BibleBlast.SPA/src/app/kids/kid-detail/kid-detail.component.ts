@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { BsDatepickerConfig } from 'ngx-bootstrap';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { KidService } from 'src/app/_services/kid.service';
-import { KidMemoryListItem, KidMemoryCategory } from 'src/app/_models/memory';
+import { KidMemoryItem, KidMemoryCategory } from 'src/app/_models/memory';
 import { Kid, CompletedMemory } from 'src/app/_models/kid';
 
 @Component({
@@ -15,13 +13,9 @@ import { Kid, CompletedMemory } from 'src/app/_models/kid';
 export class KidDetailComponent implements OnInit {
   kid: Kid;
   memoriesByCategory: KidMemoryCategory[];
-  memoryForm: FormGroup;
-  bsConfig: Partial<BsDatepickerConfig> = { dateInputFormat: 'MM/DD/YYYY' };
+  completedMemories: any[] = [];
 
-  constructor(
-    public kidService: KidService, private route: ActivatedRoute, private formBuilder: FormBuilder,
-    private router: Router, private alertify: AlertifyService
-  ) { }
+  constructor(public router: Router, private kidService: KidService, private route: ActivatedRoute, private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
@@ -39,79 +33,35 @@ export class KidDetailComponent implements OnInit {
 
       this.memoriesByCategory.forEach(c => c.memories.sort(this.sortMemories));
     });
-
-    this.memoryForm = this.formBuilder.group({
-      kidId: this.kid.id,
-      memoriesByCategory: this.formBuilder.array(
-        this.memoriesByCategory.map(c =>
-          this.formBuilder.group({
-            id: c.id,
-            name: c.name,
-            memories: this.formBuilder.array(
-              c.memories.map(m =>
-                this.formBuilder.group({
-                  id: m.id,
-                  name: m.name,
-                  description: m.description,
-                  points: m.points,
-                  dateCompleted: m.dateCompleted
-                })
-              )
-            )
-          })
-        )
-      )
-    });
   }
 
-  getBadgeText = (memories: KidMemoryListItem[]) => `${memories.filter(m => m.dateCompleted).length} / ${memories.length}`;
-
-  calculateTotalPoints = (memories: KidMemoryListItem[]) => memories.filter(m => m.dateCompleted)
-    .map(m => m.points).reduce((total, current) => total += current, 0)
-
-  setCompleted = (memory: FormGroup, checked: boolean) => {
-    const currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0);
-
-    if (checked) {
-      memory.patchValue({ dateCompleted: currentDate });
-    } else {
-      memory.patchValue({ dateCompleted: null });
-    }
-
-    memory.markAsDirty();
-  }
+  getBadgeText = (memories: KidMemoryItem[]) => `${memories.filter(m => m.dateCompleted).length} / ${memories.length}`;
 
   updateKidMemories = () => {
-    const completedMemories = this.memoryForm.value
-      .memoriesByCategory.map((c: KidMemoryCategory) => c.memories)
-      .reduce((prev: KidMemoryListItem[], curr: KidMemoryListItem[]) => prev.concat(curr))
-      .filter((m: KidMemoryListItem) => m.dateCompleted);
-
-    const completedToUpsert = [];
-    const completedToDelete = [];
-
-    completedMemories.forEach((kidMemory: KidMemoryListItem) =>
-      completedToUpsert.push({ memoryId: kidMemory.id, dateCompleted: kidMemory.dateCompleted })
-    );
-
-    this.kid.completedMemories.forEach((kidMemory: CompletedMemory) => {
-      if (!completedMemories.some((m: KidMemoryListItem) => m.id === kidMemory.memoryId)) {
-        completedToDelete.push({ memoryId: kidMemory.memoryId, dateCompleted: kidMemory.dateCompleted });
-      }
-    });
+    const completedToUpsert = this.completedMemories.filter(x => x.action === 'upsert');
+    const completedToDelete = this.completedMemories.filter(x => x.action === 'delete');
 
     this.kidService.upsertKidMemories(this.kid.id, completedToUpsert).subscribe(() => {
       this.kidService.deleteKidMemories(this.kid.id, completedToDelete).subscribe(() => {
-        this.memoryForm.markAsPristine();
         this.alertify.success('Memory items saved successfully');
       }, console.error);
     }, console.error);
   }
 
-  goBack = () => this.router.navigate(['/kids']);
+  handleKidMemoryChanged(completedMemory: any) {
+    this.completedMemories = this.completedMemories.filter(x => x.memoryId !== completedMemory.memoryId);
+    if (completedMemory.action === 'none') {
+      return;
+    }
 
-  sortMemories = (a: KidMemoryListItem, b: KidMemoryListItem) => {
+    this.completedMemories.push({
+      memoryId: completedMemory.memoryId,
+      dateCompleted: completedMemory.dateCompleted,
+      action: completedMemory.action
+    });
+  }
+
+  sortMemories = (a: KidMemoryItem, b: KidMemoryItem) => {
     const nameA = a.name.toUpperCase();
     const nameB = b.name.toUpperCase();
     const numA: number = parseInt(nameA, 10);

@@ -1,4 +1,4 @@
-export class MemoryListItem {
+export class MemoryItem {
     id: number;
     name: string;
     description: string;
@@ -8,13 +8,13 @@ export class MemoryListItem {
 export class MemoryCategory {
     id: number;
     name: string;
-    memories: MemoryListItem[];
+    memories: MemoryItem[];
 }
 
-export class KidMemoryListItem extends MemoryListItem {
+export class KidMemoryItem extends MemoryItem {
     dateCompleted: Date;
 }
 
 export class KidMemoryCategory extends MemoryCategory {
-    memories: KidMemoryListItem[];
+    memories: KidMemoryItem[];
 }

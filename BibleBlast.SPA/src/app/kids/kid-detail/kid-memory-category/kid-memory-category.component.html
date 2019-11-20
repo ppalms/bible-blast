@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="row bg-secondary text-white font-weight-bold py-1">
+    <div class="col-1"></div>
+    <div class="col">Memory Item</div>
+    <div class="col-5 col-md-3">Completed</div>
+  </div>
+
+  <form [formGroup]="categoryForm">
+    <div formArrayName="memories">
+      <div *ngFor="let memoryForm of memories.controls; index as i">
+        <app-kid-memory-item [memoryForm]="memoryForm" (completedChanged)="onCompletedChanged($event)">
+        </app-kid-memory-item>
+      </div>
+    </div>
+  </form>
+</div>

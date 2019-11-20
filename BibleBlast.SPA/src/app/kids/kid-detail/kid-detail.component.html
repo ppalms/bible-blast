@@ -3,81 +3,26 @@
     <h1>{{kid.firstName}} {{kid.lastName}}</h1>
   </div>
   <div class="col text-right">
-    <button class="btn btn-light mr-2" type="button" (click)="goBack()"><i class="fa fa-chevron-circle-left"
-        aria-hidden="true"></i> Back</button>
-    <button *appHasRole="['Coach','Admin']" class="btn btn-success" [disabled]="!memoryForm.dirty"
-      (click)="updateKidMemories()">Save All</button>
+    <button class="btn btn-light mr-2" type="button" (click)="router.navigate(['/kids'])"><i
+        class="fa fa-chevron-circle-left" aria-hidden="true"></i> Back</button>
+    <button *appHasRole="['Coach','Admin']" class="btn btn-success" (click)="updateKidMemories()">Save</button>
   </div>
 </div>
 
-<form [formGroup]="memoryForm" (ngSubmit)="updateKidMemories()">
-  <accordion [closeOthers]="true">
-    <div formGroupName="memoriesByCategory">
-      <accordion-group class="mb-1"
-        *ngFor="let cat of memoryForm['controls'].memoriesByCategory['controls']; let i=index;">
-
-        <div accordion-heading class="memory-category">
-          <div class="row">
-            <div class="col">
-              <span class="category-name">{{cat.value.name}}</span>
-            </div>
-            <div class="col text-right">
-              <span class="badge badge-secondary">{{getBadgeText(cat.value.memories)}}</span>
-            </div>
-          </div>
+<accordion [closeOthers]="true">
+  <accordion-group class="mb-1" *ngFor="let category of memoriesByCategory">
+    <div accordion-heading class="memory-category">
+      <div class="row">
+        <div class="col">
+          <span class="category-name">{{category.name}}</span>
         </div>
-
-        <div [formGroupName]="i">
-          <table class="table table-sm" formArrayName="memories">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col"></th>
-                <th scope="col">Memory Item</th>
-                <th></th>
-                <th scope="col">Points</th>
-                <th scope="col">Completed</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr [formGroupName]="j" *ngFor="let memory of cat['controls'].memories.controls; let j=index;">
-                <td class="text-center align-middle">
-                  <span *appHasRole="['Member']">
-                    <i class="fa fa-check text-success" *ngIf="memory.value.dateCompleted"></i>
-                  </span>
-                  <span *appHasRole="['Coach','Admin']" class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" [id]="memory.value.id"
-                      [checked]="memory.value.dateCompleted"
-                      (change)="setCompleted(memory, $event.currentTarget.checked)">
-                    <label class="custom-control-label" [for]="memory.value.id"></label>
-                  </span>
-                </td>
-                <td class="align-middle">{{memory.value.name}}</td>
-                <td class="align-middle">{{memory.value.description}}</td>
-                <td class="align-middle">{{memory.value.points}}</td>
-                <td>
-                  <span *appHasRole="['Member']">{{memory.value.dateCompleted | date}}</span>
-                  <span *appHasRole="['Coach','Admin']">
-                    <input type="text" class="form-control" formControlName="dateCompleted" bsDatepicker
-                      [bsConfig]="bsConfig">
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-
-            <tfoot>
-              <tr>
-                <td colspan="3"></td>
-                <td><strong>{{calculateTotalPoints(cat.value.memories)}}</strong></td>
-                <td class="text-right">
-                  <button *appHasRole="['Coach','Admin']" class="btn btn-success"
-                    [disabled]="!memoryForm.dirty">Save</button>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
+        <div class="col text-right">
+          <span class="badge badge-secondary">{{getBadgeText(category.memories)}}</span>
         </div>
-      </accordion-group>
+      </div>
     </div>
-  </accordion>
-</form>
+
+    <app-kid-memory-category [kidMemoryCategory]="category" (kidMemoryChanged)="handleKidMemoryChanged($event)">
+    </app-kid-memory-category>
+  </accordion-group>
+</accordion>
