@@ -1,36 +1,55 @@
 image: microsoft/dotnet:latest
 
 stages:
-    - build
-    - test
-    # - deploy
+  - build
+  - test
+  - deploy
 
 variables:
-    API_PATH: "BibleBlast.API"
-    TEST_PATH: "BibleBlast.API.UnitTests"
+  API_PATH: "BibleBlast.API"
+  TEST_PATH: "BibleBlast.API.UnitTests"
 
 before_script:
-    - "apt-get update"
-    - "apt-get -y install zip"
+  - "apt-get update"
+  - "apt-get -y install zip"
+
+  ## Install ssh-agent if not already installed, it is required by Docker.
+  ## (change apt-get to yum if you use an RPM-based image)
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+  ## Run ssh-agent (inside the build environment)
+  - eval $(ssh-agent -s)
+
+  ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+  ## We're using tr to fix line endings which makes ed25519 keys work
+  ## without extra base64 encoding.
+  ## https://gitlab.com/gitlab-examples/ssh-private-key/issues/1#note_48526556
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+
+  ## Create the SSH directory and give it the right permissions
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
 
 build:
-    stage: build
-    script:
-        - "cd $API_PATH"
-        - "dotnet restore"
-        - "dotnet build"
+  stage: build
+  script:
+    - "cd $API_PATH"
+    - "dotnet restore"
+    - "dotnet build"
 
 test:
-    stage: test
-    script: 
-        - "cd $TEST_PATH"
-        - "dotnet restore"
-        - "dotnet test"
+  stage: test
+  script: 
+    - "cd $TEST_PATH"
+    - "dotnet restore"
+    - "dotnet test"
 
-# deploy:
-#     stage: deploy
-#     script:
-#         - "dotnet tool install -g Amazon.Lambda.Tools"
-#         - "dotnet tool update -g Amazon.Lambda.Tools"
-#         - "cd $API_PATH"
-#         - "~/.dotnet/tools/dotnet-lambda deploy-serverless"
+deploy:
+  stage: deploy
+  script:
+    - "echo 'export TAG=0.1.${CI_CONCURRENT_ID}'"
+    - "echo 'export IMAGE_NAME=bible-blast'"
+    - "docker build -t jittles/$IMAGE_NAME:$TAG ."
+    - "echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin"
+    - "docker push jittles/$IMAGE_NAME:$TAG"
+    - "ssh -o StrictHostKeyChecking=no root@$DIGITALOCEAN_DROPLET_ADDRESS '/bin/bash ./deploy_app.sh jittles/$IMAGE_NAME:$TAG'"
