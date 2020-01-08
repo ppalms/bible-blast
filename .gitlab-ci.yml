@@ -1,0 +1,36 @@
+image: microsoft/dotnet:latest
+
+stages:
+    - build
+    - test
+    # - deploy
+
+variables:
+    API_PATH: "BibleBlast.API"
+    TEST_PATH: "BibleBlast.API.UnitTests"
+
+before_script:
+    - "apt-get update"
+    - "apt-get -y install zip"
+
+build:
+    stage: build
+    script:
+        - "cd $API_PATH"
+        - "dotnet restore"
+        - "dotnet build"
+
+test:
+    stage: test
+    script: 
+        - "cd $TEST_PATH"
+        - "dotnet restore"
+        - "dotnet test"
+
+# deploy:
+#     stage: deploy
+#     script:
+#         - "dotnet tool install -g Amazon.Lambda.Tools"
+#         - "dotnet tool update -g Amazon.Lambda.Tools"
+#         - "cd $API_PATH"
+#         - "~/.dotnet/tools/dotnet-lambda deploy-serverless"
