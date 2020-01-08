@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-primary">
+<nav class="navbar navbar-expand-md navbar-dark bg-primary">
   <a class="navbar-brand" [routerLink]="['/home']">FUMC Bible Blast</a>
 
   <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed">
@@ -8,7 +8,7 @@
   <div class="collapse navbar-collapse" [collapse]="isCollapsed">
     <div *ngIf="isLoggedIn()" class="navbar-nav mr-auto">
       <a class="nav-item nav-link" [routerLink]="['/dashboard']" routerLinkActive="active">
-        <i class="fa fa-check-square" aria-hidden="true"></i> Completed Items</a>
+        <i class="fa fa-check-circle" aria-hidden="true"></i> Completed Items</a>
       <a class="nav-item nav-link" [routerLink]="['/kids']" routerLinkActive="active">
         <i class="fa fa-child" aria-hidden="true"></i> Kids</a>
       <a class="nav-item nav-link" [routerLink]="['/users']" routerLinkActive="active" *appHasRole="['Coach','Admin']">
@@ -21,16 +21,13 @@
 
     <div *ngIf="isLoggedIn()" class="dropdown" dropdown>
       <a class="dropdown-toggle text-light" dropdownToggle>
-        Welcome {{authService.currentUser?.firstName || authService.decodedToken?.unique_name | titlecase}}
-      </a>
+        Welcome {{authService.currentUser?.firstName || authService.decodedToken?.unique_name | titlecase}}</a>
 
       <div class="dropdown-menu mt-3" *dropdownMenu>
         <a class="dropdown-item" [routerLink]="['/profile']">
-          <i class="fa fa-user-circle" aria-hidden="true"></i> Edit Profile
-        </a>
+          <i class="fa fa-user-circle" aria-hidden="true"></i> Edit Profile</a>
         <a class="dropdown-item" (click)="logout()">
-          <i class="fa fa-sign-out" aria-hidden="true"></i> Logout
-        </a>
+          <i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
       </div>
     </div>
 
