@@ -1,4 +1,3 @@
-[![CircleCI](https://circleci.com/gh/ppalms/bible-blast/tree/master.svg?style=svg&circle-token=fbd00fc5e5ea12894f335c012f0206df5eeb1090)](https://circleci.com/gh/ppalms/bible-blast/tree/master)
 # FUMC Bible Blast
 This project consists of a web app running on Angular 7 and .NET Core Web API for tracking kids' progress in the 'Bible Blast' program administered by [First United Methodist Church Tulsa](http://www.fumctulsa.org).
 
