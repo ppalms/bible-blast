@@ -45,6 +45,7 @@ test:
     - "dotnet test"
 
 deploy:
+  image: docker:latest
   stage: deploy
   script:
     - "echo 'export TAG=0.1.${CI_CONCURRENT_ID}'"
