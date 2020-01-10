@@ -9,20 +9,20 @@ variables:
   API_PATH: "BibleBlast.API"
   TEST_PATH: "BibleBlast.API.UnitTests"
 
-before_script:
-  - "apt-get update"
-  - "apt-get -y install zip"
-
 build:
   stage: build
   script:
+    - "apt-get update"
+    - "apt-get -y install zip"
     - "cd $API_PATH"
     - "dotnet restore"
     - "dotnet build"
 
 test:
   stage: test
-  script: 
+  script:
+    - "apt-get update"
+    - "apt-get -y install zip"
     - "cd $TEST_PATH"
     - "dotnet restore"
     - "dotnet test"
@@ -52,5 +52,5 @@ deploy:
     - "docker build -t jittles/$IMAGE_NAME:$TAG ."
     - "echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin"
     - "docker push jittles/$IMAGE_NAME:$TAG"
-    
+
     - "ssh -o StrictHostKeyChecking=no root@$DIGITALOCEAN_DROPLET_ADDRESS '/bin/bash ./deploy_app.sh jittles/$IMAGE_NAME:$TAG'"
