@@ -8,6 +8,9 @@ stages:
 variables:
   API_PATH: "BibleBlast.API"
   TEST_PATH: "BibleBlast.API.UnitTests"
+  IMAGE_NAME: bible-blast
+  TAG: 0.1.$CI_CONCURRENT_ID
+
 build:
   stage: build
   script:
@@ -46,8 +49,6 @@ deploy:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
 
-    - "echo 'export TAG=0.1.${CI_CONCURRENT_ID}'"
-    - "echo 'export IMAGE_NAME=bible-blast'"
     - "docker build -t jittles/$IMAGE_NAME:$TAG ."
     - "echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin"
     - "docker push jittles/$IMAGE_NAME:$TAG"
