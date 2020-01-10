@@ -8,7 +8,6 @@ stages:
 variables:
   API_PATH: "BibleBlast.API"
   TEST_PATH: "BibleBlast.API.UnitTests"
-
 build:
   stage: build
   script:
