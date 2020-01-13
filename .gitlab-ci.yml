@@ -30,7 +30,7 @@ test:
     - "dotnet test"
 
 deploy:
-  image: docker:latest
+  image: docker:dind
   stage: deploy
   script:
     ## Install ssh-agent if not already installed, it is required by Docker.
