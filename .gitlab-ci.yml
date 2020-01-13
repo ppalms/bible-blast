@@ -5,7 +5,17 @@ stages:
   - test
   - deploy
 
+services:
+  - name: docker:dind
+    entrypoint: ["env", "-u", "DOCKER_HOST"]
+    command: ["dockerd-entrypoint.sh"]
+
 variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+  # See https://github.com/docker-library/docker/pull/166
+  DOCKER_TLS_CERTDIR: ""
+
   API_PATH: "BibleBlast.API"
   TEST_PATH: "BibleBlast.API.UnitTests"
   IMAGE_NAME: bible-blast
@@ -30,8 +40,10 @@ test:
     - "dotnet test"
 
 deploy:
-  image: docker:dind
+  image: docker:latest
   stage: deploy
+  services:
+    - docker:dind
   script:
     ## Install ssh-agent if not already installed, it is required by Docker.
     - 'which ssh-agent || ( apk update -y && apk add openssh-client -y )'
