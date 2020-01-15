@@ -61,8 +61,8 @@ deploy:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
 
-    - "docker build -t jittles/$IMAGE_NAME:$TAG ."
-    - "echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin"
-    - "docker push jittles/$IMAGE_NAME:$TAG"
+    - docker build -t jittles/$IMAGE_NAME:$TAG .
+    - echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
+    - docker push jittles/$IMAGE_NAME:$TAG
 
-    - "ssh -o StrictHostKeyChecking=no root@$DIGITALOCEAN_DROPLET_ADDRESS '/bin/bash ./deploy_app.sh jittles/$IMAGE_NAME:$TAG'"
+    - ssh -o StrictHostKeyChecking=no root@$DIGITALOCEAN_DROPLET_ADDRESS "/bin/bash ./deploy_app.sh jittles/$IMAGE_NAME:$TAG"
