@@ -1,5 +1,5 @@
 # FUMC Bible Blast
-This project consists of a web app running on Angular 7 and .NET Core Web API for tracking kids' progress in the 'Bible Blast' program administered by [First United Methodist Church Tulsa](http://www.fumctulsa.org).
+This project consists of a web app running on Angular 9 and .NET Core Web API for tracking kids' progress in the 'Bible Blast' program administered by [First United Methodist Church Tulsa](http://www.fumctulsa.org).
 
 ## Environment Variables
 In order to run the app, the following environment variables must be set:
