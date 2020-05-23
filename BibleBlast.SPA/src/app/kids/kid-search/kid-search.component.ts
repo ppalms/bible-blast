@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Kid } from 'src/app/_models/kid';
 import { KidService } from 'src/app/_services/kid.service';
 import { PaginatedResult, Pagination } from 'src/app/_models/pagination';
-import { BsModalRef } from 'ngx-bootstrap';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-kid-search',

@@ -147,5 +147,8 @@
       }
     }
   },
-  "defaultProject": "bible-blast-spa"
+  "defaultProject": "bible-blast-spa",
+  "cli": {
+    "analytics": false
+  }
 }

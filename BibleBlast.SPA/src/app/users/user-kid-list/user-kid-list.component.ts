@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Kid } from 'src/app/_models/kid';
-import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { KidEditComponent } from 'src/app/kids/kid-edit/kid-edit.component';
 import { KidService } from 'src/app/_services/kid.service';
 import { User } from 'src/app/_models/user';

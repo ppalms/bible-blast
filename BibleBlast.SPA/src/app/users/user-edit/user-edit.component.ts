@@ -6,7 +6,7 @@ import { User } from 'src/app/_models/user';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { Organization } from 'src/app/_models/organization';
 import { AuthService } from 'src/app/_services/auth.service';
-import { BsModalService } from 'ngx-bootstrap';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { UserPasswordResetComponent } from '../user-password-reset/user-password-reset.component';
 
 @Component({

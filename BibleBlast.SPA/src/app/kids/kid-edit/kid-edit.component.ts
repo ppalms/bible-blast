@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output, OnInit, ViewChild } from '@angular/core';
 import { Kid } from 'src/app/_models/kid';
-import { BsModalRef, BsDatepickerConfig } from 'ngx-bootstrap';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker'
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { NgForm } from '@angular/forms';
 
